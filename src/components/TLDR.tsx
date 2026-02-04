@@ -1,42 +1,40 @@
-import { ArrowRight } from 'lucide-react';
+import { Briefcase, CheckCircle2, Target } from 'lucide-react';
 
 const bullets = [
   {
-    title: 'O que eu faço hoje',
-    description: 'Conduzo projetos do discovery até produção — UX, front-end, testes A/B e integração com times.',
+    icon: Briefcase,
+    text: 'O que eu já faço: lidero decisões de interface e execução no front, olhando conversão e integração ponta a ponta.',
   },
   {
-    title: 'O que isso resolve',
-    description: 'Elimina ruído entre áreas, acelera entrega e garante que a solução funcione pro negócio.',
+    icon: CheckCircle2,
+    text: 'O que isso resolve: reduz retrabalho, acelera entrega e evita quebra em jornada crítica.',
   },
   {
-    title: 'O que eu estou pedindo',
-    description: 'Formalizar o título de Tech Lead com escopo definido e expectativa de senioridade.',
+    icon: Target,
+    text: 'O que eu estou pedindo: formalizar título + escopo + expectativa do papel de Tech Lead.',
   },
 ];
 
 const TLDR = () => {
   return (
-    <section id="tldr" className="py-20 px-6">
-      <div className="container mx-auto max-w-5xl">
-        <div className="flex items-center gap-3 mb-8">
-          <div className="h-px flex-1 bg-gradient-to-r from-border to-transparent" />
-          <span className="text-xs text-muted-foreground uppercase tracking-widest">10 segundos</span>
-          <div className="h-px flex-1 bg-gradient-to-l from-border to-transparent" />
-        </div>
-
-        <div className="grid md:grid-cols-3 gap-6">
-          {bullets.map((bullet, index) => (
-            <div
-              key={index}
-              className="relative p-6 rounded-xl bg-secondary/50 border border-border group hover:bg-secondary transition-colors"
+    <section id="tldr" className="py-16 px-6 bg-secondary/30">
+      <div className="container mx-auto max-w-4xl">
+        <h2 className="text-lg font-semibold text-foreground mb-6">
+          TL;DR (10 segundos)
+        </h2>
+        
+        <div className="space-y-4">
+          {bullets.map((item, index) => (
+            <div 
+              key={index} 
+              className="flex gap-4 p-4 rounded-lg bg-card/50 border border-border/50 opacity-0 animate-fade-in"
+              style={{ animationDelay: `${index * 100}ms` }}
             >
-              <div className="flex items-start gap-3 mb-3">
-                <ArrowRight className="w-4 h-4 text-primary mt-1 flex-shrink-0" />
-                <h3 className="text-foreground font-semibold">{bullet.title}</h3>
+              <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center flex-shrink-0">
+                <item.icon className="w-4 h-4 text-primary" />
               </div>
-              <p className="text-muted-foreground text-sm pl-7">
-                {bullet.description}
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                {item.text}
               </p>
             </div>
           ))}

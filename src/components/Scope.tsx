@@ -1,43 +1,42 @@
-import { Check, Users2 } from 'lucide-react';
+import { Check, X } from 'lucide-react';
 
 const iOwn = [
-  'Liderar o ciclo de UX + front-end dos projetos que eu pego',
-  'Definir hipóteses e implementar testes de conversão',
-  'Garantir qualidade e consistência do que vai pro ar',
-  'Desbloquear o time quando trava em decisão técnica ou de UX',
-  'Documentar padrões e repassar conhecimento',
+  'Padrão de interface e qualidade do front nas jornadas críticas.',
+  'Direcionamento técnico pra experiências que impactam conversão.',
+  'Priorização e desenho de solução junto do time (não só pedido pronto).',
+  'Validação com dados (tracking, funil, testes quando fizer sentido).',
+  'Ponte com integrações quando afetam a jornada (sem virar dono de API).',
 ];
 
-const iDelegate = [
-  'Tarefas de back-end complexo (mas quero evoluir nisso)',
-  'Definição de roadmap de produto — isso é do PO',
-  'Criação de assets visuais — isso é do designer',
-  'Infraestrutura e deploys — isso é do DevOps',
-  'Análise profunda de dados — isso é do analista',
+const iDontOwn = [
+  'Ser resolvedor universal de tudo que estoura.',
+  'Manter operação no braço sem padrão mínimo.',
+  'Assumir backend inteiro sem transição.',
+  'Tomar decisão de produto sem alinhamento (eu apoio, não substituo).',
+  'Trabalho repetitivo que pode ser automatizado ou delegado.',
 ];
 
 const Scope = () => {
   return (
-    <section id="escopo" className="py-20 px-6">
-      <div className="container mx-auto max-w-5xl">
-        <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
+    <section id="escopo" className="py-16 px-6 bg-secondary/30">
+      <div className="container mx-auto max-w-4xl">
+        <h2 className="text-xl md:text-2xl font-semibold text-foreground mb-8">
           O que eu quero assumir como Tech Lead
         </h2>
-        <p className="text-muted-foreground mb-12 max-w-2xl">
-          Clareza sobre escopo é maturidade. Sei o que é meu e o que não é.
-        </p>
 
-        <div className="grid md:grid-cols-2 gap-8">
-          {/* I own */}
-          <div className="p-6 rounded-xl bg-gradient-to-br from-primary/10 to-card border border-primary/20">
-            <div className="flex items-center gap-2 mb-6">
-              <Check className="w-5 h-5 text-primary" />
-              <h3 className="text-lg font-semibold text-foreground">Eu assumo</h3>
+        <div className="grid md:grid-cols-2 gap-6">
+          {/* Eu assumo */}
+          <div className="p-5 rounded-lg bg-card border border-primary/20">
+            <div className="flex items-center gap-2 mb-5">
+              <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center">
+                <Check className="w-3 h-3 text-primary" />
+              </div>
+              <h3 className="text-sm font-medium text-foreground">Eu assumo</h3>
             </div>
-            <ul className="space-y-4">
+            <ul className="space-y-3">
               {iOwn.map((item, index) => (
                 <li key={index} className="flex gap-3">
-                  <span className="w-6 h-6 rounded-full bg-primary/20 text-primary text-xs flex items-center justify-center flex-shrink-0">
+                  <span className="w-5 h-5 rounded-full bg-primary/10 text-primary text-xs flex items-center justify-center flex-shrink-0">
                     {index + 1}
                   </span>
                   <span className="text-sm text-muted-foreground">{item}</span>
@@ -46,16 +45,18 @@ const Scope = () => {
             </ul>
           </div>
 
-          {/* I delegate */}
-          <div className="p-6 rounded-xl bg-card border border-border">
-            <div className="flex items-center gap-2 mb-6">
-              <Users2 className="w-5 h-5 text-muted-foreground" />
-              <h3 className="text-lg font-semibold text-foreground">Eu não assumo sozinho</h3>
+          {/* Eu não assumo sozinho */}
+          <div className="p-5 rounded-lg bg-card border border-border">
+            <div className="flex items-center gap-2 mb-5">
+              <div className="w-6 h-6 rounded-full bg-secondary flex items-center justify-center">
+                <X className="w-3 h-3 text-muted-foreground" />
+              </div>
+              <h3 className="text-sm font-medium text-foreground">Eu não quero assumir sozinho</h3>
             </div>
-            <ul className="space-y-4">
-              {iDelegate.map((item, index) => (
+            <ul className="space-y-3">
+              {iDontOwn.map((item, index) => (
                 <li key={index} className="flex gap-3">
-                  <span className="w-6 h-6 rounded-full bg-secondary text-muted-foreground text-xs flex items-center justify-center flex-shrink-0">
+                  <span className="w-5 h-5 rounded-full bg-secondary text-muted-foreground text-xs flex items-center justify-center flex-shrink-0">
                     {index + 1}
                   </span>
                   <span className="text-sm text-muted-foreground">{item}</span>

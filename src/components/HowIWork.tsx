@@ -1,58 +1,31 @@
-import { Puzzle, MessageSquare, Code, BarChart3, Repeat, Users } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
-const methods = [
-  {
-    icon: Puzzle,
-    title: 'Entendo o problema antes de desenhar',
-    description: 'Não começo pelo Figma. Começo entendendo o que dói, quem usa, o que já foi testado.',
-  },
-  {
-    icon: MessageSquare,
-    title: 'Falo a língua de cada área',
-    description: 'Consigo traduzir entre design, dev e negócio sem virar telefone sem fio.',
-  },
-  {
-    icon: Code,
-    title: 'Entrego código, não só protótipo',
-    description: 'Meu trabalho só termina quando tá em produção e funcionando.',
-  },
-  {
-    icon: BarChart3,
-    title: 'Valido com dados, não com achismo',
-    description: 'Configuro eventos, acompanho métricas, proponho testes A/B quando faz sentido.',
-  },
-  {
-    icon: Repeat,
-    title: 'Itero rápido e documento',
-    description: 'Prefiro entregar algo simples e evoluir do que travar esperando perfeição.',
-  },
-  {
-    icon: Users,
-    title: 'Trago o time junto',
-    description: 'Não faço sozinho e escondido. Envolvo quem precisa, alinho expectativa, compartilho aprendizado.',
-  },
+const bullets = [
+  'Eu começo pela jornada e pela regra de negócio, pra não resolver só a tela.',
+  'Eu deixo claro o que é prioridade e o que é nice to have.',
+  'Eu documento o mínimo necessário pra não depender de conversa solta.',
+  'Eu valido com dados quando faz sentido (evento, funil, conversão).',
+  'Eu fecho ponta a ponta: UX → front → integração → validação.',
+  'Eu puxo alinhamento quando existe risco de travar lá na frente.',
 ];
 
 const HowIWork = () => {
   return (
-    <section id="como-trabalho" className="py-20 px-6 bg-secondary/20">
-      <div className="container mx-auto max-w-5xl">
-        <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
-          Como eu trabalho
+    <section id="como-trabalho" className="py-16 px-6">
+      <div className="container mx-auto max-w-4xl">
+        <h2 className="text-xl md:text-2xl font-semibold text-foreground mb-6">
+          Como eu gosto de trabalhar (na prática)
         </h2>
-        <p className="text-muted-foreground mb-12 max-w-2xl">
-          Sem jargão. Na prática, é isso que eu faço pra reduzir retrabalho e entregar com qualidade.
-        </p>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {methods.map((method, index) => (
-            <div
-              key={index}
-              className="p-5 rounded-xl bg-card border border-border hover:border-primary/20 transition-all group"
+        <div className="grid sm:grid-cols-2 gap-3">
+          {bullets.map((bullet, index) => (
+            <div 
+              key={index} 
+              className="flex gap-3 p-4 rounded-lg bg-card border border-border opacity-0 animate-fade-in"
+              style={{ animationDelay: `${index * 50}ms` }}
             >
-              <method.icon className="w-5 h-5 text-primary mb-4 group-hover:scale-110 transition-transform" />
-              <h3 className="text-foreground font-semibold mb-2">{method.title}</h3>
-              <p className="text-sm text-muted-foreground">{method.description}</p>
+              <ArrowRight className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
+              <p className="text-sm text-muted-foreground">{bullet}</p>
             </div>
           ))}
         </div>

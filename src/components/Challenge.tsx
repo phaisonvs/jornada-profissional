@@ -1,84 +1,68 @@
-import { CheckCircle2, Clock, Star } from 'lucide-react';
+import { CheckCircle2, Clock, ArrowRight } from 'lucide-react';
+
+const resolved = [
+  '[O_QUE_RESOLVI_1]',
+  '[O_QUE_RESOLVI_2]',
+  '[O_QUE_RESOLVI_3]',
+];
+
+const pending = [
+  '[O_QUE_FALTA_1]',
+  '[O_QUE_FALTA_2]',
+  '[O_QUE_FALTA_3]',
+];
 
 const Challenge = () => {
   return (
-    <section id="desafio" className="py-20 px-6 bg-secondary/20">
-      <div className="container mx-auto max-w-5xl">
-        <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
-          O desafio que eu tô fechando agora
+    <section id="desafio" className="py-16 px-6">
+      <div className="container mx-auto max-w-4xl">
+        <h2 className="text-xl md:text-2xl font-semibold text-foreground mb-4">
+          O projeto mais importante dos últimos 4 meses
         </h2>
-        <p className="text-muted-foreground mb-12 max-w-2xl">
-          Um projeto crítico que exigiu atuação completa — do design à entrega em produção.
+        
+        <p className="text-sm text-muted-foreground mb-8 max-w-3xl leading-relaxed">
+          Nos últimos meses eu estive focado em <span className="text-highlight">[NOME_DO_PROJETO]</span>, um desafio crítico de integração. A fase mais pesada está sendo concluída e estamos entrando em sustentação, onde o que importa é previsibilidade, estabilidade e melhoria contínua. Esse ciclo mostrou, na prática, meu papel de referência técnica entre UX, front e integrações.
         </p>
 
-        <div className="grid md:grid-cols-2 gap-8">
-          {/* Left: Context */}
-          <div className="space-y-6">
-            <div className="p-6 rounded-xl bg-card border border-border">
-              <h3 className="text-foreground font-semibold mb-4 flex items-center gap-2">
-                <Clock className="w-4 h-4 text-primary" />
-                Contexto
-              </h3>
-              <p className="text-muted-foreground text-sm leading-relaxed">
-                <span className="text-highlight">[NOME_DO_PROJETO]</span> — Um projeto que precisava de alguém 
-                conectando discovery, desenvolvimento e validação. Não tinha espaço pra ficar jogando briefing 
-                de um lado pro outro. Era fazer acontecer.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              <div className="p-5 rounded-xl bg-card border border-border">
-                <CheckCircle2 className="w-4 h-4 text-primary mb-3" />
-                <h4 className="text-sm font-medium text-foreground mb-2">O que já foi resolvido</h4>
-                <p className="text-xs text-muted-foreground">
-                  <span className="text-highlight">[O_QUE_RESOLVI]</span>
-                </p>
-              </div>
-              <div className="p-5 rounded-xl bg-card border border-border">
-                <Clock className="w-4 h-4 text-highlight-muted mb-3" />
-                <h4 className="text-sm font-medium text-foreground mb-2">O que falta pra sustentar</h4>
-                <p className="text-xs text-muted-foreground">
-                  <span className="text-highlight">[O_QUE_FALTA]</span>
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Right: Why this matters */}
-          <div className="p-6 rounded-xl bg-gradient-to-br from-primary/10 to-card border border-primary/20">
+        <div className="grid md:grid-cols-2 gap-6 mb-8">
+          {/* O que foi resolvido */}
+          <div className="p-5 rounded-lg bg-card border border-border">
             <div className="flex items-center gap-2 mb-4">
-              <Star className="w-4 h-4 text-primary" />
-              <h3 className="text-foreground font-semibold">
-                Por que isso mostra meu nível atual
-              </h3>
+              <CheckCircle2 className="w-4 h-4 text-primary" />
+              <h3 className="text-sm font-medium text-foreground">O que já foi resolvido</h3>
             </div>
-            <ul className="space-y-4">
-              <li className="flex gap-3">
-                <span className="text-primary font-bold">1</span>
-                <p className="text-sm text-muted-foreground">
-                  Conduzi do zero — sem esperar que alguém me passasse o que fazer
-                </p>
-              </li>
-              <li className="flex gap-3">
-                <span className="text-primary font-bold">2</span>
-                <p className="text-sm text-muted-foreground">
-                  Integrei áreas diferentes (design, dev, dados) sem precisar de intermediário
-                </p>
-              </li>
-              <li className="flex gap-3">
-                <span className="text-primary font-bold">3</span>
-                <p className="text-sm text-muted-foreground">
-                  Entreguei resultado mensurável, não só "tela pronta"
-                </p>
-              </li>
-              <li className="flex gap-3">
-                <span className="text-primary font-bold">4</span>
-                <p className="text-sm text-muted-foreground">
-                  O projeto virou referência interna — e eu não precisei de supervisor
-                </p>
-              </li>
+            <ul className="space-y-3">
+              {resolved.map((item, index) => (
+                <li key={index} className="flex gap-3 text-sm text-muted-foreground">
+                  <ArrowRight className="w-4 h-4 text-primary/50 flex-shrink-0 mt-0.5" />
+                  <span>{item}</span>
+                </li>
+              ))}
             </ul>
           </div>
+
+          {/* O que falta */}
+          <div className="p-5 rounded-lg bg-card border border-border">
+            <div className="flex items-center gap-2 mb-4">
+              <Clock className="w-4 h-4 text-highlight-muted" />
+              <h3 className="text-sm font-medium text-foreground">O que falta pra sustentar bem</h3>
+            </div>
+            <ul className="space-y-3">
+              {pending.map((item, index) => (
+                <li key={index} className="flex gap-3 text-sm text-muted-foreground">
+                  <ArrowRight className="w-4 h-4 text-highlight-muted/50 flex-shrink-0 mt-0.5" />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        {/* Fecho */}
+        <div className="p-4 rounded-lg bg-primary/5 border border-primary/20">
+          <p className="text-sm text-foreground text-center">
+            Esse é o momento certo de formalizar pra ficar sustentável.
+          </p>
         </div>
       </div>
     </section>

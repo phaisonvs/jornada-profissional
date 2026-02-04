@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
+import { Menu, X } from 'lucide-react';
 
 const navLinks = [
   { href: '#tldr', label: 'TL;DR' },
-  { href: '#desafio', label: 'Desafio Atual' },
+  { href: '#desafio', label: 'Desafio' },
   { href: '#cases', label: 'Cases' },
-  { href: '#como-trabalho', label: 'Como Trabalho' },
+  { href: '#como-trabalho', label: 'Como trabalho' },
   { href: '#escopo', label: 'Escopo' },
   { href: '#evolucao', label: 'Evolução' },
   { href: '#pedido', label: 'Pedido' },
@@ -12,58 +13,77 @@ const navLinks = [
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const scrollTo = (href: string) => {
-    const el = document.querySelector(href);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
+  const scrollToSection = (href: string) => {
+    setIsMobileMenuOpen(false);
+    const element = document.querySelector(href);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? 'bg-background/90 backdrop-blur-xl border-b border-border'
-          : 'bg-transparent'
+        isScrolled ? 'bg-background/90 backdrop-blur-md border-b border-border/50' : 'bg-transparent'
       }`}
     >
-      <div className="container mx-auto px-6 py-4">
-        <div className="flex items-center justify-between">
-          {/* Logo MYSA */}
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary to-highlight flex items-center justify-center">
-              <span className="text-primary-foreground font-bold text-sm">MY</span>
-            </div>
-            <span className="text-foreground font-semibold text-lg hidden sm:block">MYSA</span>
-          </div>
+      <div className="container mx-auto max-w-5xl px-6">
+        <div className="flex items-center justify-between h-14">
+          {/* Logo */}
+          <a href="#" className="text-sm font-medium text-foreground">
+            MYSA
+          </a>
 
-          {/* Navigation */}
-          <nav className="hidden md:flex items-center gap-1">
+          {/* Desktop Nav */}
+          <nav className="hidden md:flex items-center gap-6">
             {navLinks.map((link) => (
               <button
                 key={link.href}
-                onClick={() => scrollTo(link.href)}
-                className="px-3 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors rounded-lg hover:bg-secondary"
+                onClick={() => scrollToSection(link.href)}
+                className="text-xs text-muted-foreground hover:text-foreground transition-colors"
               >
                 {link.label}
               </button>
             ))}
           </nav>
 
-          {/* Mobile indicator */}
-          <div className="md:hidden text-xs text-muted-foreground">
-            Role para navegar
-          </div>
+          {/* Mobile Menu Button */}
+          <button
+            className="md:hidden p-2 -mr-2"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            {isMobileMenuOpen ? (
+              <X className="w-5 h-5 text-foreground" />
+            ) : (
+              <Menu className="w-5 h-5 text-foreground" />
+            )}
+          </button>
         </div>
+
+        {/* Mobile Menu */}
+        {isMobileMenuOpen && (
+          <nav className="md:hidden py-4 border-t border-border/50 animate-fade-in">
+            <div className="flex flex-col gap-3">
+              {navLinks.map((link) => (
+                <button
+                  key={link.href}
+                  onClick={() => scrollToSection(link.href)}
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors text-left py-1"
+                >
+                  {link.label}
+                </button>
+              ))}
+            </div>
+          </nav>
+        )}
       </div>
     </header>
   );
