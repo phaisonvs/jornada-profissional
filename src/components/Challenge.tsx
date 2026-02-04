@@ -4,10 +4,9 @@ import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '@/com
 import Autoplay from 'embla-carousel-autoplay';
 
 const whyThisShowsLevel = [
-  'Conduzi do zero — sem esperar que alguém me passasse o que fazer.',
-  'Integrei áreas diferentes (design, dev, dados) sem precisar de intermediário.',
-  'Entreguei resultado mensurável, não só "tela pronta".',
-  'O projeto virou referência interna — e eu não precisei de supervisor.',
+  'Conduzi do zero — sem esperar briefing.',
+  'Integrei design, dev e dados sem intermediário.',
+  'Entreguei resultado mensurável, não só tela.',
 ];
 
 const resolved = [
@@ -125,29 +124,29 @@ const Challenge = () => {
           </div>
 
           {/* Right column - Why this shows my level + Tools */}
-          <div className="space-y-6">
-            <div className="p-6 rounded-2xl bg-card border border-border hover:border-primary/20 transition-all">
-              <div className="flex items-center gap-2 mb-5">
+          <div className="space-y-4">
+            <div className="p-5 rounded-2xl bg-card border border-border hover:border-primary/20 transition-all">
+              <div className="flex items-center gap-2 mb-4">
                 <Star className="w-4 h-4 text-primary" />
                 <span className="text-sm font-medium text-foreground">Por que isso mostra meu nível atual</span>
               </div>
               
-              <ul className="space-y-4">
+              <ul className="grid grid-cols-1 md:grid-cols-3 gap-3">
                 {whyThisShowsLevel.map((item, index) => (
                   <li 
                     key={index}
-                    className="flex items-start gap-4 group cursor-default"
+                    className="flex items-start gap-2 group cursor-default"
                     onMouseEnter={() => setHoveredItem(index)}
                     onMouseLeave={() => setHoveredItem(null)}
                   >
-                    <span className={`w-6 h-6 rounded-lg flex items-center justify-center flex-shrink-0 text-xs font-medium transition-all ${
+                    <span className={`w-5 h-5 rounded-md flex items-center justify-center flex-shrink-0 text-xs font-medium transition-all ${
                       hoveredItem === index 
                         ? 'bg-primary text-primary-foreground scale-110' 
                         : 'bg-primary/10 text-primary'
                     }`}>
                       {index + 1}
                     </span>
-                    <span className={`text-sm leading-relaxed transition-colors ${
+                    <span className={`text-xs leading-relaxed transition-colors ${
                       hoveredItem === index ? 'text-foreground' : 'text-muted-foreground'
                     }`}>
                       {item}
@@ -158,9 +157,9 @@ const Challenge = () => {
             </div>
 
             {/* Tools carousel card */}
-            <div className="p-6 rounded-2xl bg-card border border-border hover:border-primary/20 transition-all">
-              <div className="flex items-center gap-2 mb-5">
-                <span className="text-sm font-medium text-foreground">Ferramentas que domino</span>
+            <div className="p-4 rounded-xl bg-card border border-border hover:border-primary/20 transition-all">
+              <div className="flex items-center gap-2 mb-3">
+                <span className="text-xs font-medium text-foreground">Ferramentas que domino</span>
               </div>
               
               <Carousel
@@ -171,18 +170,18 @@ const Challenge = () => {
                 }}
                 className="w-full"
               >
-                <CarouselContent className="-ml-2">
+                <CarouselContent className="-ml-1.5">
                   {tools.map((tool, index) => (
-                    <CarouselItem key={index} className="pl-2 basis-1/5">
-                      <div className="relative p-3 rounded-xl bg-secondary/50 border border-border/50 hover:border-primary/30 transition-all group flex items-center justify-center aspect-square">
+                    <CarouselItem key={index} className="pl-1.5 basis-1/6">
+                      <div className="relative p-2 rounded-lg bg-secondary/50 border border-border/50 hover:border-primary/30 transition-all group flex items-center justify-center aspect-square">
                         <img 
                           src={tool.icon} 
                           alt={tool.name}
-                          className="w-8 h-8 object-contain group-hover:scale-110 transition-transform"
+                          className="w-5 h-5 object-contain group-hover:scale-110 transition-transform"
                         />
                         {tool.mastered && (
-                          <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-primary flex items-center justify-center">
-                            <Check className="w-2.5 h-2.5 text-primary-foreground" />
+                          <div className="absolute -top-0.5 -right-0.5 w-3 h-3 rounded-full flex items-center justify-center" style={{ backgroundColor: 'hsl(142 71% 45%)' }}>
+                            <Check className="w-2 h-2 text-white" />
                           </div>
                         )}
                       </div>
