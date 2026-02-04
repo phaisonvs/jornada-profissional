@@ -1,5 +1,7 @@
-import { useState } from 'react';
-import { Clock, Star, CheckCircle2, AlertCircle } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react';
+import { Clock, Star, CheckCircle2, AlertCircle, Check } from 'lucide-react';
+import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '@/components/ui/carousel';
+import Autoplay from 'embla-carousel-autoplay';
 
 const whyThisShowsLevel = [
   'Conduzi do zero — sem esperar que alguém me passasse o que fazer.',
@@ -20,18 +22,43 @@ const pending = [
   '[O_QUE_FALTA_3]',
 ];
 
+interface Tool {
+  name: string;
+  icon: string;
+  mastered: boolean;
+}
+
+const tools: Tool[] = [
+  { name: 'Figma', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg', mastered: true },
+  { name: 'VS Code', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg', mastered: true },
+  { name: 'Cursor', icon: 'https://cursor.sh/favicon.ico', mastered: true },
+  { name: 'HTML', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg', mastered: true },
+  { name: 'CSS', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg', mastered: true },
+  { name: 'JavaScript', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg', mastered: true },
+  { name: 'Salesforce', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/salesforce/salesforce-original.svg', mastered: false },
+  { name: 'Git', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg', mastered: true },
+  { name: 'Jira', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jira/jira-original.svg', mastered: true },
+  { name: 'Slack', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/slack/slack-original.svg', mastered: true },
+];
+
 const Challenge = () => {
   const [hoveredItem, setHoveredItem] = useState<number | null>(null);
+  const [hoveredResolved, setHoveredResolved] = useState<number | null>(null);
+  const [hoveredPending, setHoveredPending] = useState<number | null>(null);
+  
+  const autoplayPlugin = useRef(
+    Autoplay({ delay: 2000, stopOnInteraction: false, stopOnMouseEnter: true })
+  );
 
   return (
     <section id="desafio" className="py-20 px-6">
       <div className="container mx-auto max-w-5xl">
         {/* Header */}
-        <div className="text-center mb-12">
-          <h2 className="text-2xl md:text-3xl font-semibold text-foreground mb-3 italic">
+        <div className="mb-12">
+          <h2 className="text-2xl md:text-3xl font-semibold text-foreground mb-3">
             O desafio que eu tô fechando agora
           </h2>
-          <p className="text-sm text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-sm text-muted-foreground max-w-2xl">
             Um projeto crítico que exigiu atuação completa — do design à entrega em produção.
           </p>
         </div>
@@ -60,7 +87,16 @@ const Challenge = () => {
                 </div>
                 <ul className="space-y-2">
                   {resolved.map((item, i) => (
-                    <li key={i} className="text-xs text-muted-foreground">{item}</li>
+                    <li 
+                      key={i} 
+                      className={`text-xs transition-colors cursor-default ${
+                        hoveredResolved === i ? 'text-foreground' : 'text-muted-foreground'
+                      }`}
+                      onMouseEnter={() => setHoveredResolved(i)}
+                      onMouseLeave={() => setHoveredResolved(null)}
+                    >
+                      {item}
+                    </li>
                   ))}
                 </ul>
               </div>
@@ -72,43 +108,89 @@ const Challenge = () => {
                 </div>
                 <ul className="space-y-2">
                   {pending.map((item, i) => (
-                    <li key={i} className="text-xs text-muted-foreground">{item}</li>
+                    <li 
+                      key={i} 
+                      className={`text-xs transition-colors cursor-default ${
+                        hoveredPending === i ? 'text-foreground' : 'text-muted-foreground'
+                      }`}
+                      onMouseEnter={() => setHoveredPending(i)}
+                      onMouseLeave={() => setHoveredPending(null)}
+                    >
+                      {item}
+                    </li>
                   ))}
                 </ul>
               </div>
             </div>
           </div>
 
-          {/* Right column - Why this shows my level */}
-          <div className="p-6 rounded-2xl bg-card border border-border hover:border-primary/20 transition-all">
-            <div className="flex items-center gap-2 mb-5">
-              <Star className="w-4 h-4 text-primary" />
-              <span className="text-sm font-medium text-foreground">Por que isso mostra meu nível atual</span>
+          {/* Right column - Why this shows my level + Tools */}
+          <div className="space-y-6">
+            <div className="p-6 rounded-2xl bg-card border border-border hover:border-primary/20 transition-all">
+              <div className="flex items-center gap-2 mb-5">
+                <Star className="w-4 h-4 text-primary" />
+                <span className="text-sm font-medium text-foreground">Por que isso mostra meu nível atual</span>
+              </div>
+              
+              <ul className="space-y-4">
+                {whyThisShowsLevel.map((item, index) => (
+                  <li 
+                    key={index}
+                    className="flex items-start gap-4 group cursor-default"
+                    onMouseEnter={() => setHoveredItem(index)}
+                    onMouseLeave={() => setHoveredItem(null)}
+                  >
+                    <span className={`w-6 h-6 rounded-lg flex items-center justify-center flex-shrink-0 text-xs font-medium transition-all ${
+                      hoveredItem === index 
+                        ? 'bg-primary text-primary-foreground scale-110' 
+                        : 'bg-primary/10 text-primary'
+                    }`}>
+                      {index + 1}
+                    </span>
+                    <span className={`text-sm leading-relaxed transition-colors ${
+                      hoveredItem === index ? 'text-foreground' : 'text-muted-foreground'
+                    }`}>
+                      {item}
+                    </span>
+                  </li>
+                ))}
+              </ul>
             </div>
-            
-            <ul className="space-y-4">
-              {whyThisShowsLevel.map((item, index) => (
-                <li 
-                  key={index}
-                  className="flex items-start gap-4 group cursor-default"
-                  onMouseEnter={() => setHoveredItem(index)}
-                  onMouseLeave={() => setHoveredItem(null)}
-                >
-                  <span className={`w-6 h-6 rounded-lg flex items-center justify-center flex-shrink-0 text-xs font-medium transition-all ${
-                    hoveredItem === index 
-                      ? 'bg-primary text-primary-foreground scale-110' 
-                      : 'bg-primary/10 text-primary'
-                  }`}>
-                    {index + 1}
-                  </span>
-                  <span className={`text-sm leading-relaxed transition-colors ${
-                    hoveredItem === index ? 'text-foreground' : 'text-muted-foreground'
-                  }`}>
-                    {item}
-                  </span>
-                </li>
-              ))}
-            </ul>
+
+            {/* Tools carousel card */}
+            <div className="p-6 rounded-2xl bg-card border border-border hover:border-primary/20 transition-all">
+              <div className="flex items-center gap-2 mb-5">
+                <span className="text-sm font-medium text-foreground">Ferramentas que domino</span>
+              </div>
+              
+              <Carousel
+                plugins={[autoplayPlugin.current]}
+                opts={{
+                  align: 'start',
+                  loop: true,
+                }}
+                className="w-full"
+              >
+                <CarouselContent className="-ml-2">
+                  {tools.map((tool, index) => (
+                    <CarouselItem key={index} className="pl-2 basis-1/5">
+                      <div className="relative p-3 rounded-xl bg-secondary/50 border border-border/50 hover:border-primary/30 transition-all group flex items-center justify-center aspect-square">
+                        <img 
+                          src={tool.icon} 
+                          alt={tool.name}
+                          className="w-8 h-8 object-contain group-hover:scale-110 transition-transform"
+                        />
+                        {tool.mastered && (
+                          <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-primary flex items-center justify-center">
+                            <Check className="w-2.5 h-2.5 text-primary-foreground" />
+                          </div>
+                        )}
+                      </div>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+              </Carousel>
+            </div>
           </div>
         </div>
 
