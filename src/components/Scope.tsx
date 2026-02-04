@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Check, X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Check, X, ChevronUp, ChevronDown } from 'lucide-react';
 
 const iOwn = [
   'Padrão de interface e qualidade do front nas jornadas críticas.',
@@ -22,18 +22,14 @@ const Scope = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   
   const items = activeTab === 'own' ? iOwn : iDontOwn;
-  const itemsPerPage = 2;
-  const totalPages = Math.ceil(items.length / itemsPerPage);
-  
-  const visibleItems = items.slice(
-    currentIndex * itemsPerPage,
-    currentIndex * itemsPerPage + itemsPerPage
-  );
 
   const handleTabChange = (tab: 'own' | 'delegate') => {
     setActiveTab(tab);
     setCurrentIndex(0);
   };
+
+  const goUp = () => setCurrentIndex((prev) => (prev - 1 + items.length) % items.length);
+  const goDown = () => setCurrentIndex((prev) => (prev + 1) % items.length);
 
   return (
     <section id="escopo" className="py-16 px-6 bg-secondary/30">
@@ -46,78 +42,78 @@ const Scope = () => {
         <div className="flex gap-2 mb-6 p-1 bg-card rounded-xl border border-border w-fit">
           <button
             onClick={() => handleTabChange('own')}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all group ${
               activeTab === 'own'
                 ? 'bg-primary text-primary-foreground'
                 : 'text-muted-foreground hover:text-foreground'
             }`}
           >
-            <Check className="w-4 h-4" />
+            <Check className={`w-4 h-4 transition-transform ${activeTab === 'own' ? 'scale-110' : 'group-hover:scale-110'}`} />
             Eu assumo
           </button>
           <button
             onClick={() => handleTabChange('delegate')}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all group ${
               activeTab === 'delegate'
                 ? 'bg-muted text-foreground'
                 : 'text-muted-foreground hover:text-foreground'
             }`}
           >
-            <X className="w-4 h-4" />
+            <X className={`w-4 h-4 transition-transform ${activeTab === 'delegate' ? 'scale-110' : 'group-hover:scale-110'}`} />
             Eu não assumo sozinho
           </button>
         </div>
 
-        {/* Cards slider */}
-        <div className="space-y-3 min-h-[160px]">
-          {visibleItems.map((item, index) => (
-            <div 
-              key={`${activeTab}-${currentIndex}-${index}`}
-              className={`flex gap-4 p-5 rounded-xl border transition-all animate-fade-in ${
-                activeTab === 'own' 
-                  ? 'bg-card border-primary/20 hover:border-primary/40' 
-                  : 'bg-card border-border hover:border-muted-foreground/30'
-              }`}
-            >
-              <span className={`w-8 h-8 rounded-lg text-sm flex items-center justify-center flex-shrink-0 font-medium ${
-                activeTab === 'own' 
-                  ? 'bg-primary/10 text-primary' 
-                  : 'bg-muted text-muted-foreground'
-              }`}>
-                {currentIndex * itemsPerPage + index + 1}
-              </span>
-              <span className="text-sm text-muted-foreground leading-relaxed self-center">{item}</span>
-            </div>
-          ))}
-        </div>
-
-        {/* Navigation */}
-        <div className="flex items-center justify-center gap-3 mt-6">
-          <button 
-            onClick={() => setCurrentIndex((prev) => (prev - 1 + totalPages) % totalPages)}
-            className="p-2 rounded-full bg-card border border-border hover:border-primary/50 transition-colors"
-          >
-            <ChevronLeft className="w-4 h-4 text-muted-foreground" />
-          </button>
-          <div className="flex gap-1.5">
-            {Array.from({ length: totalPages }).map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setCurrentIndex(i)}
-                className={`w-2 h-2 rounded-full transition-all ${
-                  i === currentIndex 
-                    ? 'bg-primary w-4' 
-                    : 'bg-muted-foreground/30 hover:bg-muted-foreground/50'
-                }`}
-              />
+        {/* Cards with vertical navigation */}
+        <div className="flex gap-4">
+          {/* Cards list */}
+          <div className="flex-1 space-y-3">
+            {items.map((item, index) => (
+              <div 
+                key={`${activeTab}-${index}`}
+                onClick={() => setCurrentIndex(index)}
+                className={`flex gap-4 p-5 rounded-xl border cursor-pointer transition-all ${
+                  index === currentIndex
+                    ? activeTab === 'own' 
+                      ? 'bg-card border-primary/40 shadow-lg shadow-primary/5' 
+                      : 'bg-card border-gold-muted/40 shadow-lg shadow-gold-muted/5'
+                    : 'bg-card/50 border-border hover:border-primary/20'
+                } ${index === currentIndex ? 'animate-fade-in' : 'opacity-60 hover:opacity-80'}`}
+              >
+                <span className={`w-8 h-8 rounded-lg text-sm flex items-center justify-center flex-shrink-0 font-medium transition-all ${
+                  index === currentIndex
+                    ? activeTab === 'own' 
+                      ? 'bg-primary text-primary-foreground scale-110' 
+                      : 'bg-gold-muted text-foreground scale-110'
+                    : 'bg-muted text-muted-foreground'
+                }`}>
+                  {index + 1}
+                </span>
+                <span className={`text-sm leading-relaxed self-center transition-colors ${
+                  index === currentIndex ? 'text-foreground' : 'text-muted-foreground'
+                }`}>{item}</span>
+              </div>
             ))}
           </div>
-          <button 
-            onClick={() => setCurrentIndex((prev) => (prev + 1) % totalPages)}
-            className="p-2 rounded-full bg-card border border-border hover:border-primary/50 transition-colors"
-          >
-            <ChevronRight className="w-4 h-4 text-muted-foreground" />
-          </button>
+
+          {/* Vertical navigation arrows */}
+          <div className="flex flex-col justify-center gap-2">
+            <button 
+              onClick={goUp}
+              className="p-3 rounded-xl bg-card border border-border hover:border-primary/50 hover:bg-primary/10 transition-all group"
+            >
+              <ChevronUp className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
+            </button>
+            <div className="text-center py-2">
+              <span className="text-xs text-muted-foreground">{currentIndex + 1}/{items.length}</span>
+            </div>
+            <button 
+              onClick={goDown}
+              className="p-3 rounded-xl bg-card border border-border hover:border-primary/50 hover:bg-primary/10 transition-all group"
+            >
+              <ChevronDown className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
+            </button>
+          </div>
         </div>
       </div>
     </section>

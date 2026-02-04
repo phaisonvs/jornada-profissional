@@ -42,8 +42,8 @@ const Hero = () => {
               style={{ animationDelay: `${(index + 1) * 100}ms` }}
             >
               <div className="flex items-center gap-3 mb-3">
-                <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                  <stat.icon className="w-4 h-4 text-primary" />
+                <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-all">
+                  <stat.icon className="w-4 h-4 text-primary transition-transform group-hover:scale-125" />
                 </div>
                 <span className="text-xs text-muted-foreground">{stat.title}</span>
               </div>

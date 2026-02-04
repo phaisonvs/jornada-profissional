@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import { ExternalLink, ChevronLeft, ChevronRight, ArrowUpRight } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, type CarouselApi } from '@/components/ui/carousel';
+import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '@/components/ui/carousel';
+import Autoplay from 'embla-carousel-autoplay';
 
 interface CaseItem {
   id: number;
@@ -110,16 +111,22 @@ const Cases = () => {
   const [selectedCase, setSelectedCase] = useState<CaseItem | null>(null);
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
+  
+  const autoplayPlugin = useRef(
+    Autoplay({ delay: 3000, stopOnInteraction: false, stopOnMouseEnter: true })
+  );
 
-  const onSelect = () => {
+  useEffect(() => {
     if (!api) return;
-    setCurrent(api.selectedScrollSnap());
-  };
-
-  useState(() => {
-    if (!api) return;
+    
+    const onSelect = () => setCurrent(api.selectedScrollSnap());
     api.on('select', onSelect);
-  });
+    onSelect();
+    
+    return () => {
+      api.off('select', onSelect);
+    };
+  }, [api]);
 
   return (
     <section id="cases" className="py-16 px-6 bg-secondary/30">
@@ -138,25 +145,26 @@ const Cases = () => {
           <div className="hidden md:flex items-center gap-2">
             <button 
               onClick={() => api?.scrollPrev()}
-              className="p-2 rounded-full bg-card border border-border hover:border-primary/50 transition-colors"
+              className="p-2 rounded-full bg-card border border-border hover:border-primary/50 hover:bg-primary/10 transition-all group"
             >
-              <ChevronLeft className="w-4 h-4 text-muted-foreground" />
+              <ChevronLeft className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
             </button>
             <span className="text-xs text-muted-foreground px-2">
               {current + 1} / {cases.length}
             </span>
             <button 
               onClick={() => api?.scrollNext()}
-              className="p-2 rounded-full bg-card border border-border hover:border-primary/50 transition-colors"
+              className="p-2 rounded-full bg-card border border-border hover:border-primary/50 hover:bg-primary/10 transition-all group"
             >
-              <ChevronRight className="w-4 h-4 text-muted-foreground" />
+              <ChevronRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
             </button>
           </div>
         </div>
 
-        {/* Carousel */}
+        {/* Carousel with autoplay */}
         <Carousel
           setApi={setApi}
+          plugins={[autoplayPlugin.current]}
           opts={{
             align: 'start',
             loop: true,
@@ -173,7 +181,7 @@ const Cases = () => {
                   {/* Image placeholder */}
                   <div className="aspect-video w-full rounded-xl bg-secondary/50 border border-border/50 mb-4 flex items-center justify-center relative overflow-hidden">
                     <span className="text-xs text-muted-foreground">{caseItem.print}</span>
-                    <div className="absolute top-2 right-2 w-7 h-7 rounded-lg bg-background/80 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="absolute top-2 right-2 w-7 h-7 rounded-lg bg-background/80 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all group-hover:scale-110">
                       <ArrowUpRight className="w-3.5 h-3.5 text-primary" />
                     </div>
                   </div>
@@ -202,19 +210,21 @@ const Cases = () => {
           </CarouselContent>
         </Carousel>
 
-        {/* Mobile pagination dots */}
-        <div className="flex justify-center gap-1.5 mt-6 md:hidden">
-          {cases.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => api?.scrollTo(i)}
-              className={`w-2 h-2 rounded-full transition-all ${
-                i === current 
-                  ? 'bg-primary w-4' 
-                  : 'bg-muted-foreground/30 hover:bg-muted-foreground/50'
-              }`}
-            />
-          ))}
+        {/* Progress bar */}
+        <div className="mt-6 flex justify-center">
+          <div className="flex gap-1.5">
+            {cases.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => api?.scrollTo(i)}
+                className={`h-1.5 rounded-full transition-all duration-300 ${
+                  i === current 
+                    ? 'bg-primary w-6' 
+                    : 'bg-muted-foreground/20 w-1.5 hover:bg-muted-foreground/40'
+                }`}
+              />
+            ))}
+          </div>
         </div>
 
         {/* Modal */}
@@ -267,9 +277,9 @@ const Cases = () => {
                 {/* Evidências */}
                 <div>
                   <h4 className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-2">Evidências</h4>
-                  <a href="#" className="text-sm text-primary hover:underline flex items-center gap-1">
+                  <a href="#" className="text-sm text-primary hover:underline flex items-center gap-1 group">
                     {selectedCase.evidence}
-                    <ExternalLink className="w-3 h-3" />
+                    <ExternalLink className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                   </a>
                 </div>
               </div>

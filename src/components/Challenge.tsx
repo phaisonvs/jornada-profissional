@@ -31,24 +31,24 @@ const Challenge = () => {
         <div className="flex gap-2 mb-6 p-1 bg-card rounded-xl border border-border w-fit">
           <button
             onClick={() => setActiveView('resolved')}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all group ${
               activeView === 'resolved'
                 ? 'bg-primary text-primary-foreground'
                 : 'text-muted-foreground hover:text-foreground'
             }`}
           >
-            <CheckCircle2 className="w-4 h-4" />
+            <CheckCircle2 className={`w-4 h-4 transition-transform ${activeView === 'resolved' ? 'scale-110' : 'group-hover:scale-125'}`} />
             O que já foi resolvido
           </button>
           <button
             onClick={() => setActiveView('pending')}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all group ${
               activeView === 'pending'
                 ? 'bg-gold-muted text-foreground'
                 : 'text-muted-foreground hover:text-foreground'
             }`}
           >
-            <AlertCircle className="w-4 h-4" />
+            <AlertCircle className={`w-4 h-4 transition-transform ${activeView === 'pending' ? 'scale-110' : 'group-hover:scale-125'}`} />
             O que falta pra sustentar
           </button>
         </div>

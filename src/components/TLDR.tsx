@@ -30,8 +30,8 @@ const TLDR = () => {
               className="p-5 rounded-xl bg-card border border-border hover:border-primary/30 transition-all opacity-0 animate-fade-in group"
               style={{ animationDelay: `${index * 100}ms` }}
             >
-              <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
-                <item.icon className="w-5 h-5 text-primary" />
+              <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-all">
+                <item.icon className="w-5 h-5 text-primary transition-transform group-hover:scale-125 group-hover:rotate-6" />
               </div>
               <p className="text-sm text-muted-foreground leading-relaxed">
                 {item.text}
