@@ -1,70 +1,108 @@
-import { MessageCircle, ArrowRight, CheckCircle2, Calendar } from 'lucide-react';
+import { MessageCircle, CheckCircle2, Calendar } from 'lucide-react';
 
-const bullets = [
-  'Formalizar o título: Tech Lead (Front-end & Conversion).',
-  'Alinhar escopo e autonomia (o que eu decido e o que eu não decido).',
-  'Definir expectativa de senioridade e caminho de evolução (incluindo backend aos poucos).',
-  'Combinar um checkpoint curto pra ajuste fino na sustentação.',
+const optionABullets = [
+  'Título oficial: Tech Lead (Interface + Conversão).',
+  'Escopo documentado.',
+  'Alinhamento de expectativa de nível.',
+];
+
+const optionBBullets = [
+  'Decisão registrada agora.',
+  'Efetivação na virada do projeto.',
+  'Transição natural pro novo escopo.',
 ];
 
 const Request = () => {
   return (
-    <section id="pedido" className="py-16 px-6 bg-secondary/30">
+    <section id="pedido" className="py-20 px-6 bg-secondary/30">
       <div className="container mx-auto max-w-4xl">
-        <h2 className="text-xl md:text-2xl font-semibold text-foreground mb-4">
-          O que eu preciso de você (decisão)
-        </h2>
-        
-        <p className="text-sm text-muted-foreground mb-8 max-w-3xl leading-relaxed">
-          Eu já venho atuando de forma híbrida há quase 4 anos. O que falta agora não é mais prova, é formalizar o papel com nome, escopo e expectativa.
-        </p>
-
-        {/* Bullets */}
-        <div className="grid sm:grid-cols-2 gap-3 mb-8">
-          {bullets.map((bullet, index) => (
-            <div key={index} className="flex gap-3 p-4 rounded-lg bg-card border border-border">
-              <ArrowRight className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
-              <p className="text-sm text-muted-foreground">{bullet}</p>
-            </div>
-          ))}
+        {/* Header */}
+        <div className="text-center mb-12">
+          <h2 className="text-2xl md:text-3xl font-semibold text-foreground mb-4">
+            O que eu estou pedindo
+          </h2>
+          <p className="text-muted-foreground">
+            Formalizar título, escopo e expectativa de senioridade.
+          </p>
+          <p className="text-muted-foreground">
+            <span className="font-medium text-foreground">Sem mais 90 dias pra provar.</span>{' '}
+            <span className="text-primary">Já são quase 4 anos.</span>
+          </p>
         </div>
 
-        {/* Dois caminhos */}
-        <div className="grid md:grid-cols-2 gap-4 mb-8">
-          {/* Caminho A */}
-          <div className="p-5 rounded-lg bg-card border border-primary/30 hover:border-primary/50 transition-colors">
-            <div className="flex items-center gap-3 mb-3">
-              <div className="w-8 h-8 rounded-md bg-primary/20 flex items-center justify-center">
-                <CheckCircle2 className="w-4 h-4 text-primary" />
+        {/* Two paths */}
+        <div className="grid md:grid-cols-2 gap-6 mb-10">
+          {/* Option A */}
+          <div className="p-6 rounded-2xl bg-card border border-primary/30 hover:border-primary/50 transition-all group">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center group-hover:bg-primary/30 transition-colors">
+                <CheckCircle2 className="w-5 h-5 text-primary" />
               </div>
-              <span className="text-xs text-primary font-medium">Caminho A</span>
+              <div>
+                <span className="text-xs text-primary font-medium">Opção A</span>
+                <h3 className="text-base font-semibold text-foreground">
+                  Decidir e formalizar agora
+                </h3>
+              </div>
             </div>
-            <p className="text-sm text-foreground">
-              Alinhar e formalizar agora, e usar a sustentação como fase de organização.
+            
+            <p className="text-sm text-muted-foreground mb-5 leading-relaxed">
+              A gente define título, escopo e senioridade hoje. Nos próximos 30 dias a gente ajusta qualquer detalhe que surgir.
             </p>
+
+            <ul className="space-y-2.5">
+              {optionABullets.map((bullet, index) => (
+                <li key={index} className="flex items-start gap-2 text-sm text-muted-foreground">
+                  <span className="text-primary mt-0.5">•</span>
+                  {bullet}
+                </li>
+              ))}
+            </ul>
           </div>
 
-          {/* Caminho B */}
-          <div className="p-5 rounded-lg bg-card border border-border hover:border-primary/20 transition-colors">
-            <div className="flex items-center gap-3 mb-3">
-              <div className="w-8 h-8 rounded-md bg-secondary flex items-center justify-center">
-                <Calendar className="w-4 h-4 text-muted-foreground" />
+          {/* Option B */}
+          <div className="p-6 rounded-2xl bg-card border border-border hover:border-muted-foreground/30 transition-all group">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-xl bg-muted flex items-center justify-center group-hover:bg-muted/80 transition-colors">
+                <Calendar className="w-5 h-5 text-muted-foreground" />
               </div>
-              <span className="text-xs text-muted-foreground font-medium">Caminho B</span>
+              <div>
+                <span className="text-xs text-muted-foreground font-medium">Opção B</span>
+                <h3 className="text-base font-semibold text-foreground">
+                  Decidir agora, efetivar na virada
+                </h3>
+              </div>
             </div>
-            <p className="text-sm text-foreground">
-              Alinhar a decisão agora e efetivar na virada oficial para sustentação do projeto.
+            
+            <p className="text-sm text-muted-foreground mb-5 leading-relaxed">
+              A gente toma a decisão hoje, mas a formalização acontece quando o projeto atual entrar em sustentação.
             </p>
+
+            <ul className="space-y-2.5">
+              {optionBBullets.map((bullet, index) => (
+                <li key={index} className="flex items-start gap-2 text-sm text-muted-foreground">
+                  <span className="text-muted-foreground mt-0.5">•</span>
+                  {bullet}
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
 
-        {/* Frase final */}
-        <div className="p-4 rounded-lg bg-primary/5 border border-primary/20">
-          <div className="flex items-center justify-center gap-2">
-            <MessageCircle className="w-4 h-4 text-primary" />
-            <p className="text-sm text-foreground text-center">
-              Meu objetivo é deixar esse papel claro e sustentável — pra empresa e pra mim.
-            </p>
+        {/* Final message */}
+        <div className="p-5 rounded-2xl bg-card border border-border">
+          <div className="flex flex-col items-center text-center gap-3">
+            <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center">
+              <MessageCircle className="w-5 h-5 text-muted-foreground" />
+            </div>
+            <div>
+              <p className="text-sm text-muted-foreground mb-1">
+                Eu não tô pedindo aumento (por enquanto). Eu tô pedindo clareza.
+              </p>
+              <p className="text-sm text-foreground font-medium">
+                Quero saber oficialmente o que eu sou e o que se espera de mim.
+              </p>
+            </div>
           </div>
         </div>
       </div>

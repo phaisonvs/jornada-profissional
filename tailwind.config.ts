@@ -58,6 +58,11 @@ export default {
         surface: {
           elevated: "hsl(var(--surface-elevated))",
         },
+        gold: {
+          DEFAULT: "hsl(var(--gold-soft))",
+          soft: "hsl(var(--gold-soft))",
+          muted: "hsl(var(--gold-muted))",
+        },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",

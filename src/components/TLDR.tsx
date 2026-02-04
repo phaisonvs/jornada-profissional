@@ -23,15 +23,15 @@ const TLDR = () => {
           TL;DR (10 segundos)
         </h2>
         
-        <div className="space-y-4">
+        <div className="grid md:grid-cols-3 gap-4">
           {bullets.map((item, index) => (
             <div 
               key={index} 
-              className="flex gap-4 p-4 rounded-lg bg-card/50 border border-border/50 opacity-0 animate-fade-in"
+              className="p-5 rounded-xl bg-card border border-border hover:border-primary/30 transition-all opacity-0 animate-fade-in group"
               style={{ animationDelay: `${index * 100}ms` }}
             >
-              <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center flex-shrink-0">
-                <item.icon className="w-4 h-4 text-primary" />
+              <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
+                <item.icon className="w-5 h-5 text-primary" />
               </div>
               <p className="text-sm text-muted-foreground leading-relaxed">
                 {item.text}
