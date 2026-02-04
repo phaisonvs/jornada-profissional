@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
+import mysaLogo from '@/assets/mysa-logo.png';
 
 const navLinks = [
   { href: '#tldr', label: 'TL;DR' },
@@ -38,17 +39,21 @@ const Header = () => {
       <div className="container mx-auto max-w-5xl px-6">
         <div className="flex items-center justify-between h-14">
           {/* Logo */}
-          <a href="#" className="text-sm font-medium text-foreground">
-            MYSA
+          <a href="#" className="flex items-center">
+            <img 
+              src={mysaLogo} 
+              alt="MYSA" 
+              className="h-5 w-auto brightness-0 invert opacity-80"
+            />
           </a>
 
           {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-6">
+          <nav className="hidden md:flex items-center gap-1">
             {navLinks.map((link) => (
               <button
                 key={link.href}
                 onClick={() => scrollToSection(link.href)}
-                className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+                className="px-3 py-1.5 text-xs text-muted-foreground hover:text-primary transition-colors rounded-md hover:bg-primary/5"
               >
                 {link.label}
               </button>
@@ -76,7 +81,7 @@ const Header = () => {
                 <button
                   key={link.href}
                   onClick={() => scrollToSection(link.href)}
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors text-left py-1"
+                  className="text-sm text-muted-foreground hover:text-primary transition-colors text-left py-1"
                 >
                   {link.label}
                 </button>

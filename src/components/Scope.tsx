@@ -1,4 +1,5 @@
-import { Check, X } from 'lucide-react';
+import { useState } from 'react';
+import { Check, X, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const iOwn = [
   'Padrão de interface e qualidade do front nas jornadas críticas.',
@@ -17,6 +18,23 @@ const iDontOwn = [
 ];
 
 const Scope = () => {
+  const [activeTab, setActiveTab] = useState<'own' | 'delegate'>('own');
+  const [currentIndex, setCurrentIndex] = useState(0);
+  
+  const items = activeTab === 'own' ? iOwn : iDontOwn;
+  const itemsPerPage = 2;
+  const totalPages = Math.ceil(items.length / itemsPerPage);
+  
+  const visibleItems = items.slice(
+    currentIndex * itemsPerPage,
+    currentIndex * itemsPerPage + itemsPerPage
+  );
+
+  const handleTabChange = (tab: 'own' | 'delegate') => {
+    setActiveTab(tab);
+    setCurrentIndex(0);
+  };
+
   return (
     <section id="escopo" className="py-16 px-6 bg-secondary/30">
       <div className="container mx-auto max-w-4xl">
@@ -24,46 +42,82 @@ const Scope = () => {
           O que eu quero assumir como Tech Lead
         </h2>
 
-        <div className="grid md:grid-cols-2 gap-6">
-          {/* Eu assumo */}
-          <div className="p-5 rounded-lg bg-card border border-primary/20">
-            <div className="flex items-center gap-2 mb-5">
-              <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center">
-                <Check className="w-3 h-3 text-primary" />
-              </div>
-              <h3 className="text-sm font-medium text-foreground">Eu assumo</h3>
-            </div>
-            <ul className="space-y-3">
-              {iOwn.map((item, index) => (
-                <li key={index} className="flex gap-3">
-                  <span className="w-5 h-5 rounded-full bg-primary/10 text-primary text-xs flex items-center justify-center flex-shrink-0">
-                    {index + 1}
-                  </span>
-                  <span className="text-sm text-muted-foreground">{item}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
+        {/* Tab switcher */}
+        <div className="flex gap-2 mb-6 p-1 bg-card rounded-xl border border-border w-fit">
+          <button
+            onClick={() => handleTabChange('own')}
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${
+              activeTab === 'own'
+                ? 'bg-primary text-primary-foreground'
+                : 'text-muted-foreground hover:text-foreground'
+            }`}
+          >
+            <Check className="w-4 h-4" />
+            Eu assumo
+          </button>
+          <button
+            onClick={() => handleTabChange('delegate')}
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${
+              activeTab === 'delegate'
+                ? 'bg-muted text-foreground'
+                : 'text-muted-foreground hover:text-foreground'
+            }`}
+          >
+            <X className="w-4 h-4" />
+            Eu não assumo sozinho
+          </button>
+        </div>
 
-          {/* Eu não assumo sozinho */}
-          <div className="p-5 rounded-lg bg-card border border-border">
-            <div className="flex items-center gap-2 mb-5">
-              <div className="w-6 h-6 rounded-full bg-secondary flex items-center justify-center">
-                <X className="w-3 h-3 text-muted-foreground" />
-              </div>
-              <h3 className="text-sm font-medium text-foreground">Eu não quero assumir sozinho</h3>
+        {/* Cards slider */}
+        <div className="space-y-3 min-h-[160px]">
+          {visibleItems.map((item, index) => (
+            <div 
+              key={`${activeTab}-${currentIndex}-${index}`}
+              className={`flex gap-4 p-5 rounded-xl border transition-all animate-fade-in ${
+                activeTab === 'own' 
+                  ? 'bg-card border-primary/20 hover:border-primary/40' 
+                  : 'bg-card border-border hover:border-muted-foreground/30'
+              }`}
+            >
+              <span className={`w-8 h-8 rounded-lg text-sm flex items-center justify-center flex-shrink-0 font-medium ${
+                activeTab === 'own' 
+                  ? 'bg-primary/10 text-primary' 
+                  : 'bg-muted text-muted-foreground'
+              }`}>
+                {currentIndex * itemsPerPage + index + 1}
+              </span>
+              <span className="text-sm text-muted-foreground leading-relaxed self-center">{item}</span>
             </div>
-            <ul className="space-y-3">
-              {iDontOwn.map((item, index) => (
-                <li key={index} className="flex gap-3">
-                  <span className="w-5 h-5 rounded-full bg-secondary text-muted-foreground text-xs flex items-center justify-center flex-shrink-0">
-                    {index + 1}
-                  </span>
-                  <span className="text-sm text-muted-foreground">{item}</span>
-                </li>
-              ))}
-            </ul>
+          ))}
+        </div>
+
+        {/* Navigation */}
+        <div className="flex items-center justify-center gap-3 mt-6">
+          <button 
+            onClick={() => setCurrentIndex((prev) => (prev - 1 + totalPages) % totalPages)}
+            className="p-2 rounded-full bg-card border border-border hover:border-primary/50 transition-colors"
+          >
+            <ChevronLeft className="w-4 h-4 text-muted-foreground" />
+          </button>
+          <div className="flex gap-1.5">
+            {Array.from({ length: totalPages }).map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setCurrentIndex(i)}
+                className={`w-2 h-2 rounded-full transition-all ${
+                  i === currentIndex 
+                    ? 'bg-primary w-4' 
+                    : 'bg-muted-foreground/30 hover:bg-muted-foreground/50'
+                }`}
+              />
+            ))}
           </div>
+          <button 
+            onClick={() => setCurrentIndex((prev) => (prev + 1) % totalPages)}
+            className="p-2 rounded-full bg-card border border-border hover:border-primary/50 transition-colors"
+          >
+            <ChevronRight className="w-4 h-4 text-muted-foreground" />
+          </button>
         </div>
       </div>
     </section>

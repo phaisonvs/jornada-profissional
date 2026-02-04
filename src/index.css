@@ -8,52 +8,56 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Dark elegante - azul muito escuro */
-    --background: 222 47% 5%;
-    --foreground: 210 40% 96%;
+    /* Dark elegante - azul escuro com acentos dourados MYSA */
+    --background: 220 25% 6%;
+    --foreground: 45 10% 92%;
 
-    --card: 222 40% 8%;
-    --card-foreground: 210 40% 96%;
+    --card: 220 20% 10%;
+    --card-foreground: 45 10% 92%;
 
-    --popover: 222 40% 8%;
-    --popover-foreground: 210 40% 96%;
+    --popover: 220 20% 10%;
+    --popover-foreground: 45 10% 92%;
 
-    --primary: 250 60% 60%;
-    --primary-foreground: 210 40% 98%;
+    /* Dourado MYSA suavizado */
+    --primary: 42 75% 50%;
+    --primary-foreground: 220 25% 8%;
 
-    --secondary: 222 30% 12%;
-    --secondary-foreground: 210 40% 96%;
+    --secondary: 220 18% 14%;
+    --secondary-foreground: 45 10% 92%;
 
-    --muted: 222 30% 15%;
-    --muted-foreground: 215 20% 55%;
+    --muted: 220 15% 18%;
+    --muted-foreground: 220 10% 55%;
 
-    --accent: 250 50% 50%;
-    --accent-foreground: 210 40% 98%;
+    /* Accent dourado mais suave */
+    --accent: 42 50% 45%;
+    --accent-foreground: 220 25% 8%;
 
     --destructive: 0 62.8% 50%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 45 10% 92%;
 
-    --border: 222 30% 18%;
-    --input: 222 30% 15%;
-    --ring: 250 60% 60%;
+    --border: 220 15% 20%;
+    --input: 220 18% 14%;
+    --ring: 42 75% 50%;
 
     --radius: 0.75rem;
 
-    /* Custom tokens */
-    --glass: 222 40% 10%;
-    --glass-border: 222 30% 20%;
-    --highlight: 250 80% 65%;
-    --highlight-muted: 250 40% 40%;
-    --surface-elevated: 222 35% 11%;
+    /* Custom tokens - tons dourados suaves */
+    --glass: 220 20% 12%;
+    --glass-border: 220 15% 22%;
+    --highlight: 42 80% 55%;
+    --highlight-muted: 42 40% 35%;
+    --surface-elevated: 220 18% 13%;
+    --gold-soft: 42 60% 48%;
+    --gold-muted: 42 30% 30%;
 
-    --sidebar-background: 222 40% 6%;
-    --sidebar-foreground: 210 40% 96%;
-    --sidebar-primary: 250 60% 60%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 222 30% 15%;
-    --sidebar-accent-foreground: 210 40% 96%;
-    --sidebar-border: 222 30% 18%;
-    --sidebar-ring: 250 60% 60%;
+    --sidebar-background: 220 25% 7%;
+    --sidebar-foreground: 45 10% 92%;
+    --sidebar-primary: 42 75% 50%;
+    --sidebar-primary-foreground: 220 25% 8%;
+    --sidebar-accent: 220 18% 16%;
+    --sidebar-accent-foreground: 45 10% 92%;
+    --sidebar-border: 220 15% 20%;
+    --sidebar-ring: 42 75% 50%;
   }
 }
 

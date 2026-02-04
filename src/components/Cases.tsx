@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { ExternalLink, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ExternalLink, ChevronLeft, ChevronRight, ArrowUpRight } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, type CarouselApi } from '@/components/ui/carousel';
 
 interface CaseItem {
   id: number;
@@ -108,19 +108,55 @@ const cases: CaseItem[] = [
 
 const Cases = () => {
   const [selectedCase, setSelectedCase] = useState<CaseItem | null>(null);
+  const [api, setApi] = useState<CarouselApi>();
+  const [current, setCurrent] = useState(0);
+
+  const onSelect = () => {
+    if (!api) return;
+    setCurrent(api.selectedScrollSnap());
+  };
+
+  useState(() => {
+    if (!api) return;
+    api.on('select', onSelect);
+  });
 
   return (
     <section id="cases" className="py-16 px-6 bg-secondary/30">
       <div className="container mx-auto max-w-5xl">
-        <h2 className="text-xl md:text-2xl font-semibold text-foreground mb-2">
-          Cases que eu já entreguei (com prova)
-        </h2>
-        <p className="text-sm text-muted-foreground mb-8">
-          Passe pro lado. Cada card tem imagem e resumo. Ao abrir, tem o detalhe do que foi feito.
-        </p>
+        <div className="flex items-end justify-between mb-8">
+          <div>
+            <h2 className="text-xl md:text-2xl font-semibold text-foreground mb-2">
+              Cases que eu já entreguei (com prova)
+            </h2>
+            <p className="text-sm text-muted-foreground">
+              Passe pro lado. Cada card tem imagem e resumo. Ao abrir, tem o detalhe do que foi feito.
+            </p>
+          </div>
+          
+          {/* Desktop navigation */}
+          <div className="hidden md:flex items-center gap-2">
+            <button 
+              onClick={() => api?.scrollPrev()}
+              className="p-2 rounded-full bg-card border border-border hover:border-primary/50 transition-colors"
+            >
+              <ChevronLeft className="w-4 h-4 text-muted-foreground" />
+            </button>
+            <span className="text-xs text-muted-foreground px-2">
+              {current + 1} / {cases.length}
+            </span>
+            <button 
+              onClick={() => api?.scrollNext()}
+              className="p-2 rounded-full bg-card border border-border hover:border-primary/50 transition-colors"
+            >
+              <ChevronRight className="w-4 h-4 text-muted-foreground" />
+            </button>
+          </div>
+        </div>
 
         {/* Carousel */}
         <Carousel
+          setApi={setApi}
           opts={{
             align: 'start',
             loop: true,
@@ -132,46 +168,53 @@ const Cases = () => {
               <CarouselItem key={caseItem.id} className="pl-4 basis-full sm:basis-1/2 lg:basis-1/3">
                 <button
                   onClick={() => setSelectedCase(caseItem)}
-                  className="w-full text-left p-4 rounded-lg bg-card border border-border hover:border-primary/30 transition-all duration-300 group h-full flex flex-col"
+                  className="w-full text-left p-5 rounded-2xl bg-card border border-border hover:border-primary/40 transition-all duration-300 group h-full flex flex-col"
                 >
                   {/* Image placeholder */}
-                  <div className="aspect-video w-full rounded-md bg-secondary/50 border border-border/50 mb-4 flex items-center justify-center">
+                  <div className="aspect-video w-full rounded-xl bg-secondary/50 border border-border/50 mb-4 flex items-center justify-center relative overflow-hidden">
                     <span className="text-xs text-muted-foreground">{caseItem.print}</span>
+                    <div className="absolute top-2 right-2 w-7 h-7 rounded-lg bg-background/80 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                      <ArrowUpRight className="w-3.5 h-3.5 text-primary" />
+                    </div>
                   </div>
-                  
-                  {/* Title */}
-                  <h3 className="text-sm font-medium text-foreground mb-2 group-hover:text-primary transition-colors">
-                    {caseItem.title}
-                  </h3>
                   
                   {/* Tags */}
                   <div className="flex gap-2 mb-3">
                     {caseItem.tags.map((tag, i) => (
-                      <span key={i} className="text-xs px-2 py-0.5 rounded bg-primary/10 text-primary">
+                      <span key={i} className="text-xs px-2.5 py-1 rounded-full bg-primary/10 text-primary font-medium">
                         {tag}
                       </span>
                     ))}
                   </div>
                   
+                  {/* Title */}
+                  <h3 className="text-sm font-medium text-foreground mb-2 group-hover:text-primary transition-colors line-clamp-2">
+                    {caseItem.title}
+                  </h3>
+                  
                   {/* Impact */}
-                  <p className="text-xs text-muted-foreground mt-auto">
+                  <p className="text-xs text-muted-foreground mt-auto leading-relaxed">
                     {caseItem.impact}
                   </p>
                 </button>
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="hidden md:flex -left-4" />
-          <CarouselNext className="hidden md:flex -right-4" />
         </Carousel>
 
-        {/* Mobile swipe hint */}
-        <div className="flex justify-center mt-4 md:hidden">
-          <div className="flex items-center gap-2 text-xs text-muted-foreground">
-            <ChevronLeft className="w-3 h-3" />
-            <span>arraste para ver mais</span>
-            <ChevronRight className="w-3 h-3" />
-          </div>
+        {/* Mobile pagination dots */}
+        <div className="flex justify-center gap-1.5 mt-6 md:hidden">
+          {cases.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => api?.scrollTo(i)}
+              className={`w-2 h-2 rounded-full transition-all ${
+                i === current 
+                  ? 'bg-primary w-4' 
+                  : 'bg-muted-foreground/30 hover:bg-muted-foreground/50'
+              }`}
+            />
+          ))}
         </div>
 
         {/* Modal */}
@@ -188,25 +231,27 @@ const Cases = () => {
                 {/* Tags */}
                 <div className="flex gap-2">
                   {selectedCase.tags.map((tag, i) => (
-                    <span key={i} className="text-xs px-2 py-0.5 rounded bg-primary/10 text-primary">
+                    <span key={i} className="text-xs px-2.5 py-1 rounded-full bg-primary/10 text-primary font-medium">
                       {tag}
                     </span>
                   ))}
                 </div>
 
                 {/* Problema */}
-                <div>
-                  <h4 className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-2">Problema</h4>
+                <div className="p-4 rounded-xl bg-secondary/50 border border-border">
+                  <h4 className="text-xs font-medium text-primary uppercase tracking-wide mb-2">Problema</h4>
                   <p className="text-sm text-foreground">{selectedCase.problem}</p>
                 </div>
 
                 {/* O que eu fiz */}
                 <div>
-                  <h4 className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-2">O que eu fiz</h4>
+                  <h4 className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-3">O que eu fiz</h4>
                   <ul className="space-y-2">
                     {selectedCase.actions.map((action, i) => (
-                      <li key={i} className="text-sm text-foreground flex gap-2">
-                        <span className="text-primary">•</span>
+                      <li key={i} className="text-sm text-muted-foreground flex gap-3 items-start">
+                        <span className="w-5 h-5 rounded-md bg-primary/10 text-primary text-xs flex items-center justify-center flex-shrink-0 mt-0.5">
+                          {i + 1}
+                        </span>
                         {action}
                       </li>
                     ))}
@@ -214,9 +259,9 @@ const Cases = () => {
                 </div>
 
                 {/* Resultado */}
-                <div>
-                  <h4 className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-2">Resultado</h4>
-                  <p className="text-sm text-foreground">{selectedCase.result}</p>
+                <div className="p-4 rounded-xl bg-primary/5 border border-primary/20">
+                  <h4 className="text-xs font-medium text-primary uppercase tracking-wide mb-2">Resultado</h4>
+                  <p className="text-sm text-foreground font-medium">{selectedCase.result}</p>
                 </div>
 
                 {/* Evidências */}

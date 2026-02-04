@@ -14,7 +14,7 @@ const stats = [
   {
     icon: Shield,
     title: 'Estabilidade / risco evitado',
-    value: '[N incidentes] a menos / [SLA] melhor',
+    value: '[N incidentes] a menos',
   },
 ];
 
@@ -25,7 +25,8 @@ const Hero = () => {
         {/* Main headline */}
         <div className="mb-12 animate-fade-in">
           <h1 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-foreground leading-tight mb-4">
-            Quero formalizar minha atuação como Tech Lead (Front-end & Conversion).
+            Quero formalizar minha atuação como{' '}
+            <span className="text-primary">Tech Lead (Front-end & Conversion)</span>.
           </h1>
           <p className="text-base md:text-lg text-muted-foreground max-w-2xl">
             Hoje meu cargo é UX, mas na prática eu conecto UX + front + conversão + integração.
@@ -37,11 +38,11 @@ const Hero = () => {
           {stats.map((stat, index) => (
             <div
               key={index}
-              className="group p-5 rounded-lg bg-card border border-border hover:border-primary/30 transition-all duration-300 opacity-0 animate-fade-in"
+              className="group p-5 rounded-xl bg-card border border-border hover:border-primary/30 transition-all duration-300 opacity-0 animate-fade-in"
               style={{ animationDelay: `${(index + 1) * 100}ms` }}
             >
               <div className="flex items-center gap-3 mb-3">
-                <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center">
+                <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
                   <stat.icon className="w-4 h-4 text-primary" />
                 </div>
                 <span className="text-xs text-muted-foreground">{stat.title}</span>
@@ -54,9 +55,13 @@ const Hero = () => {
         </div>
 
         {/* Microcopy */}
-        <p className="text-sm text-muted-foreground opacity-0 animate-fade-in" style={{ animationDelay: '400ms' }}>
-          Se você tiver 60 segundos, leia o TL;DR. Se tiver 3 minutos, veja os cases.
-        </p>
+        <div className="flex items-center gap-2 text-sm text-muted-foreground opacity-0 animate-fade-in" style={{ animationDelay: '400ms' }}>
+          <div className="w-1 h-1 rounded-full bg-primary" />
+          <p>
+            Se você tiver <span className="text-foreground">60 segundos</span>, leia o TL;DR. 
+            Se tiver <span className="text-foreground">3 minutos</span>, veja os cases.
+          </p>
+        </div>
       </div>
     </section>
   );
