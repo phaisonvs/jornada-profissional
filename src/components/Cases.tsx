@@ -165,9 +165,9 @@ const Cases = () => {
       {/* Carousel with edge gradients - full width */}
       <div className="relative">
         {/* Left gradient fade */}
-        <div className="absolute left-0 top-0 bottom-0 w-20 md:w-32 bg-gradient-to-r from-secondary/30 via-secondary/20 to-transparent z-10 pointer-events-none" />
+        <div className="absolute left-0 top-0 bottom-0 w-24 md:w-40 bg-gradient-to-r from-background via-background/80 to-transparent z-10 pointer-events-none" />
         {/* Right gradient fade */}
-        <div className="absolute right-0 top-0 bottom-0 w-20 md:w-32 bg-gradient-to-l from-secondary/30 via-secondary/20 to-transparent z-10 pointer-events-none" />
+        <div className="absolute right-0 top-0 bottom-0 w-24 md:w-40 bg-gradient-to-l from-background via-background/80 to-transparent z-10 pointer-events-none" />
         
         <Carousel
           setApi={setApi}
@@ -178,9 +178,9 @@ const Cases = () => {
           }}
           className="w-full"
         >
-          <CarouselContent className="-ml-4 px-8 md:px-16">
+          <CarouselContent className="-ml-2 md:-ml-4">
             {cases.map((caseItem) => (
-              <CarouselItem key={caseItem.id} className="pl-4 basis-[85%] sm:basis-1/2 lg:basis-1/3">
+              <CarouselItem key={caseItem.id} className="pl-2 md:pl-4 basis-[280px] md:basis-[320px]">
                 <button
                   onClick={() => setSelectedCase(caseItem)}
                   className="w-full text-left p-5 rounded-2xl bg-card border border-border hover:border-primary/40 transition-all duration-300 group h-full flex flex-col"
