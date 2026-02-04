@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Code, Database, Eye, TrendingUp, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const steps = [
@@ -26,38 +26,50 @@ const steps = [
 
 const Evolution = () => {
   const [activeStep, setActiveStep] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  const goToStep = (index: number) => {
+    if (isAnimating) return;
+    setIsAnimating(true);
+    setActiveStep(index);
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsAnimating(false), 400);
+    return () => clearTimeout(timer);
+  }, [activeStep]);
 
   return (
-    <section id="evolucao" className="py-16 px-6">
+    <section id="evolucao" className="py-24 px-6">
       <div className="container mx-auto max-w-4xl">
         <h2 className="text-xl md:text-2xl font-semibold text-foreground mb-4">
           Minha evolução natural: começar a pegar mais backend
         </h2>
         
-        <p className="text-sm text-muted-foreground mb-8 max-w-3xl leading-relaxed">
+        <p className="text-sm text-muted-foreground mb-12 max-w-3xl leading-relaxed">
           Hoje eu encosto em API de forma indireta, porque meu foco principal é experiência e front. Mesmo assim, eu tenho interesse real em evoluir tecnicamente e começar a assumir partes de backend aos poucos — com responsabilidade.
         </p>
 
         {/* Timeline navigation */}
-        <div className="relative mb-6">
-          <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-border -translate-y-1/2" />
+        <div className="relative mb-10">
+          <div className="absolute top-5 left-0 right-0 h-px bg-border" />
           <div className="relative flex justify-between">
             {steps.map((step, index) => (
               <button
                 key={index}
-                onClick={() => setActiveStep(index)}
-                className={`relative z-10 flex flex-col items-center gap-2 transition-all ${
-                  index === activeStep ? 'scale-110' : 'opacity-60 hover:opacity-80'
+                onClick={() => goToStep(index)}
+                className={`relative z-10 flex flex-col items-center gap-3 transition-all duration-300 ${
+                  index === activeStep ? 'scale-110' : 'opacity-50 hover:opacity-80'
                 }`}
               >
-                <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${
+                <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
                   index === activeStep 
-                    ? 'bg-primary text-primary-foreground' 
-                    : 'bg-card border border-border'
+                    ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/20' 
+                    : 'bg-card border border-border hover:border-primary/50'
                 }`}>
                   <step.icon className="w-4 h-4" />
                 </div>
-                <span className={`text-xs hidden sm:block transition-colors ${
+                <span className={`text-xs hidden sm:block transition-all duration-300 max-w-20 text-center ${
                   index === activeStep ? 'text-primary font-medium' : 'text-muted-foreground'
                 }`}>
                   {step.title}
@@ -67,42 +79,58 @@ const Evolution = () => {
           </div>
         </div>
 
-        {/* Active step card */}
-        <div className="p-6 rounded-xl bg-card border border-primary/20 animate-fade-in" key={activeStep}>
-          <div className="flex items-start gap-4">
-            <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
-              {(() => {
-                const Icon = steps[activeStep].icon;
-                return <Icon className="w-5 h-5 text-primary" />;
-              })()}
-            </div>
-            <div>
-              <h3 className="text-base font-medium text-foreground mb-2">
-                {steps[activeStep].title}
-              </h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                {steps[activeStep].text}
-              </p>
+        {/* Active step card with smooth transition */}
+        <div className="relative overflow-hidden min-h-[140px]">
+          <div 
+            className={`p-8 rounded-2xl bg-card border border-primary/20 transition-all duration-400 ${
+              isAnimating ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'
+            }`}
+          >
+            <div className="flex items-start gap-5">
+              <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center flex-shrink-0 animate-float">
+                {(() => {
+                  const Icon = steps[activeStep].icon;
+                  return <Icon className="w-6 h-6 text-primary" />;
+                })()}
+              </div>
+              <div>
+                <h3 className="text-lg font-medium text-foreground mb-2">
+                  {steps[activeStep].title}
+                </h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  {steps[activeStep].text}
+                </p>
+              </div>
             </div>
           </div>
         </div>
 
         {/* Navigation arrows */}
-        <div className="flex justify-center gap-3 mt-4">
+        <div className="flex justify-center gap-4 mt-8">
           <button 
-            onClick={() => setActiveStep((prev) => (prev - 1 + steps.length) % steps.length)}
-            className="p-2 rounded-full bg-card border border-border hover:border-primary/50 transition-colors"
+            onClick={() => goToStep((activeStep - 1 + steps.length) % steps.length)}
+            className="p-3 rounded-full bg-card border border-border hover:border-primary/50 hover:bg-primary/5 transition-all group"
           >
-            <ChevronLeft className="w-4 h-4 text-muted-foreground" />
+            <ChevronLeft className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
           </button>
-          <span className="text-xs text-muted-foreground self-center">
-            {activeStep + 1} de {steps.length}
-          </span>
+          <div className="flex items-center gap-2">
+            {steps.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => goToStep(i)}
+                className={`h-2 rounded-full transition-all duration-300 ${
+                  i === activeStep 
+                    ? 'bg-primary w-6' 
+                    : 'bg-muted-foreground/20 w-2 hover:bg-muted-foreground/40'
+                }`}
+              />
+            ))}
+          </div>
           <button 
-            onClick={() => setActiveStep((prev) => (prev + 1) % steps.length)}
-            className="p-2 rounded-full bg-card border border-border hover:border-primary/50 transition-colors"
+            onClick={() => goToStep((activeStep + 1) % steps.length)}
+            className="p-3 rounded-full bg-card border border-border hover:border-primary/50 hover:bg-primary/5 transition-all group"
           >
-            <ChevronRight className="w-4 h-4 text-muted-foreground" />
+            <ChevronRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
           </button>
         </div>
       </div>

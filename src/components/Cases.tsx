@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { ExternalLink, ChevronLeft, ChevronRight, ArrowUpRight } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '@/components/ui/carousel';
@@ -129,8 +129,8 @@ const Cases = () => {
   }, [api]);
 
   return (
-    <section id="cases" className="py-16 px-6 bg-secondary/30">
-      <div className="container mx-auto max-w-5xl">
+    <section id="cases" className="py-16 bg-secondary/30 overflow-hidden">
+      <div className="container mx-auto max-w-5xl px-6">
         <div className="flex items-end justify-between mb-8">
           <div>
             <h2 className="text-xl md:text-2xl font-semibold text-foreground mb-2">
@@ -160,20 +160,27 @@ const Cases = () => {
             </button>
           </div>
         </div>
+      </div>
 
-        {/* Carousel with autoplay */}
+      {/* Carousel with edge gradients - full width */}
+      <div className="relative">
+        {/* Left gradient fade */}
+        <div className="absolute left-0 top-0 bottom-0 w-20 md:w-32 bg-gradient-to-r from-secondary/30 via-secondary/20 to-transparent z-10 pointer-events-none" />
+        {/* Right gradient fade */}
+        <div className="absolute right-0 top-0 bottom-0 w-20 md:w-32 bg-gradient-to-l from-secondary/30 via-secondary/20 to-transparent z-10 pointer-events-none" />
+        
         <Carousel
           setApi={setApi}
           plugins={[autoplayPlugin.current]}
           opts={{
-            align: 'start',
+            align: 'center',
             loop: true,
           }}
           className="w-full"
         >
-          <CarouselContent className="-ml-4">
+          <CarouselContent className="-ml-4 px-8 md:px-16">
             {cases.map((caseItem) => (
-              <CarouselItem key={caseItem.id} className="pl-4 basis-full sm:basis-1/2 lg:basis-1/3">
+              <CarouselItem key={caseItem.id} className="pl-4 basis-[85%] sm:basis-1/2 lg:basis-1/3">
                 <button
                   onClick={() => setSelectedCase(caseItem)}
                   className="w-full text-left p-5 rounded-2xl bg-card border border-border hover:border-primary/40 transition-all duration-300 group h-full flex flex-col"
@@ -209,84 +216,84 @@ const Cases = () => {
             ))}
           </CarouselContent>
         </Carousel>
-
-        {/* Progress bar */}
-        <div className="mt-6 flex justify-center">
-          <div className="flex gap-1.5">
-            {cases.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => api?.scrollTo(i)}
-                className={`h-1.5 rounded-full transition-all duration-300 ${
-                  i === current 
-                    ? 'bg-primary w-6' 
-                    : 'bg-muted-foreground/20 w-1.5 hover:bg-muted-foreground/40'
-                }`}
-              />
-            ))}
-          </div>
-        </div>
-
-        {/* Modal */}
-        <Dialog open={!!selectedCase} onOpenChange={() => setSelectedCase(null)}>
-          <DialogContent className="max-w-lg bg-card border-border">
-            <DialogHeader>
-              <DialogTitle className="text-lg font-semibold text-foreground">
-                {selectedCase?.title}
-              </DialogTitle>
-            </DialogHeader>
-            
-            {selectedCase && (
-              <div className="space-y-5 mt-2">
-                {/* Tags */}
-                <div className="flex gap-2">
-                  {selectedCase.tags.map((tag, i) => (
-                    <span key={i} className="text-xs px-2.5 py-1 rounded-full bg-primary/10 text-primary font-medium">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-
-                {/* Problema */}
-                <div className="p-4 rounded-xl bg-secondary/50 border border-border">
-                  <h4 className="text-xs font-medium text-primary uppercase tracking-wide mb-2">Problema</h4>
-                  <p className="text-sm text-foreground">{selectedCase.problem}</p>
-                </div>
-
-                {/* O que eu fiz */}
-                <div>
-                  <h4 className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-3">O que eu fiz</h4>
-                  <ul className="space-y-2">
-                    {selectedCase.actions.map((action, i) => (
-                      <li key={i} className="text-sm text-muted-foreground flex gap-3 items-start">
-                        <span className="w-5 h-5 rounded-md bg-primary/10 text-primary text-xs flex items-center justify-center flex-shrink-0 mt-0.5">
-                          {i + 1}
-                        </span>
-                        {action}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                {/* Resultado */}
-                <div className="p-4 rounded-xl bg-primary/5 border border-primary/20">
-                  <h4 className="text-xs font-medium text-primary uppercase tracking-wide mb-2">Resultado</h4>
-                  <p className="text-sm text-foreground font-medium">{selectedCase.result}</p>
-                </div>
-
-                {/* Evidências */}
-                <div>
-                  <h4 className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-2">Evidências</h4>
-                  <a href="#" className="text-sm text-primary hover:underline flex items-center gap-1 group">
-                    {selectedCase.evidence}
-                    <ExternalLink className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                  </a>
-                </div>
-              </div>
-            )}
-          </DialogContent>
-        </Dialog>
       </div>
+
+      {/* Progress bar */}
+      <div className="mt-6 flex justify-center">
+        <div className="flex gap-1.5">
+          {cases.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => api?.scrollTo(i)}
+              className={`h-1.5 rounded-full transition-all duration-300 ${
+                i === current 
+                  ? 'bg-primary w-6' 
+                  : 'bg-muted-foreground/20 w-1.5 hover:bg-muted-foreground/40'
+              }`}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Modal */}
+      <Dialog open={!!selectedCase} onOpenChange={() => setSelectedCase(null)}>
+        <DialogContent className="max-w-lg bg-card border-border">
+          <DialogHeader>
+            <DialogTitle className="text-lg font-semibold text-foreground">
+              {selectedCase?.title}
+            </DialogTitle>
+          </DialogHeader>
+          
+          {selectedCase && (
+            <div className="space-y-5 mt-2">
+              {/* Tags */}
+              <div className="flex gap-2">
+                {selectedCase.tags.map((tag, i) => (
+                  <span key={i} className="text-xs px-2.5 py-1 rounded-full bg-primary/10 text-primary font-medium">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+
+              {/* Problema */}
+              <div className="p-4 rounded-xl bg-secondary/50 border border-border">
+                <h4 className="text-xs font-medium text-primary uppercase tracking-wide mb-2">Problema</h4>
+                <p className="text-sm text-foreground">{selectedCase.problem}</p>
+              </div>
+
+              {/* O que eu fiz */}
+              <div>
+                <h4 className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-3">O que eu fiz</h4>
+                <ul className="space-y-2">
+                  {selectedCase.actions.map((action, i) => (
+                    <li key={i} className="text-sm text-muted-foreground flex gap-3 items-start">
+                      <span className="w-5 h-5 rounded-md bg-primary/10 text-primary text-xs flex items-center justify-center flex-shrink-0 mt-0.5">
+                        {i + 1}
+                      </span>
+                      {action}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Resultado */}
+              <div className="p-4 rounded-xl bg-primary/5 border border-primary/20">
+                <h4 className="text-xs font-medium text-primary uppercase tracking-wide mb-2">Resultado</h4>
+                <p className="text-sm text-foreground font-medium">{selectedCase.result}</p>
+              </div>
+
+              {/* Evidências */}
+              <div>
+                <h4 className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-2">Evidências</h4>
+                <a href="#" className="text-sm text-primary hover:underline flex items-center gap-1 group">
+                  {selectedCase.evidence}
+                  <ExternalLink className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                </a>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };
