@@ -161,7 +161,7 @@ const Challenge = () => {
                     key={index}
                     className={`flex items-start gap-3 group cursor-default transition-all ${
                       hoveredItem !== null && hoveredItem !== index 
-                        ? 'opacity-50 blur-[1px]' 
+                        ? 'opacity-50 blur-[2px]' 
                         : 'opacity-100 blur-0'
                     }`}
                     onMouseEnter={() => setHoveredItem(index)}
