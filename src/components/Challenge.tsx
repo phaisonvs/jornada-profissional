@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Clock, Star, CheckCircle2, AlertCircle, Check } from 'lucide-react';
 import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '@/components/ui/carousel';
-import Autoplay from 'embla-carousel-autoplay';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 
 const whyThisShowsLevel = [
   'Conduzi do zero — sem esperar que alguém me passasse o que fazer.',
@@ -45,10 +45,60 @@ const Challenge = () => {
   const [hoveredItem, setHoveredItem] = useState<number | null>(null);
   const [hoveredResolved, setHoveredResolved] = useState<number | null>(null);
   const [hoveredPending, setHoveredPending] = useState<number | null>(null);
-  
-  const autoplayPlugin = useRef(
-    Autoplay({ delay: 2000, stopOnInteraction: false, stopOnMouseEnter: true })
-  );
+  const [carouselApi, setCarouselApi] = useState<CarouselApi>();
+  const scrollIntervalRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    if (!carouselApi) return;
+
+    let animationFrameId: number;
+    let isScrolling = true;
+    const scrollSpeed = 0.5;
+
+    const scroll = () => {
+      if (!isScrolling) return;
+      
+      const container = carouselApi.containerNode();
+      if (container) {
+        const scrollLeft = container.scrollLeft;
+        const scrollWidth = container.scrollWidth;
+        const clientWidth = container.clientWidth;
+        
+        if (scrollLeft + clientWidth >= scrollWidth - 1) {
+          container.scrollLeft = 0;
+        } else {
+          container.scrollLeft += scrollSpeed;
+        }
+      }
+      animationFrameId = requestAnimationFrame(scroll);
+    };
+
+    const handleMouseEnter = () => {
+      isScrolling = false;
+    };
+
+    const handleMouseLeave = () => {
+      isScrolling = true;
+    };
+
+    const container = carouselApi.containerNode();
+    if (container) {
+      container.addEventListener('mouseenter', handleMouseEnter);
+      container.addEventListener('mouseleave', handleMouseLeave);
+    }
+
+    animationFrameId = requestAnimationFrame(scroll);
+
+    return () => {
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+      }
+      if (container) {
+        container.removeEventListener('mouseenter', handleMouseEnter);
+        container.removeEventListener('mouseleave', handleMouseLeave);
+      }
+    };
+  }, [carouselApi]);
 
   return (
     <section id="desafio" className="py-20 px-6">
@@ -64,11 +114,11 @@ const Challenge = () => {
         </div>
 
         {/* Main grid */}
-        <div className="grid lg:grid-cols-2 gap-6 mb-8">
+        <div className="grid lg:grid-cols-[1fr_1.2fr] gap-6 mb-8">
           {/* Left column - Context */}
-          <div className="space-y-6">
+          <div className="flex flex-col gap-6">
             {/* Context card */}
-            <div className="p-6 rounded-2xl bg-card border border-border hover:border-primary/20 transition-all">
+            <div className="flex-1 p-6 rounded-2xl bg-card border border-border hover:border-primary/20 transition-all flex flex-col">
               <div className="flex items-center gap-2 mb-4">
                 <Clock className="w-4 h-4 text-muted-foreground" />
                 <span className="text-sm font-medium text-foreground">Contexto</span>
@@ -158,38 +208,43 @@ const Challenge = () => {
             </div>
 
             {/* Tools carousel card */}
-            <div className="p-4 rounded-xl bg-card border border-border hover:border-primary/20 transition-all">
-              <div className="flex items-center gap-2 mb-3">
+            <div className="p-3 rounded-xl bg-card border border-border hover:border-primary/20 transition-all">
+              <div className="flex items-center gap-2 mb-2">
                 <span className="text-xs font-medium text-foreground">Ferramentas que domino</span>
               </div>
               
-              <Carousel
-                plugins={[autoplayPlugin.current]}
-                opts={{
-                  align: 'start',
-                  loop: true,
-                }}
-                className="w-full"
-              >
-                <CarouselContent className="-ml-1.5">
-                  {tools.map((tool, index) => (
-                    <CarouselItem key={index} className="pl-1.5 basis-1/6">
-                      <div className="relative p-2 rounded-lg bg-secondary/50 border border-border/50 hover:border-primary/30 transition-all group flex items-center justify-center aspect-square">
-                        <img 
-                          src={tool.icon} 
-                          alt={tool.name}
-                          className="w-5 h-5 object-contain group-hover:scale-110 transition-transform"
-                        />
-                        {tool.mastered && (
-                          <div className="absolute -top-0.5 -right-0.5 w-3 h-3 rounded-full flex items-center justify-center" style={{ backgroundColor: 'hsl(142 71% 45%)' }}>
-                            <Check className="w-2 h-2 text-white" />
-                          </div>
-                        )}
-                      </div>
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
-              </Carousel>
+              <div className="py-0.5">
+                <Carousel
+                  setApi={setCarouselApi}
+                  opts={{
+                    align: 'start',
+                    loop: true,
+                    dragFree: true,
+                  }}
+                  className="w-full"
+                >
+                  <CarouselContent className="-ml-1.5">
+                    {[...tools, ...tools, ...tools].map((tool, index) => (
+                      <CarouselItem key={`${tool.name}-${index}`} className="pl-1.5 basis-1/6">
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <div className="relative p-1 rounded-lg bg-secondary/50 border border-border/50 hover:border-primary/30 transition-all group flex items-center justify-center aspect-square cursor-pointer">
+                              <img 
+                                src={tool.icon} 
+                                alt={tool.name}
+                                className="w-5 h-5 object-contain group-hover:scale-110 transition-transform"
+                              />
+                            </div>
+                          </TooltipTrigger>
+                          <TooltipContent side="top" className="bg-card border border-border text-foreground text-xs px-2 py-1.5 rounded-md shadow-lg">
+                            {tool.name}
+                          </TooltipContent>
+                        </Tooltip>
+                      </CarouselItem>
+                    ))}
+                  </CarouselContent>
+                </Carousel>
+              </div>
             </div>
           </div>
         </div>

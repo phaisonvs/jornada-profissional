@@ -8,8 +8,8 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Dark elegante - azul escuro com acentos dourados MYSA */
-    --background: 220 25% 6%;
+    /* Dark elegante - grafite escuro com acentos dourados MYSA */
+    --background: 220 15% 8%;
     --foreground: 45 10% 92%;
 
     --card: 220 20% 10%;

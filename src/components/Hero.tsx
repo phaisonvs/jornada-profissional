@@ -26,6 +26,7 @@ const Hero = () => {
         <div className="mb-12 opacity-0 animate-[fade-in_0.8s_ease-out_forwards]" style={{ animationDelay: '100ms' }}>
           <h1 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-foreground leading-tight mb-4">
             Quero formalizar minha atuação como{' '}
+            <br />
             <span className="text-primary">Tech Lead (Front-end & Conversion)</span>.
           </h1>
           <p className="text-base md:text-lg text-muted-foreground max-w-2xl">
@@ -55,11 +56,13 @@ const Hero = () => {
         </div>
 
         {/* Microcopy */}
-        <div className="flex items-center gap-2 text-sm text-muted-foreground opacity-0 animate-[fade-in_0.8s_ease-out_forwards]" style={{ animationDelay: '700ms' }}>
-          <div className="w-1 h-1 rounded-full bg-primary" />
-          <p>
-            Se tiver <span className="text-foreground">3 minutos</span>, veja os cases.
-          </p>
+        <div className="hidden">
+          <div className="flex items-center gap-2 text-sm text-muted-foreground opacity-0 animate-[fade-in_0.8s_ease-out_forwards]" style={{ animationDelay: '700ms' }}>
+            <div className="w-1 h-1 rounded-full bg-primary" />
+            <p>
+              Se tiver <span className="text-foreground">3 minutos</span>, veja os cases.
+            </p>
+          </div>
         </div>
       </div>
     </section>
