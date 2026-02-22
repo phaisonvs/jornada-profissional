@@ -5,6 +5,8 @@ import { useEffect, useRef, useState } from 'react';
 
 const easeOutQuad = (t: number) => 1 - (1 - t) * (1 - t);
 const COUNT_UP_DURATION = 2200;
+const COUNT_UP_DURATION_SMALL = 1000;
+const COUNT_UP_THRESHOLD = 10;
 const COUNT_UP_DELAY_MS = 200;
 
 interface PopupContent {
@@ -155,9 +157,13 @@ const ANGLE_STEP_MOBILE = 60;
 const ANGLE_STEP_DESKTOP = 48;
 const CONTAINER_HEIGHT_MOBILE = 220;
 const CONTAINER_HEIGHT_DESKTOP = 300;
-const SCROLL_SENSITIVITY = 0.006;
+const WHEEL_NOTCH_THRESHOLD = 120;
+const WHEEL_STEP_COOLDOWN_MS = 150;
+const WHEEL_ANIMATION_DURATION = 420;
 const TOUCH_SENSITIVITY = 0.014;
 const MOUSE_SENSITIVITY = 0.012;
+
+const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
 
 const Hero = () => {
   const { ref, isVisible } = useInView();
@@ -180,6 +186,10 @@ const Hero = () => {
   const animationFrameRef = useRef<Map<number, number>>(new Map());
   const mouseMoveRef = useRef<(e: MouseEvent) => void>(() => {});
   const mouseUpRef = useRef<() => void>(() => {});
+  const wheelAccumulatedRef = useRef(0);
+  const wheelAnimationRef = useRef<number | null>(null);
+  const pendingWheelStepsRef = useRef(0);
+  const lastWheelStepTimeRef = useRef(0);
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
@@ -246,6 +256,45 @@ const Hero = () => {
       hintResumeRef.current = setTimeout(() => setHintPaused(false), 800);
     };
 
+    const startWheelStepAnimation = (direction: number) => {
+      if (wheelAnimationRef.current != null) {
+        pendingWheelStepsRef.current += direction;
+        return;
+      }
+      lastWheelStepTimeRef.current = Date.now();
+      const start = progressRef.current;
+      const target = Math.round(start) + direction;
+      const startTime = performance.now();
+      const duration = WHEEL_ANIMATION_DURATION;
+
+      const run = () => {
+        const elapsed = performance.now() - startTime;
+        const t = Math.min(elapsed / duration, 1);
+        const eased = easeOutCubic(t);
+        const current = start + (target - start) * eased;
+        progressRef.current = current;
+        setProgress(current);
+        if (t < 1) {
+          wheelAnimationRef.current = requestAnimationFrame(run);
+        } else {
+          progressRef.current = target;
+          setProgress(target);
+          wheelAnimationRef.current = null;
+          setIsSnapping(true);
+          setTimeout(() => setIsSnapping(false), 120);
+          const pending = pendingWheelStepsRef.current;
+          if (pending > 0) {
+            pendingWheelStepsRef.current = pending - 1;
+            startWheelStepAnimation(1);
+          } else if (pending < 0) {
+            pendingWheelStepsRef.current = pending + 1;
+            startWheelStepAnimation(-1);
+          }
+        }
+      };
+      wheelAnimationRef.current = requestAnimationFrame(run);
+    };
+
     const handleWheel = (e: WheelEvent) => {
       e.preventDefault();
       e.stopPropagation();
@@ -253,15 +302,30 @@ const Hero = () => {
       scheduleHintResume();
       setIsSnapping(false);
       clearTimeout(snapTimeoutRef.current);
-      progressRef.current = progressRef.current + e.deltaY * SCROLL_SENSITIVITY;
-      setProgress(progressRef.current);
-      snapToNearest();
+      wheelAccumulatedRef.current += e.deltaY;
+      const now = Date.now();
+      if (now - lastWheelStepTimeRef.current < WHEEL_STEP_COOLDOWN_MS) return;
+      const threshold = WHEEL_NOTCH_THRESHOLD;
+      while (wheelAccumulatedRef.current >= threshold) {
+        wheelAccumulatedRef.current -= threshold;
+        startWheelStepAnimation(1);
+        if (Date.now() - lastWheelStepTimeRef.current < WHEEL_STEP_COOLDOWN_MS) break;
+      }
+      while (wheelAccumulatedRef.current <= -threshold) {
+        wheelAccumulatedRef.current += threshold;
+        startWheelStepAnimation(-1);
+        if (Date.now() - lastWheelStepTimeRef.current < WHEEL_STEP_COOLDOWN_MS) break;
+      }
     };
 
     container.addEventListener('wheel', handleWheel, { passive: false });
     return () => {
       container.removeEventListener('wheel', handleWheel);
       clearTimeout(hintResumeRef.current);
+      if (wheelAnimationRef.current != null) {
+        cancelAnimationFrame(wheelAnimationRef.current);
+        wheelAnimationRef.current = null;
+      }
     };
   }, []);
 
@@ -347,11 +411,13 @@ const Hero = () => {
       return copy;
     });
 
+    const maxTarget = Math.max(...targets.map((v) => Math.abs(v)));
+    const duration = maxTarget < COUNT_UP_THRESHOLD ? COUNT_UP_DURATION_SMALL : COUNT_UP_DURATION;
     const timeoutId = setTimeout(() => {
       const start = performance.now();
       const run = () => {
         const elapsed = performance.now() - start;
-        const t = Math.min(elapsed / COUNT_UP_DURATION, 1);
+        const t = Math.min(elapsed / duration, 1);
         const progressVal = easeOutQuad(t);
         const decimals = ('decimals' in stat && stat.decimals) ? stat.decimals : [];
         const next = targets.map((target, j) => {
@@ -405,10 +471,13 @@ const Hero = () => {
       if (e.key === 'Escape') setOpenModalIndex(null);
     };
     window.addEventListener('keydown', handleEscape);
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
     document.body.style.overflow = 'hidden';
+    document.body.style.paddingRight = `${scrollbarWidth}px`;
     return () => {
       window.removeEventListener('keydown', handleEscape);
       document.body.style.overflow = '';
+      document.body.style.paddingRight = '';
     };
   }, [openModalIndex]);
 
@@ -487,6 +556,11 @@ const Hero = () => {
                   const isIntro = 'isIntro' in stat && stat.isIntro;
                   const kpiStat = !isIntro ? (stat as StatItemKpi) : null;
                   const hasNumericKpi = kpiStat?.valueTargets && kpiStat.valueTargets.length > 0;
+                  const kpiFinalStr = kpiStat
+                    ? (kpiStat.staticLabel ?? (kpiStat.valueFormat && kpiStat.valueTargets ? kpiStat.valueFormat(kpiStat.valueTargets) : ''))
+                    : '';
+                  const kpiShortDisplay = kpiFinalStr.length <= 4;
+                  const kpiVeryShort = kpiFinalStr.length <= 2;
                   const valueDisplay = isIntro
                     ? stat.introText
                     : kpiStat?.staticLabel ?? (kpiStat?.valueFormat && hasNumericKpi
@@ -513,30 +587,33 @@ const Hero = () => {
                       }}
                     >
                       <div
-                        className={`w-full p-5 md:p-6 rounded-xl bg-card border transition-all duration-300 relative ${
-                          index !== 0 ? 'cursor-pointer' : ''
-                        } ${index === 0 && isActive ? 'text-center flex flex-col items-center' : ''}`}
-                        style={{
-                          borderColor: isActive
-                            ? 'hsl(var(--primary) / 0.4)'
-                            : 'hsl(var(--border))',
-                          boxShadow: isActive
-                            ? '0 0 0 1px hsl(var(--primary) / 0.1), 0 8px 32px hsl(0 0% 0% / 0.3)'
-                            : 'none',
-                          filter: isActive ? 'none' : 'blur(0.35px)',
-                          WebkitFilter: isActive ? 'none' : 'blur(0.35px)',
-                        }}
+                        className={`w-full ${index !== 0 ? '-m-4 p-4 cursor-pointer' : ''}`}
                         onMouseDown={index !== 0 ? (e) => handleCardMouseDown(e, index) : undefined}
                         onMouseUp={index !== 0 ? (e) => handleCardMouseUp(e, index) : undefined}
                         onTouchStart={index !== 0 ? (e) => handleCardTouchStart(e, index) : undefined}
                         onTouchEnd={index !== 0 ? (e) => handleCardTouchEnd(e, index) : undefined}
                       >
+                        <div
+                          className={`w-full p-5 md:p-6 rounded-xl bg-card border transition-all duration-300 relative ${
+                            index === 0 ? 'text-center flex flex-col items-center' : ''
+                          }`}
+                          style={{
+                            borderColor: isActive
+                              ? 'hsl(var(--primary) / 0.4)'
+                              : 'hsl(var(--border))',
+                            boxShadow: isActive
+                              ? '0 0 0 1px hsl(var(--primary) / 0.1), 0 8px 32px hsl(0 0% 0% / 0.3)'
+                              : 'none',
+                            filter: isActive ? 'none' : 'blur(0.35px)',
+                            WebkitFilter: isActive ? 'none' : 'blur(0.35px)',
+                          }}
+                        >
                         {index !== 0 && (
                           <div className="absolute top-3 right-3 w-5 h-5 flex items-center justify-center opacity-50 transition-opacity duration-200 hover:opacity-100">
                             <Info className="w-4 h-4 text-muted-foreground" />
                           </div>
                         )}
-                        <div className={`flex items-center gap-3 mb-3 ${index === 0 && isActive ? 'justify-center' : ''}`}>
+                        <div className={`flex items-center gap-3 mb-3 ${index === 0 ? 'justify-center' : ''}`}>
                           <div
                             className="w-9 h-9 md:w-10 md:h-10 rounded-lg flex items-center justify-center shrink-0"
                             style={{
@@ -561,19 +638,22 @@ const Hero = () => {
                             {valueDisplay}
                           </p>
                         ) : (
-                          <div className="flex flex-wrap items-baseline gap-x-1.5 gap-y-0">
-                            <span
-                              className={`text-lg md:text-xl font-semibold text-foreground inline-block origin-bottom-left ${
-                                hasNumericKpi && scalePulseIndex === index ? 'animate-value-count-pop' : ''
-                              }`}
-                            >
-                              {valueDisplay}
-                            </span>
-                            <span className="text-sm md:text-base font-light text-muted-foreground">
+                          <div className={`flex items-baseline ${kpiVeryShort ? 'gap-x-0.5' : kpiShortDisplay ? 'gap-x-0.5' : 'gap-x-1.5'}`}>
+                            <div className={`shrink-0 ${kpiVeryShort ? 'min-w-[1.25rem] md:min-w-[1.5rem]' : kpiShortDisplay ? 'min-w-[2rem] md:min-w-[2.5rem]' : 'min-w-[2.5rem] md:min-w-[3rem]'}`}>
+                              <span
+                                className={`text-lg md:text-xl font-semibold text-foreground inline-block origin-center ${
+                                  hasNumericKpi && scalePulseIndex === index ? 'animate-value-count-pop' : ''
+                                }`}
+                              >
+                                {valueDisplay}
+                              </span>
+                            </div>
+                            <span className="text-sm md:text-base font-light text-foreground/75">
                               {kpiStat?.supportLine}
                             </span>
                           </div>
                         )}
+                        </div>
                       </div>
                     </div>
                   );
