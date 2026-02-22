@@ -1,24 +1,20 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import mysaLogo from '@/assets/mysa-logo.png';
 
 const navLinks = [
   { href: '#tldr', label: 'TL;DR' },
-  { href: '#cases', label: 'Cases' },
   { href: '#desafio', label: 'Desafio' },
-  { href: '#objetivos-techlead', label: 'Objetivos' },
+  { href: '#cases', label: 'Cases' },
+  { href: '#como-trabalho', label: 'Como trabalho' },
   { href: '#escopo', label: 'Escopo' },
   { href: '#evolucao', label: 'Evolução' },
   { href: '#pedido', label: 'Pedido' },
 ];
 
-const MENU_TRANSITION_DURATION = 450;
-
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isMenuVisible, setIsMenuVisible] = useState(false);
-  const closeTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -26,34 +22,8 @@ const Header = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  useEffect(() => {
-    return () => {
-      if (closeTimeoutRef.current) clearTimeout(closeTimeoutRef.current);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (isMobileMenuOpen) {
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          setIsMenuVisible(true);
-        });
-      });
-    } else {
-      setIsMenuVisible(false);
-    }
-  }, [isMobileMenuOpen]);
-
-  const closeMenu = () => {
-    setIsMenuVisible(false);
-    closeTimeoutRef.current = setTimeout(() => {
-      setIsMobileMenuOpen(false);
-      closeTimeoutRef.current = undefined;
-    }, MENU_TRANSITION_DURATION);
-  };
-
   const scrollToSection = (href: string) => {
-    closeMenu();
+    setIsMobileMenuOpen(false);
     const element = document.querySelector(href);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
@@ -91,7 +61,7 @@ const Header = () => {
 
             <button
               className="md:hidden p-2 -mr-2"
-              onClick={() => (isMobileMenuOpen ? closeMenu() : setIsMobileMenuOpen(true))}
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
               {isMobileMenuOpen ? (
                 <X className="w-5 h-5 text-foreground" />
@@ -105,23 +75,32 @@ const Header = () => {
 
       {isMobileMenuOpen && (
         <>
-          <div
-            className={`fixed inset-0 z-30 bg-black/15 md:hidden transition-opacity duration-[450ms] ease-out ${
-              isMenuVisible ? 'opacity-100' : 'opacity-0'
-            }`}
-            onClick={closeMenu}
+          <button
+            className="fixed inset-0 z-[100] bg-black/40 md:hidden animate-fade-in"
+            aria-label="Fechar menu"
+            onClick={() => setIsMobileMenuOpen(false)}
           />
-          <nav
-            className={`fixed top-20 left-0 right-0 z-40 bg-background/95 backdrop-blur-md border-b border-border md:hidden shadow-lg transition-[transform] duration-[450ms] ease-out ${
-              isMenuVisible ? 'translate-y-0' : '-translate-y-[calc(100%+5rem)]'
-            }`}
+          <div
+            className="fixed left-0 top-0 bottom-0 z-[101] w-fit min-w-[12rem] max-w-[min(85vw,20rem)] bg-background border-r border-border md:hidden animate-fade-in overflow-y-auto"
+            aria-hidden="false"
           >
-            <div
-              className={`container mx-auto px-4 py-5 transition-opacity duration-100 ease-out ${
-                isMenuVisible ? 'opacity-100' : 'opacity-0'
-              }`}
-            >
-              <div className="flex flex-wrap justify-center gap-2">
+            <div className="px-4 pt-6 pb-6">
+              <div className="flex items-center justify-between min-h-[3rem]">
+                <a href="#" className="flex items-center">
+                  <img
+                    src={mysaLogo}
+                    alt="MYSA"
+                    className="h-5 w-auto brightness-0 invert opacity-80"
+                  />
+                </a>
+                <button
+                  className="p-2 -mr-2"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <X className="w-5 h-5 text-foreground" />
+                </button>
+              </div>
+              <nav className="flex flex-wrap justify-center gap-2 pt-6">
                 {navLinks.map((link) => (
                   <button
                     key={link.href}
@@ -131,9 +110,9 @@ const Header = () => {
                     {link.label}
                   </button>
                 ))}
-              </div>
+              </nav>
             </div>
-          </nav>
+          </div>
         </>
       )}
     </>

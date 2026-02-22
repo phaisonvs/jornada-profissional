@@ -42,7 +42,7 @@ const Evolution = () => {
   }, [activeStep]);
 
   return (
-    <section id="evolucao" className="py-24 px-6">
+    <section id="evolucao" className="py-24 px-4 md:px-6 scroll-mt-24">
       <div 
         ref={ref as React.RefObject<HTMLDivElement>}
         className={`container mx-auto max-w-4xl transition-all duration-700 ease-out ${
@@ -76,12 +76,12 @@ const Evolution = () => {
                 }`}
                 style={{ transitionDelay: isVisible ? `${index * 150}ms` : '0ms' }}
               >
-                <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
+                <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 group ${
                   index === activeStep 
                     ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/20' 
                     : 'bg-card border border-border hover:border-primary/50'
                 }`}>
-                  <step.icon className="w-4 h-4" />
+                  <step.icon className="w-4 h-4 icon-hover-effect" />
                 </div>
                 <span className={`text-xs hidden sm:block transition-all duration-300 max-w-20 text-center ${
                   index === activeStep ? 'text-primary font-medium' : 'text-muted-foreground'
@@ -101,10 +101,10 @@ const Evolution = () => {
             }`}
           >
             <div className="flex items-start gap-5">
-              <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center flex-shrink-0 animate-float">
+              <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center flex-shrink-0 animate-float group">
                 {(() => {
                   const Icon = steps[activeStep].icon;
-                  return <Icon className="w-6 h-6 text-primary" />;
+                  return <Icon className="w-6 h-6 text-primary icon-hover-effect" />;
                 })()}
               </div>
               <div>
@@ -127,15 +127,15 @@ const Evolution = () => {
           >
             <ChevronLeft className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
           </button>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5">
             {steps.map((_, i) => (
               <button
                 key={i}
                 onClick={() => goToStep(i)}
-                className={`h-2 rounded-full transition-all duration-300 ${
+                className={`h-1.5 rounded-full transition-all duration-300 ${
                   i === activeStep 
-                    ? 'bg-primary w-6' 
-                    : 'bg-muted-foreground/20 w-2 hover:bg-muted-foreground/40'
+                    ? 'bg-primary w-4' 
+                    : 'bg-muted-foreground/20 w-1.5 hover:bg-muted-foreground/40'
                 }`}
               />
             ))}

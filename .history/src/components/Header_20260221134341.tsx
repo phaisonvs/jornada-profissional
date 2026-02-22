@@ -4,20 +4,20 @@ import mysaLogo from '@/assets/mysa-logo.png';
 
 const navLinks = [
   { href: '#tldr', label: 'TL;DR' },
-  { href: '#cases', label: 'Cases' },
   { href: '#desafio', label: 'Desafio' },
-  { href: '#objetivos-techlead', label: 'Objetivos' },
+  { href: '#cases', label: 'Cases' },
+  { href: '#como-trabalho', label: 'Como trabalho' },
   { href: '#escopo', label: 'Escopo' },
   { href: '#evolucao', label: 'Evolução' },
   { href: '#pedido', label: 'Pedido' },
 ];
 
-const MENU_TRANSITION_DURATION = 450;
+const MENU_CLOSE_DURATION = 500;
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isMenuVisible, setIsMenuVisible] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
   const closeTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
 
   useEffect(() => {
@@ -32,24 +32,14 @@ const Header = () => {
     };
   }, []);
 
-  useEffect(() => {
-    if (isMobileMenuOpen) {
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          setIsMenuVisible(true);
-        });
-      });
-    } else {
-      setIsMenuVisible(false);
-    }
-  }, [isMobileMenuOpen]);
-
   const closeMenu = () => {
-    setIsMenuVisible(false);
+    if (isClosing) return;
+    setIsClosing(true);
     closeTimeoutRef.current = setTimeout(() => {
       setIsMobileMenuOpen(false);
+      setIsClosing(false);
       closeTimeoutRef.current = undefined;
-    }, MENU_TRANSITION_DURATION);
+    }, MENU_CLOSE_DURATION);
   };
 
   const scrollToSection = (href: string) => {
@@ -106,21 +96,19 @@ const Header = () => {
       {isMobileMenuOpen && (
         <>
           <div
-            className={`fixed inset-0 z-30 bg-black/15 md:hidden transition-opacity duration-[450ms] ease-out ${
-              isMenuVisible ? 'opacity-100' : 'opacity-0'
-            }`}
+            className={`fixed inset-0 z-30 bg-black/15 md:hidden ${isClosing ? 'opacity-0' : 'animate-overlay-fade-in'}`}
+            style={{ transition: 'opacity 0.5s linear' }}
             onClick={closeMenu}
           />
           <nav
-            className={`fixed top-20 left-0 right-0 z-40 bg-background/95 backdrop-blur-md border-b border-border md:hidden shadow-lg transition-[transform] duration-[450ms] ease-out ${
-              isMenuVisible ? 'translate-y-0' : '-translate-y-[calc(100%+5rem)]'
+            className={`fixed top-20 left-0 right-0 z-40 bg-background/95 backdrop-blur-md border-b border-border md:hidden shadow-lg ${
+              isClosing ? '-translate-y-full opacity-0' : 'translate-y-0 opacity-100 animate-slide-down'
             }`}
+            style={{
+              transition: 'transform 0.5s linear, opacity 0.5s linear',
+            }}
           >
-            <div
-              className={`container mx-auto px-4 py-5 transition-opacity duration-100 ease-out ${
-                isMenuVisible ? 'opacity-100' : 'opacity-0'
-              }`}
-            >
+            <div className="container mx-auto px-4 py-5">
               <div className="flex flex-wrap justify-center gap-2">
                 {navLinks.map((link) => (
                   <button

@@ -56,7 +56,7 @@ const Request = () => {
   const { ref, isVisible } = useInView();
 
   return (
-    <section id="pedido" className="py-24 px-6 bg-secondary/30">
+    <section id="pedido" className="py-24 px-4 md:px-6 bg-secondary/30 scroll-mt-24">
       <div 
         ref={ref as React.RefObject<HTMLDivElement>}
         className={`container mx-auto max-w-5xl transition-all duration-700 ease-out ${
@@ -92,12 +92,12 @@ const Request = () => {
               onMouseEnter={() => setHoveredItem(index)}
               onMouseLeave={() => setHoveredItem(null)}
             >
-              <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-4 transition-all ${
+              <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-4 transition-all group ${
                 hoveredItem === index 
                   ? 'bg-primary text-primary-foreground scale-110' 
                   : 'bg-primary/10 text-primary'
               }`}>
-                <item.icon className="w-5 h-5" />
+                <item.icon className="w-5 h-5 icon-hover-effect" />
               </div>
               <h3 className="text-sm font-medium text-foreground mb-1">{item.title}</h3>
               <p className="text-xs text-muted-foreground leading-relaxed">{item.text}</p>
@@ -115,13 +115,13 @@ const Request = () => {
               <button
                 key={path.id}
                 onClick={() => setActivePath(index)}
-                className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all ${
+                className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all group ${
                   activePath === index
                     ? 'bg-primary text-primary-foreground'
                     : 'bg-card border border-border text-muted-foreground hover:border-primary/30 hover:text-foreground'
                 }`}
               >
-                <path.icon className="w-4 h-4" />
+                <path.icon className="w-4 h-4 icon-hover-effect" />
                 Opção {path.id}
               </button>
             ))}
@@ -131,10 +131,10 @@ const Request = () => {
         {/* Active path content */}
         <div className="p-8 rounded-2xl bg-card border border-primary/20 transition-all">
           <div className="flex items-start gap-5 mb-6">
-            <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0 animate-float-slow">
+            <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0 animate-float-slow group">
               {(() => {
                 const Icon = paths[activePath].icon;
-                return <Icon className="w-6 h-6 text-primary" />;
+                return <Icon className="w-6 h-6 text-primary icon-hover-effect" />;
               })()}
             </div>
             <div>

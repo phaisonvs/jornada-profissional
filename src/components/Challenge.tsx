@@ -1,7 +1,6 @@
-import { useState, useRef, useEffect } from 'react';
-import { Clock, Star, CheckCircle2, AlertCircle, Check } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Clock, Star, CheckCircle2, AlertCircle } from 'lucide-react';
 import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '@/components/ui/carousel';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { useInView } from '@/hooks/use-in-view';
 
 const whyThisShowsLevel = [
@@ -51,9 +50,6 @@ const Challenge = () => {
 
   useEffect(() => {
     if (!carouselApi) return;
-
-    let intervalId: number;
-
     const scrollToNext = () => {
       if (carouselApi.canScrollNext()) {
         carouselApi.scrollNext();
@@ -61,56 +57,45 @@ const Challenge = () => {
         carouselApi.scrollTo(0);
       }
     };
-
-    intervalId = window.setInterval(scrollToNext, 1500);
-
-    return () => {
-      if (intervalId) {
-        clearInterval(intervalId);
-      }
-    };
+    const intervalId = window.setInterval(scrollToNext, 1500);
+    return () => clearInterval(intervalId);
   }, [carouselApi]);
 
   const { ref, isVisible } = useInView();
 
   return (
-    <section id="desafio" className="py-20 px-6">
+    <section id="desafio" className="py-20 px-4 md:px-6 overflow-x-hidden scroll-mt-24">
       <div 
         ref={ref as React.RefObject<HTMLDivElement>}
-        className={`container mx-auto max-w-5xl transition-all duration-700 ease-out ${
+        className={`container mx-auto max-w-5xl min-w-0 transition-all duration-700 ease-out ${
           isVisible 
             ? 'opacity-100 translate-y-0' 
             : 'opacity-0 translate-y-8'
         }`}
       >
-        {/* Header */}
-        <div className="mb-12">
-          <h2 className="text-2xl md:text-3xl font-semibold text-foreground mb-3">
+        <div className="mb-12 min-w-0">
+          <h2 className="text-2xl md:text-3xl font-semibold text-foreground mb-3 break-words">
             O desafio que eu tô fechando agora
           </h2>
-          <p className="text-sm text-muted-foreground max-w-2xl">
+          <p className="text-sm text-muted-foreground max-w-2xl break-words">
             Um projeto crítico que exigiu atuação completa — do design à entrega em produção.
           </p>
         </div>
 
-        {/* Main grid */}
-        <div className="grid lg:grid-cols-[1fr_1.2fr] gap-6 mb-8">
-          {/* Left column - Context */}
-          <div className="flex flex-col gap-6">
-            {/* Context card */}
-            <div className="flex-1 p-6 rounded-2xl bg-card border border-border hover:border-primary/20 transition-all flex flex-col">
+        <div className="grid lg:grid-cols-[1fr_1.2fr] gap-4 md:gap-6 mb-8 min-w-0">
+          <div className="flex flex-col gap-4 md:gap-6 min-w-0">
+            <div className="flex-1 p-4 md:p-6 rounded-2xl bg-card border border-border hover:border-primary/20 transition-all flex flex-col min-w-0">
               <div className="flex items-center gap-2 mb-4">
                 <Clock className="w-4 h-4 text-muted-foreground" />
                 <span className="text-sm font-medium text-foreground">Contexto</span>
               </div>
-              <p className="text-sm text-muted-foreground leading-relaxed">
+              <p className="text-sm text-muted-foreground leading-relaxed break-words">
                 <span className="text-primary font-medium">[NOME_DO_PROJETO]</span> — Um projeto que precisava de alguém conectando discovery, desenvolvimento e validação. Não tinha espaço pra ficar jogando briefing de um lado pro outro. Era fazer acontecer.
               </p>
             </div>
 
-            {/* Resolved / Pending cards */}
-            <div className="grid grid-cols-2 gap-4">
-              <div className={`p-5 rounded-xl bg-card border border-border hover:border-primary/20 transition-all duration-700 ease-out group ${
+            <div className="grid grid-cols-2 gap-3 md:gap-4 min-w-0">
+              <div className={`p-4 md:p-5 rounded-xl bg-card border border-border hover:border-primary/20 transition-all duration-700 ease-out group min-w-0 ${
                 isVisible 
                   ? 'opacity-100 translate-y-0' 
                   : 'opacity-0 translate-y-8'
@@ -137,7 +122,7 @@ const Challenge = () => {
                 </ul>
               </div>
 
-              <div className={`p-5 rounded-xl bg-card border border-border hover:border-gold-muted/30 transition-all duration-700 ease-out group ${
+              <div className={`p-4 md:p-5 rounded-xl bg-card border border-border hover:border-gold-muted/30 transition-all duration-700 ease-out group min-w-0 ${
                 isVisible 
                   ? 'opacity-100 translate-y-0' 
                   : 'opacity-0 translate-y-8'
@@ -166,9 +151,8 @@ const Challenge = () => {
             </div>
           </div>
 
-          {/* Right column - Why this shows my level + Tools */}
-          <div className="flex flex-col gap-4">
-            <div className="flex-1 p-5 rounded-2xl bg-card border border-border hover:border-primary/20 transition-all">
+          <div className="flex flex-col gap-4 min-w-0">
+            <div className="flex-1 p-4 md:p-5 rounded-2xl bg-card border border-border hover:border-primary/20 transition-all min-w-0">
               <div className="flex items-center gap-2 mb-4">
                 <Star className="w-4 h-4 text-primary" />
                 <span className="text-sm font-medium text-foreground">Por que isso mostra meu nível atual</span>
@@ -195,7 +179,7 @@ const Challenge = () => {
                     }`}>
                       {index + 1}
                     </span>
-                    <span className={`text-sm leading-relaxed transition-colors ${
+                    <span className={`text-sm leading-relaxed transition-colors break-words min-w-0 ${
                       hoveredItem === index ? 'text-foreground' : 'text-muted-foreground'
                     }`}>
                       {item}
@@ -205,13 +189,11 @@ const Challenge = () => {
               </ul>
             </div>
 
-            {/* Tools carousel card */}
-            <div className="p-3 rounded-xl bg-card border border-border hover:border-primary/20 transition-all">
+            <div className="hidden p-3 rounded-xl bg-card border border-border hover:border-primary/20 transition-all min-w-0 overflow-hidden">
               <div className="flex items-center gap-2 mb-2">
                 <span className="text-xs font-medium text-foreground">Ferramentas que domino</span>
               </div>
-              
-              <div className="py-0.5 relative">
+              <div className="py-0.5 relative min-w-0">
                 <Carousel
                   setApi={setCarouselApi}
                   opts={{
@@ -219,12 +201,12 @@ const Challenge = () => {
                     loop: true,
                     duration: 20,
                   }}
-                  className="w-full"
+                  className="w-full min-w-0"
                 >
                   <CarouselContent className="-ml-1.5">
                     {[...tools, ...tools, ...tools].map((tool, index) => (
-                      <CarouselItem key={`${tool.name}-${index}`} className="pl-1.5 basis-1/6">
-                        <div 
+                      <CarouselItem key={`${tool.name}-${index}`} className="pl-1.5 basis-1/4 sm:basis-1/5 md:basis-1/6 min-w-0">
+                        <div
                           className="relative p-1 rounded-lg bg-secondary/50 border border-border/50 hover:border-primary/30 transition-all group flex items-center justify-center aspect-square cursor-pointer"
                           onMouseEnter={(e) => {
                             const rect = e.currentTarget.getBoundingClientRect();
@@ -241,12 +223,10 @@ const Challenge = () => {
                               y: e.clientY - 8
                             } : null);
                           }}
-                          onMouseLeave={() => {
-                            setHoveredTool(null);
-                          }}
+                          onMouseLeave={() => setHoveredTool(null)}
                         >
-                          <img 
-                            src={tool.icon} 
+                          <img
+                            src={tool.icon}
                             alt={tool.name}
                             className="w-5 h-5 object-contain group-hover:scale-110 transition-transform"
                           />
@@ -255,7 +235,6 @@ const Challenge = () => {
                     ))}
                   </CarouselContent>
                 </Carousel>
-                
                 {hoveredTool && (
                   <div
                     className="fixed z-[100] pointer-events-none bg-card/95 backdrop-blur-sm border border-primary/30 text-foreground text-xs px-2.5 py-1.5 rounded-md shadow-lg whitespace-nowrap"

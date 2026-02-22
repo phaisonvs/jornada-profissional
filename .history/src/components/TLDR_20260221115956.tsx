@@ -20,7 +20,7 @@ const TLDR = () => {
   const { ref, isVisible } = useInView();
 
   return (
-    <section id="tldr" className="py-16 px-4 md:px-6 bg-secondary/30 scroll-mt-24">
+    <section id="tldr" className="py-16 px-4 md:px-6 bg-secondary/30 scroll-mt-[5rem]">
       <div 
         ref={ref as React.RefObject<HTMLDivElement>}
         className={`container mx-auto max-w-4xl transition-all duration-700 ease-out ${
@@ -45,7 +45,7 @@ const TLDR = () => {
               style={{ transitionDelay: isVisible ? `${index * 150}ms` : '0ms' }}
             >
               <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-all">
-                <item.icon className="w-5 h-5 text-primary icon-hover-effect" />
+                <item.icon className="w-5 h-5 text-primary transition-transform group-hover:scale-125 group-hover:rotate-6" />
               </div>
               <p className="text-sm text-muted-foreground leading-relaxed">
                 {item.text}

@@ -92,9 +92,21 @@ export default {
           from: { opacity: "0", transform: "translateY(10px)" },
           to: { opacity: "1", transform: "translateY(0)" },
         },
+        "fade-in-up-slow": {
+          from: { opacity: "0", transform: "translateY(28px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
+        },
         "slide-in": {
           from: { opacity: "0", transform: "translateX(-20px)" },
           to: { opacity: "1", transform: "translateX(0)" },
+        },
+        "slide-down": {
+          from: { opacity: "0", transform: "translateY(-100%)" },
+          to: { opacity: "1", transform: "translateY(0)" },
+        },
+        "overlay-fade-in": {
+          from: { opacity: "0" },
+          to: { opacity: "1" },
         },
         "glow-pulse": {
           "0%, 100%": { opacity: "0.4" },
@@ -105,7 +117,10 @@ export default {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "fade-in": "fade-in 0.5s ease-out forwards",
+        "fade-in-up-slow": "fade-in-up-slow 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards",
         "slide-in": "slide-in 0.4s ease-out forwards",
+        "slide-down": "slide-down 0.3s ease-out forwards",
+        "overlay-fade-in": "overlay-fade-in 0.25s linear forwards",
         "glow-pulse": "glow-pulse 3s ease-in-out infinite",
       },
       fontFamily: {

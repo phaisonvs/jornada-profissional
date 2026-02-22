@@ -200,15 +200,20 @@ const Cases = () => {
         </div>
       </div>
 
-      <div 
-        className="relative overflow-visible" 
-        onMouseEnter={() => setIsPaused(true)} 
-        onMouseLeave={() => setIsPaused(false)}
-        style={{
-          WebkitMaskImage: 'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.1) 8%, rgba(0,0,0,0.4) 18%, rgba(0,0,0,0.7) 28%, black 38%, black 62%, rgba(0,0,0,0.7) 72%, rgba(0,0,0,0.4) 82%, rgba(0,0,0,0.1) 92%, transparent 100%)',
-          maskImage: 'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.1) 8%, rgba(0,0,0,0.4) 18%, rgba(0,0,0,0.7) 28%, black 38%, black 62%, rgba(0,0,0,0.7) 72%, rgba(0,0,0,0.4) 82%, rgba(0,0,0,0.1) 92%, transparent 100%)',
-        }}
-      >
+      <div className="relative overflow-visible" onMouseEnter={() => setIsPaused(true)} onMouseLeave={() => setIsPaused(false)}>
+        <div
+          className="absolute left-0 top-0 bottom-0 z-20 pointer-events-none w-[min(560px,90vw)] md:w-[640px]"
+          style={{
+            background: 'linear-gradient(to right, hsl(var(--secondary)) 0%, hsl(var(--secondary) / 0.92) 20%, hsl(var(--secondary) / 0.6) 45%, hsl(var(--secondary) / 0.2) 70%, transparent 100%)',
+          }}
+        />
+        <div
+          className="absolute right-0 top-0 bottom-0 z-20 pointer-events-none w-[min(560px,90vw)] md:w-[640px]"
+          style={{
+            background: 'linear-gradient(to left, hsl(var(--secondary)) 0%, hsl(var(--secondary) / 0.92) 20%, hsl(var(--secondary) / 0.6) 45%, hsl(var(--secondary) / 0.2) 70%, transparent 100%)',
+          }}
+        />
+
         <Carousel
           setApi={setApi}
           opts={{

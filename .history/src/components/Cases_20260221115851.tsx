@@ -155,7 +155,7 @@ const Cases = () => {
   const { ref, isVisible } = useInView();
 
   return (
-    <section id="cases" className="py-16 bg-secondary/30 overflow-hidden scroll-mt-24">
+    <section id="cases" className="py-16 bg-secondary/30 overflow-hidden">
       <div 
         ref={ref as React.RefObject<HTMLDivElement>}
         className={`container mx-auto max-w-5xl px-4 md:px-6 transition-all duration-700 ease-out ${
@@ -200,15 +200,20 @@ const Cases = () => {
         </div>
       </div>
 
-      <div 
-        className="relative overflow-visible" 
-        onMouseEnter={() => setIsPaused(true)} 
-        onMouseLeave={() => setIsPaused(false)}
-        style={{
-          WebkitMaskImage: 'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.1) 8%, rgba(0,0,0,0.4) 18%, rgba(0,0,0,0.7) 28%, black 38%, black 62%, rgba(0,0,0,0.7) 72%, rgba(0,0,0,0.4) 82%, rgba(0,0,0,0.1) 92%, transparent 100%)',
-          maskImage: 'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.1) 8%, rgba(0,0,0,0.4) 18%, rgba(0,0,0,0.7) 28%, black 38%, black 62%, rgba(0,0,0,0.7) 72%, rgba(0,0,0,0.4) 82%, rgba(0,0,0,0.1) 92%, transparent 100%)',
-        }}
-      >
+      <div className="relative" onMouseEnter={() => setIsPaused(true)} onMouseLeave={() => setIsPaused(false)}>
+        <div
+          className="absolute left-0 top-0 bottom-0 z-10 pointer-events-none w-40 md:w-96"
+          style={{
+            background: 'linear-gradient(to right, hsl(var(--secondary) / 0.3) 0%, hsl(var(--secondary) / 0.22) 25%, hsl(var(--secondary) / 0.08) 55%, transparent 100%)',
+          }}
+        />
+        <div
+          className="absolute right-0 top-0 bottom-0 z-10 pointer-events-none w-40 md:w-96"
+          style={{
+            background: 'linear-gradient(to left, hsl(var(--secondary) / 0.3) 0%, hsl(var(--secondary) / 0.22) 25%, hsl(var(--secondary) / 0.08) 55%, transparent 100%)',
+          }}
+        />
+        
         <Carousel
           setApi={setApi}
           opts={{
@@ -258,15 +263,15 @@ const Cases = () => {
       </div>
 
       <div className="mt-4 flex justify-center">
-        <div className="flex gap-1">
+        <div className="flex gap-1.5">
           {cases.map((_, i) => (
             <button
               key={i}
               onClick={() => api?.scrollTo(i)}
-              className={`h-1 rounded-full transition-all duration-300 ${
+              className={`h-1.5 rounded-full transition-all duration-300 ${
                 i === current 
-                  ? 'bg-primary w-4' 
-                  : 'bg-muted-foreground/20 w-1 hover:bg-muted-foreground/40'
+                  ? 'bg-primary w-6' 
+                  : 'bg-muted-foreground/20 w-1.5 hover:bg-muted-foreground/40'
               }`}
             />
           ))}

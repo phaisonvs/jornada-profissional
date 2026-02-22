@@ -113,6 +113,7 @@ const Cases = () => {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [cardScales, setCardScales] = useState<Record<number, number>>({});
 
   const autoplayPlugin = useRef(
     Autoplay({ delay: 2000, stopOnInteraction: false, stopOnMouseEnter: true })
@@ -127,6 +128,39 @@ const Cases = () => {
     
     return () => {
       api.off('select', onSelect);
+    };
+  }, [api]);
+
+  useEffect(() => {
+    if (!api) return;
+
+    const updateCardScales = () => {
+      const slides = api.slideNodes();
+      const container = api.containerNode();
+      const containerRect = container.getBoundingClientRect();
+      const viewportCenter = containerRect.left + containerRect.width / 2;
+
+      const scales: Record<number, number> = {};
+      
+      slides.forEach((slide, index) => {
+        const rect = slide.getBoundingClientRect();
+        const cardCenter = rect.left + rect.width / 2;
+        const distance = Math.abs(cardCenter - viewportCenter);
+        const maxDistance = containerRect.width / 2;
+        const proximity = Math.max(0, 1 - distance / maxDistance);
+        scales[index] = 1 + proximity * 0.08;
+      });
+
+      setCardScales(scales);
+    };
+
+    updateCardScales();
+    api.on('scroll', updateCardScales);
+    api.on('resize', updateCardScales);
+
+    return () => {
+      api.off('scroll', updateCardScales);
+      api.off('resize', updateCardScales);
     };
   }, [api]);
 
@@ -155,7 +189,7 @@ const Cases = () => {
   const { ref, isVisible } = useInView();
 
   return (
-    <section id="cases" className="py-16 bg-secondary/30 overflow-hidden scroll-mt-24">
+    <section id="cases" className="py-16 bg-secondary/30 overflow-hidden">
       <div 
         ref={ref as React.RefObject<HTMLDivElement>}
         className={`container mx-auto max-w-5xl px-4 md:px-6 transition-all duration-700 ease-out ${
@@ -200,15 +234,20 @@ const Cases = () => {
         </div>
       </div>
 
-      <div 
-        className="relative overflow-visible" 
-        onMouseEnter={() => setIsPaused(true)} 
-        onMouseLeave={() => setIsPaused(false)}
-        style={{
-          WebkitMaskImage: 'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.1) 8%, rgba(0,0,0,0.4) 18%, rgba(0,0,0,0.7) 28%, black 38%, black 62%, rgba(0,0,0,0.7) 72%, rgba(0,0,0,0.4) 82%, rgba(0,0,0,0.1) 92%, transparent 100%)',
-          maskImage: 'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.1) 8%, rgba(0,0,0,0.4) 18%, rgba(0,0,0,0.7) 28%, black 38%, black 62%, rgba(0,0,0,0.7) 72%, rgba(0,0,0,0.4) 82%, rgba(0,0,0,0.1) 92%, transparent 100%)',
-        }}
-      >
+      <div className="relative" onMouseEnter={() => setIsPaused(true)} onMouseLeave={() => setIsPaused(false)}>
+        <div
+          className="absolute left-0 top-0 bottom-0 z-10 pointer-events-none w-20 md:w-[480px]"
+          style={{
+            background: 'linear-gradient(to right, hsl(var(--secondary) / 0.3) 0%, hsl(var(--secondary) / 0.28) 18%, hsl(var(--secondary) / 0.25) 35%, hsl(var(--secondary) / 0.18) 50%, hsl(var(--secondary) / 0.08) 70%, transparent 100%)',
+          }}
+        />
+        <div
+          className="absolute right-0 top-0 bottom-0 z-10 pointer-events-none w-20 md:w-[480px]"
+          style={{
+            background: 'linear-gradient(to left, hsl(var(--secondary) / 0.3) 0%, hsl(var(--secondary) / 0.28) 18%, hsl(var(--secondary) / 0.25) 35%, hsl(var(--secondary) / 0.18) 50%, hsl(var(--secondary) / 0.08) 70%, transparent 100%)',
+          }}
+        />
+        
         <Carousel
           setApi={setApi}
           opts={{
@@ -218,8 +257,15 @@ const Cases = () => {
           className="w-full"
         >
           <CarouselContent className="-ml-2 md:-ml-4">
-            {cases.map((caseItem) => (
-              <CarouselItem key={caseItem.id} className="pl-2 md:pl-4 basis-[280px] md:basis-[320px]">
+            {cases.map((caseItem, index) => (
+              <CarouselItem 
+                key={caseItem.id} 
+                className="pl-2 md:pl-4 basis-[280px] md:basis-[320px]"
+                style={{
+                  transform: `scale(${cardScales[index] || 1})`,
+                  transition: 'transform 0.3s ease-out',
+                }}
+              >
                 <button
                   onClick={() => setSelectedCase(caseItem)}
                   className="w-full text-left p-5 rounded-2xl bg-card border border-border hover:border-primary/40 transition-all duration-300 group h-full flex flex-col"
@@ -258,15 +304,15 @@ const Cases = () => {
       </div>
 
       <div className="mt-4 flex justify-center">
-        <div className="flex gap-1">
+        <div className="flex gap-1.5">
           {cases.map((_, i) => (
             <button
               key={i}
               onClick={() => api?.scrollTo(i)}
-              className={`h-1 rounded-full transition-all duration-300 ${
+              className={`h-1.5 rounded-full transition-all duration-300 ${
                 i === current 
-                  ? 'bg-primary w-4' 
-                  : 'bg-muted-foreground/20 w-1 hover:bg-muted-foreground/40'
+                  ? 'bg-primary w-6' 
+                  : 'bg-muted-foreground/20 w-1.5 hover:bg-muted-foreground/40'
               }`}
             />
           ))}

@@ -1,4 +1,4 @@
-import { MessageCircle, Plug, Shield, BarChart3, Layout, Calendar, Truck, CreditCard, GitBranch, ChevronDown, Info, X } from 'lucide-react';
+import { MessageCircle, TrendingUp, Zap, Shield, Target, Users, BarChart3, LineChart, GitBranch, Activity, ChevronDown } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { useInView } from '@/hooks/use-in-view';
 import { useEffect, useRef, useState } from 'react';
@@ -7,30 +7,21 @@ const easeOutQuad = (t: number) => 1 - (1 - t) * (1 - t);
 const COUNT_UP_DURATION = 2200;
 const COUNT_UP_DELAY_MS = 200;
 
-interface PopupContent {
-  title: string;
-  oQueMede: string;
-  comoLer: string;
-  porQueImporta: string;
-}
-
-interface StatItemIntro {
+interface StatItemBase {
   icon: LucideIcon;
   title: string;
+}
+
+interface StatItemIntro extends StatItemBase {
   isIntro: true;
   introText: string;
 }
 
-interface StatItemKpi {
-  icon: LucideIcon;
-  title: string;
+interface StatItemKpi extends StatItemBase {
   isIntro?: false;
-  valueTargets?: number[];
-  valueFormat?: (v: number[]) => string;
+  valueTargets: number[];
+  valueFormat: (v: number[]) => string;
   decimals?: number[];
-  staticLabel?: string;
-  supportLine: string;
-  popup: PopupContent;
 }
 
 type StatItem = StatItemIntro | StatItemKpi;
@@ -38,114 +29,64 @@ type StatItem = StatItemIntro | StatItemKpi;
 const stats: StatItem[] = [
   {
     icon: MessageCircle,
-    title: '',
+    title: 'Antes dos números',
     isIntro: true,
-    introText: 'Os cards a seguir traduzem meu escopo atual em indicadores de integração, sustentação e conversão.',
+    introText: 'Contexto do que busco entregar como Tech Lead de CRO — depois vêm os KPIs.',
   },
   {
-    icon: Plug,
-    title: '01 — Integrações entregues',
-    valueTargets: [18],
-    valueFormat: (v) => `+${Math.round(v[0])}`,
-    supportLine: 'entregas de integração (UI/UX + front + regra de negócio)',
-    popup: {
-      title: 'Integrações entregues',
-      oQueMede: 'Volume de integrações e entregas técnicas implementadas e publicadas em produção.',
-      comoLer: 'Total acumulado de entregas com aplicação real em jornada e operação (não inclui apenas protótipo ou ajuste visual isolado).',
-      porQueImporta: 'Evidencia atuação híbrida ponta a ponta, conectando experiência, front-end e operação.',
-    },
+    icon: TrendingUp,
+    title: 'Impacto em conversão/receita',
+    valueTargets: [18, 420],
+    valueFormat: (v) => `${Math.round(v[0])}% / R$ ${Math.round(v[1])}k`,
+  },
+  {
+    icon: Zap,
+    title: 'Velocidade de entrega',
+    valueTargets: [12, 6],
+    valueFormat: (v) => `${Math.round(v[0])} releases em ${Math.round(v[1])} semanas`,
   },
   {
     icon: Shield,
-    title: '02 — Sustentação operacional',
-    valueTargets: [7],
-    valueFormat: (v) => `${Math.round(v[0])}`,
-    supportLine: 'frentes/fluxos críticos com sustentação operacional recorrente',
-    popup: {
-      title: 'Sustentação operacional',
-      oQueMede: 'Cobertura de sustentação sobre frentes e fluxos críticos (correções, ajustes, acompanhamento e estabilidade operacional).',
-      comoLer: 'Pode ser apresentado em quantidade de frentes/fluxos acompanhados ou percentual de cobertura, conforme a base disponível.',
-      porQueImporta: 'Mostra continuidade de operação, redução de risco e manutenção da performance além de novas entregas.',
-    },
+    title: 'Estabilidade / risco evitado',
+    valueTargets: [4],
+    valueFormat: (v) => `${Math.round(v[0])} incidentes a menos`,
+  },
+  {
+    icon: Target,
+    title: 'Precisão em testes',
+    valueTargets: [340, 78],
+    valueFormat: (v) => `${Math.round(v[0])} testes / ${Math.round(v[1])}% cobertura`,
+  },
+  {
+    icon: Users,
+    title: 'Colaboração cross-team',
+    valueTargets: [3],
+    valueFormat: (v) => `${Math.round(v[0])} squads integradas`,
   },
   {
     icon: BarChart3,
-    title: '03 — Base de CRO e mensuração',
-    valueTargets: [24],
-    valueFormat: (v) => `${Math.round(v[0])}`,
-    supportLine: 'eventos críticos validados no funil (E2E)',
-    popup: {
-      title: 'Base de CRO e mensuração',
-      oQueMede: 'Maturidade da base de conversão via instrumentação, validação de eventos e acompanhamento do funil ponta a ponta.',
-      comoLer: 'Considera eventos críticos validados nas etapas do funil (PDP → Carrinho → Checkout → Pedido), com foco em consistência de mensuração.',
-      porQueImporta: 'Demonstra que conversão está sendo tratada com método (dados + rotina), e não apenas por percepção.',
-    },
-  },
-  {
-    icon: Layout,
-    title: '04 — Jornadas e LPs publicadas',
+    title: 'Funil e conversão',
     valueTargets: [12],
-    valueFormat: (v) => `+${Math.round(v[0])}`,
-    supportLine: 'LPs/hotsites e fluxos de conversão publicados',
-    popup: {
-      title: 'Jornadas e LPs publicadas',
-      oQueMede: 'Volume de páginas, LPs/hotsites e fluxos de jornada publicados com objetivo de conversão.',
-      comoLer: 'Total de entregas publicadas em produção (captação, login, formulários e jornadas associadas).',
-      porQueImporta: 'Evidencia capacidade de transformar demanda em experiência publicada com foco em resultado.',
-    },
+    valueFormat: (v) => `${Math.round(v[0])}% por etapa`,
   },
   {
-    icon: Calendar,
-    title: '05 — Rotina de CRO (cadência)',
-    staticLabel: 'Semanal',
-    supportLine: 'backlog de hipóteses, priorização e acompanhamento de releases',
-    popup: {
-      title: 'Rotina de CRO',
-      oQueMede: 'Frequência e consistência da rotina operacional de CRO (hipóteses, acompanhamento, análise e ajustes).',
-      comoLer: 'Pode ser apresentado por cadência (semanal/quinzenal) e evoluído depois com volume de hipóteses/releases acompanhados.',
-      porQueImporta: 'Mostra operação contínua de melhoria, não apenas entregas pontuais.',
-    },
-  },
-  {
-    icon: Truck,
-    title: '06 — Saúde do frete',
-    valueTargets: [96.2],
-    valueFormat: (v) => `${v[0].toFixed(1).replace('.', ',')}%`,
-    decimals: [1],
-    supportLine: 'cotação → opção exibida, com monitoramento de falhas',
-    popup: {
-      title: 'Saúde do frete',
-      oQueMede: 'Taxa de sucesso no fluxo de frete entre cotação e exibição de opções para o usuário.',
-      comoLer: 'Percentual de tentativas em que a jornada de frete retorna corretamente opções utilizáveis.',
-      porQueImporta: 'Frete é etapa crítica de conversão; falhas aqui impactam abandono e confiança da jornada.',
-    },
-  },
-  {
-    icon: CreditCard,
-    title: '07 — Saúde do pagamento',
-    valueTargets: [91.8],
-    valueFormat: (v) => `${v[0].toFixed(1).replace('.', ',')}%`,
-    decimals: [1],
-    supportLine: 'tentativa → aprovação, com leitura por método/etapa',
-    popup: {
-      title: 'Saúde do pagamento',
-      oQueMede: 'Taxa de sucesso da jornada de pagamento entre tentativa e aprovação.',
-      comoLer: 'Percentual de transações que avançam corretamente, com análise de erros por método e etapa.',
-      porQueImporta: 'Pagamento é etapa final de conversão; monitorar falhas aumenta eficiência comercial e reduz perda de receita.',
-    },
+    icon: LineChart,
+    title: 'Métricas de produto',
+    valueTargets: [8],
+    valueFormat: (v) => `${Math.round(v[0])} OKRs rastreáveis`,
   },
   {
     icon: GitBranch,
-    title: '08 — Evolução contínua (releases)',
+    title: 'Entrega iterativa',
     valueTargets: [14],
-    valueFormat: (v) => `${Math.round(v[0])}`,
-    supportLine: 'melhorias/releases acompanhados por impacto em operação e conversão',
-    popup: {
-      title: 'Evolução contínua',
-      oQueMede: 'Volume de melhorias e releases acompanhados dentro da rotina de evolução da plataforma.',
-      comoLer: 'Total de evoluções entregues/acompanhadas em período definido (ex.: ciclo/mês), com leitura por impacto.',
-      porQueImporta: 'Reforça previsibilidade de execução e capacidade de sustentar evolução contínua com foco em negócio.',
-    },
+    valueFormat: (v) => `${Math.round(v[0])} deploys/semana`,
+  },
+  {
+    icon: Activity,
+    title: 'Health do sistema',
+    valueTargets: [99.6],
+    valueFormat: (v) => `${v[0].toFixed(1)}% uptime`,
+    decimals: [1],
   },
 ];
 
@@ -157,7 +98,6 @@ const CONTAINER_HEIGHT_MOBILE = 220;
 const CONTAINER_HEIGHT_DESKTOP = 300;
 const SCROLL_SENSITIVITY = 0.006;
 const TOUCH_SENSITIVITY = 0.014;
-const MOUSE_SENSITIVITY = 0.012;
 
 const Hero = () => {
   const { ref, isVisible } = useInView();
@@ -166,20 +106,16 @@ const Hero = () => {
   const [isSnapping, setIsSnapping] = useState(false);
   const [hintPaused, setHintPaused] = useState(false);
   const [displayValues, setDisplayValues] = useState<number[][]>(() =>
-    stats.map((s) => ('valueTargets' in s && s.valueTargets ? s.valueTargets.map(() => 0) : []))
+    stats.map((s) => ('valueTargets' in s ? s.valueTargets.map(() => 0) : [0]))
   );
   const [scalePulseIndex, setScalePulseIndex] = useState<number | null>(null);
   const [iconPulseIndex, setIconPulseIndex] = useState<number | null>(null);
-  const [openModalIndex, setOpenModalIndex] = useState<number | null>(null);
   const progressRef = useRef(0);
   const containerRef = useRef<HTMLDivElement>(null);
   const touchStartYRef = useRef(0);
-  const clickStartPosRef = useRef<{ x: number; y: number } | null>(null);
   const snapTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
   const hintResumeRef = useRef<ReturnType<typeof setTimeout>>();
   const animationFrameRef = useRef<Map<number, number>>(new Map());
-  const mouseMoveRef = useRef<(e: MouseEvent) => void>(() => {});
-  const mouseUpRef = useRef<() => void>(() => {});
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
@@ -202,39 +138,6 @@ const Hero = () => {
       setIsSnapping(true);
       setTimeout(() => setIsSnapping(false), 500);
     }, delay);
-  };
-
-  const snapToNearestRef = useRef(snapToNearest);
-  snapToNearestRef.current = snapToNearest;
-
-  useEffect(() => {
-    mouseMoveRef.current = (e: MouseEvent) => {
-      const deltaY = touchStartYRef.current - e.clientY;
-      progressRef.current = progressRef.current + deltaY * MOUSE_SENSITIVITY;
-      setProgress(progressRef.current);
-      touchStartYRef.current = e.clientY;
-      setHintPaused(true);
-      setIsSnapping(false);
-      clearTimeout(snapTimeoutRef.current);
-    };
-    mouseUpRef.current = () => {
-      document.removeEventListener('mousemove', mouseMoveRef.current);
-      document.removeEventListener('mouseup', mouseUpRef.current);
-      snapToNearestRef.current(60);
-      clearTimeout(hintResumeRef.current);
-      hintResumeRef.current = setTimeout(() => setHintPaused(false), 800);
-    };
-  }, []);
-
-  const handleContainerMouseDown = (e: React.MouseEvent) => {
-    if (e.button !== 0) return;
-    touchStartYRef.current = e.clientY;
-    setHintPaused(true);
-    setIsSnapping(false);
-    clearTimeout(snapTimeoutRef.current);
-    clearTimeout(hintResumeRef.current);
-    document.addEventListener('mousemove', mouseMoveRef.current);
-    document.addEventListener('mouseup', mouseUpRef.current);
   };
 
   useEffect(() => {
@@ -287,36 +190,6 @@ const Hero = () => {
     hintResumeRef.current = setTimeout(() => setHintPaused(false), 800);
   };
 
-  const handleCardMouseDown = (e: React.MouseEvent, cardIndex: number) => {
-    clickStartPosRef.current = { x: e.clientX, y: e.clientY };
-  };
-
-  const handleCardMouseUp = (e: React.MouseEvent, cardIndex: number) => {
-    if (!clickStartPosRef.current) return;
-    const dx = Math.abs(e.clientX - clickStartPosRef.current.x);
-    const dy = Math.abs(e.clientY - clickStartPosRef.current.y);
-    if (dx < 5 && dy < 5) {
-      setOpenModalIndex(cardIndex);
-    }
-    clickStartPosRef.current = null;
-  };
-
-  const handleCardTouchStart = (e: React.TouchEvent, cardIndex: number) => {
-    const touch = e.touches[0];
-    clickStartPosRef.current = { x: touch.clientX, y: touch.clientY };
-  };
-
-  const handleCardTouchEnd = (e: React.TouchEvent, cardIndex: number) => {
-    if (!clickStartPosRef.current || !e.changedTouches[0]) return;
-    const touch = e.changedTouches[0];
-    const dx = Math.abs(touch.clientX - clickStartPosRef.current.x);
-    const dy = Math.abs(touch.clientY - clickStartPosRef.current.y);
-    if (dx < 5 && dy < 5) {
-      setOpenModalIndex(cardIndex);
-    }
-    clickStartPosRef.current = null;
-  };
-
   const goToCard = (targetIndex: number) => {
     setHintPaused(true);
     clearTimeout(hintResumeRef.current);
@@ -335,15 +208,13 @@ const Hero = () => {
     const cardIndex = activeIndex;
     const stat = stats[cardIndex];
     if ('isIntro' in stat && stat.isIntro) return;
-    const targets = 'valueTargets' in stat && stat.valueTargets ? stat.valueTargets : [];
-    if (targets.length === 0) return;
     const rafMap = animationFrameRef.current;
     const existingRAF = rafMap.get(cardIndex);
     if (existingRAF) cancelAnimationFrame(existingRAF);
 
     setDisplayValues((prev) => {
       const copy = prev.map((row) => [...row]);
-      copy[cardIndex] = targets.map(() => 0);
+      copy[cardIndex] = ('valueTargets' in stat ? stat.valueTargets : []).map(() => 0);
       return copy;
     });
 
@@ -353,9 +224,8 @@ const Hero = () => {
         const elapsed = performance.now() - start;
         const t = Math.min(elapsed / COUNT_UP_DURATION, 1);
         const progressVal = easeOutQuad(t);
-        const decimals = ('decimals' in stat && stat.decimals) ? stat.decimals : [];
-        const next = targets.map((target, j) => {
-          const d = decimals[j] ?? 0;
+        const next = ('valueTargets' in stat ? stat.valueTargets : []).map((target, j) => {
+          const d = ('decimals' in stat ? stat.decimals : undefined)?.[j] ?? 0;
           const v = target * progressVal;
           return d > 0 ? Number(v.toFixed(d)) : v;
         });
@@ -399,19 +269,6 @@ const Hero = () => {
     return () => clearTimeout(t);
   }, [iconPulseIndex]);
 
-  useEffect(() => {
-    if (openModalIndex === null) return;
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setOpenModalIndex(null);
-    };
-    window.addEventListener('keydown', handleEscape);
-    document.body.style.overflow = 'hidden';
-    return () => {
-      window.removeEventListener('keydown', handleEscape);
-      document.body.style.overflow = '';
-    };
-  }, [openModalIndex]);
-
   const drumRadius = isMobile ? DRUM_RADIUS_MOBILE : DRUM_RADIUS_DESKTOP;
   const drumHeight = isMobile ? CONTAINER_HEIGHT_MOBILE : CONTAINER_HEIGHT_DESKTOP;
   const angleStep = isMobile ? ANGLE_STEP_MOBILE : ANGLE_STEP_DESKTOP;
@@ -453,7 +310,6 @@ const Hero = () => {
                 touchAction: 'none',
                 cursor: 'grab',
               }}
-              onMouseDown={handleContainerMouseDown}
               onTouchStart={handleTouchStart}
               onTouchMove={handleTouchMove}
               onTouchEnd={handleTouchEnd}
@@ -485,13 +341,9 @@ const Hero = () => {
                   if (absOffset > N / 2 + 0.1) return null;
 
                   const isIntro = 'isIntro' in stat && stat.isIntro;
-                  const kpiStat = !isIntro ? (stat as StatItemKpi) : null;
-                  const hasNumericKpi = kpiStat?.valueTargets && kpiStat.valueTargets.length > 0;
-                  const valueDisplay = isIntro
+                  const valueText = isIntro
                     ? stat.introText
-                    : kpiStat?.staticLabel ?? (kpiStat?.valueFormat && hasNumericKpi
-                      ? kpiStat.valueFormat(displayValues[index] ?? kpiStat.valueTargets!.map(() => 0))
-                      : '');
+                    : (stat as StatItemKpi).valueFormat(displayValues[index] ?? (stat as StatItemKpi).valueTargets.map(() => 0));
 
                   return (
                     <div
@@ -513,9 +365,9 @@ const Hero = () => {
                       }}
                     >
                       <div
-                        className={`w-full p-5 md:p-6 rounded-xl bg-card border transition-all duration-300 relative ${
-                          index !== 0 ? 'cursor-pointer' : ''
-                        } ${index === 0 && isActive ? 'text-center flex flex-col items-center' : ''}`}
+                        className={`w-full p-5 md:p-6 rounded-xl bg-card border transition-all duration-300 ${
+                          index === 0 && isActive ? 'text-center flex flex-col items-center' : ''
+                        }`}
                         style={{
                           borderColor: isActive
                             ? 'hsl(var(--primary) / 0.4)'
@@ -526,16 +378,7 @@ const Hero = () => {
                           filter: isActive ? 'none' : 'blur(0.35px)',
                           WebkitFilter: isActive ? 'none' : 'blur(0.35px)',
                         }}
-                        onMouseDown={index !== 0 ? (e) => handleCardMouseDown(e, index) : undefined}
-                        onMouseUp={index !== 0 ? (e) => handleCardMouseUp(e, index) : undefined}
-                        onTouchStart={index !== 0 ? (e) => handleCardTouchStart(e, index) : undefined}
-                        onTouchEnd={index !== 0 ? (e) => handleCardTouchEnd(e, index) : undefined}
                       >
-                        {index !== 0 && (
-                          <div className="absolute top-3 right-3 w-5 h-5 flex items-center justify-center opacity-50 transition-opacity duration-200 hover:opacity-100">
-                            <Info className="w-4 h-4 text-muted-foreground" />
-                          </div>
-                        )}
                         <div className={`flex items-center gap-3 mb-3 ${index === 0 && isActive ? 'justify-center' : ''}`}>
                           <div
                             className="w-9 h-9 md:w-10 md:h-10 rounded-lg flex items-center justify-center shrink-0"
@@ -552,28 +395,15 @@ const Hero = () => {
                               }`}
                             />
                           </div>
-                          {!isIntro && (
-                            <span className="text-xs md:text-sm text-muted-foreground">{stat.title}</span>
-                          )}
+                          <span className="text-xs md:text-sm text-muted-foreground">{stat.title}</span>
                         </div>
-                        {isIntro ? (
-                          <p className="text-foreground/85 font-normal text-base md:text-lg leading-snug">
-                            {valueDisplay}
-                          </p>
-                        ) : (
-                          <div className="flex flex-wrap items-baseline gap-x-1.5 gap-y-0">
-                            <span
-                              className={`text-lg md:text-xl font-semibold text-foreground inline-block origin-bottom-left ${
-                                hasNumericKpi && scalePulseIndex === index ? 'animate-value-count-pop' : ''
-                              }`}
-                            >
-                              {valueDisplay}
-                            </span>
-                            <span className="text-sm md:text-base font-light text-muted-foreground">
-                              {kpiStat?.supportLine}
-                            </span>
-                          </div>
-                        )}
+                        <div
+                          className={`text-lg md:text-xl font-semibold text-foreground inline-block origin-bottom-left ${
+                            !isIntro && scalePulseIndex === index ? 'animate-value-count-pop' : ''
+                          } ${isIntro ? 'text-foreground/85 font-normal text-base md:text-lg' : ''}`}
+                        >
+                          {valueText}
+                        </div>
                       </div>
                     </div>
                   );
@@ -652,58 +482,6 @@ const Hero = () => {
           </div>
         </div>
       </div>
-
-      {openModalIndex !== null && openModalIndex > 0 && 'popup' in stats[openModalIndex] && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 animate-modal-fade-in"
-          onClick={() => setOpenModalIndex(null)}
-        >
-          <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
-          <div
-            className="relative z-10 w-full max-w-md bg-card border border-border rounded-2xl p-6 shadow-2xl animate-modal-scale-in"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              onClick={() => setOpenModalIndex(null)}
-              className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-lg hover:bg-muted transition-colors duration-200"
-              aria-label="Fechar"
-            >
-              <X className="w-5 h-5 text-muted-foreground" />
-            </button>
-            {(() => {
-              const stat = stats[openModalIndex] as StatItemKpi;
-              const pop = stat.popup;
-              const Icon = stat.icon;
-              return (
-                <>
-                  <div className="flex items-center gap-4 mb-4">
-                    <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center shrink-0">
-                      <Icon className="w-6 h-6 text-primary" />
-                    </div>
-                    <h3 className="text-lg font-semibold text-foreground">
-                      {pop.title}
-                    </h3>
-                  </div>
-                  <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
-                    <div>
-                      <span className="font-medium text-foreground">O que mede: </span>
-                      {pop.oQueMede}
-                    </div>
-                    <div>
-                      <span className="font-medium text-foreground">Como ler: </span>
-                      {pop.comoLer}
-                    </div>
-                    <div>
-                      <span className="font-medium text-foreground">Por que importa: </span>
-                      {pop.porQueImporta}
-                    </div>
-                  </div>
-                </>
-              );
-            })()}
-          </div>
-        </div>
-      )}
     </section>
   );
 };

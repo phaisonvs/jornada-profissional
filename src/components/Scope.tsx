@@ -34,7 +34,7 @@ const Scope = () => {
   const goDown = () => setCurrentIndex((prev) => (prev + 1) % items.length);
 
   return (
-    <section id="escopo" className="py-16 px-6 bg-secondary/30">
+    <section id="escopo" className="py-16 px-4 md:px-6 bg-secondary/30 scroll-mt-24">
       <div 
         ref={ref as React.RefObject<HTMLDivElement>}
         className={`container mx-auto max-w-4xl transition-all duration-700 ease-out ${
@@ -44,7 +44,7 @@ const Scope = () => {
         }`}
       >
         <h2 className="text-xl md:text-2xl font-semibold text-foreground mb-8">
-          O que eu quero assumir como Tech Lead
+          O que eu quero assumir como Tech Lead (incluindo CRO)
         </h2>
 
         {/* Tab switcher */}

@@ -1,37 +1,37 @@
 import { useState } from 'react';
-import { ArrowRight, Compass, FileText, BarChart3, Layers, CheckCircle, Users } from 'lucide-react';
+import { Target, TrendingUp, Layers, BarChart3, Compass, Zap } from 'lucide-react';
 import { useInView } from '@/hooks/use-in-view';
 
 const bullets = [
   {
-    icon: Compass,
-    title: 'Jornada primeiro',
-    text: 'Eu começo pela jornada e pela regra de negócio, pra não resolver só a tela.',
+    icon: Target,
+    title: 'KPIs de produto e equipe',
+    text: 'Definir e acompanhar KPIs claros (conversão, retenção, tempo de entrega) e vincular cada entrega a impacto de negócio mensurável.',
   },
   {
-    icon: FileText,
-    title: 'Prioridade clara',
-    text: 'Eu deixo claro o que é prioridade e o que é nice to have.',
+    icon: TrendingUp,
+    title: 'CRO e experimentação',
+    text: 'Liderar iniciativas de CRO com testes A/B, funis e métricas de conversão para decisões baseadas em dados, não em opinião.',
   },
   {
     icon: Layers,
-    title: 'Documentação mínima',
-    text: 'Eu documento o mínimo necessário pra não depender de conversa solta.',
+    title: 'Evoluções complexas de negócio',
+    text: 'Conduzir mudanças de modelo, novos fluxos e integrações que exigem alinhamento técnico e de negócio e entrega em fases.',
   },
   {
     icon: BarChart3,
-    title: 'Validação com dados',
-    text: 'Eu valido com dados quando faz sentido (evento, funil, conversão).',
+    title: 'Impacto mensurável',
+    text: 'Garantir que cada entrega tenha métricas de sucesso definidas e seja validada com dados (eventos, funis, conversão).',
   },
   {
-    icon: CheckCircle,
-    title: 'Ponta a ponta',
-    text: 'Eu fecho ponta a ponta: UX → front → integração → validação.',
+    icon: Compass,
+    title: 'Roadmap alinhado a OKRs',
+    text: 'Alinhar prioridades técnicas aos objetivos de negócio e OKRs da empresa, com visibilidade de progresso e resultado.',
   },
   {
-    icon: Users,
-    title: 'Alinhamento preventivo',
-    text: 'Eu puxo alinhamento quando existe risco de travar lá na frente.',
+    icon: Zap,
+    title: 'Escala com qualidade',
+    text: 'Evoluir processos e ferramentas para que a equipe escale sem perder qualidade nem visibilidade sobre resultados e KPIs.',
   },
 ];
 
@@ -40,69 +40,70 @@ const HowIWork = () => {
   const { ref, isVisible } = useInView();
 
   return (
-    <section id="como-trabalho" className="py-16 px-6">
-      <div 
+    <section id="objetivos-techlead" className="py-16 px-4 md:px-6 scroll-mt-24">
+      <div
         ref={ref as React.RefObject<HTMLDivElement>}
         className={`container mx-auto max-w-4xl transition-all duration-700 ease-out ${
-          isVisible 
-            ? 'opacity-100 translate-y-0' 
-            : 'opacity-0 translate-y-8'
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`}
       >
         <h2 className="text-xl md:text-2xl font-semibold text-foreground mb-8">
-          Como eu gosto de trabalhar (na prática)
+          Objetivos que quero alcançar como Tech Lead
         </h2>
 
-        <div className="grid md:grid-cols-[280px_1fr] gap-6">
-          {/* Left: Navigation list */}
-          <div className="flex md:flex-col gap-2 overflow-x-auto md:overflow-visible pb-2 md:pb-0">
-            {bullets.map((bullet, index) => {
-              const Icon = bullet.icon;
-              const isActive = index === activeIndex;
-              
-              return (
-                <button
-                  key={index}
-                  onClick={() => setActiveIndex(index)}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all duration-700 ease-out flex-shrink-0 md:flex-shrink group ${
-                    isActive 
-                      ? 'bg-primary/10 border border-primary/30' 
-                      : 'bg-card border border-border hover:border-primary/20'
-                  } ${
-                    isVisible 
-                      ? 'opacity-100 translate-x-0 translate-y-0' 
-                      : 'opacity-0 -translate-x-4 translate-y-8'
-                  }`}
-                  style={{ transitionDelay: isVisible ? `${index * 100}ms` : '0ms' }}
-                >
-                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all ${
-                    isActive 
-                      ? 'bg-primary text-primary-foreground' 
-                      : 'bg-muted text-muted-foreground group-hover:bg-primary/10 group-hover:text-primary'
-                  }`}>
-                    <Icon className={`w-4 h-4 transition-transform ${isActive ? 'scale-110' : 'group-hover:scale-110'}`} />
-                  </div>
-                  <span className={`text-sm font-medium whitespace-nowrap transition-colors ${
-                    isActive ? 'text-primary' : 'text-muted-foreground group-hover:text-foreground'
-                  }`}>
-                    {bullet.title}
-                  </span>
-                </button>
-              );
-            })}
+        <div className="grid grid-cols-1 md:grid-cols-[280px_1fr] gap-6">
+          <div
+            className={`flex flex-col gap-6 transition-all duration-700 ease-out ${
+              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-x-4 translate-y-8'
+            }`}
+          >
+            <div className="flex flex-wrap gap-2 justify-center md:justify-start">
+              {bullets.map((bullet, index) => {
+                const Icon = bullet.icon;
+                const isActive = index === activeIndex;
+                return (
+                  <button
+                    key={index}
+                    onClick={() => setActiveIndex(index)}
+                    title={bullet.title}
+                    className={`w-10 h-10 rounded-xl flex items-center justify-center border transition-all duration-300 ease-out group ${
+                      isActive
+                        ? 'bg-primary text-primary-foreground border-primary shadow-md shadow-primary/20 scale-105'
+                        : 'bg-card border-border text-muted-foreground hover:border-primary/30 hover:bg-primary/5 hover:text-foreground'
+                    }`}
+                  >
+                    <Icon className="w-4 h-4 shrink-0 icon-hover-effect" />
+                  </button>
+                );
+              })}
+            </div>
+            <div
+              key={activeIndex}
+              className="min-h-[52px] flex items-center gap-3 px-4 py-3 rounded-xl bg-primary/10 border border-primary/30 opacity-0 animate-fade-in-up-slow"
+            >
+              <div className="w-9 h-9 rounded-lg bg-primary text-primary-foreground flex items-center justify-center shrink-0 group">
+                {(() => {
+                  const Icon = bullets[activeIndex].icon;
+                  return <Icon className="w-3.5 h-3.5 icon-hover-effect" />;
+                })()}
+              </div>
+              <span className="text-sm font-medium text-primary truncate">
+                {bullets[activeIndex].title}
+              </span>
+            </div>
           </div>
 
-          {/* Right: Active content */}
           <div className="relative">
-            <div 
+            <div
               key={activeIndex}
-              className="p-6 rounded-2xl bg-card border border-primary/20 animate-fade-in"
+              className="p-6 rounded-2xl bg-card border border-primary/20 opacity-0 animate-fade-in-up-slow group"
+              style={{ animationDelay: '0.32s' }}
             >
               <div className="flex items-start gap-4 mb-4">
                 <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center animate-float-slow">
                   {(() => {
                     const Icon = bullets[activeIndex].icon;
-                    return <Icon className="w-6 h-6 text-primary" />;
+                    return <Icon className="w-5 h-5 text-primary icon-hover-effect" />;
                   })()}
                 </div>
                 <div>
@@ -118,15 +119,15 @@ const HowIWork = () => {
               </p>
 
               {/* Quick nav dots */}
-              <div className="flex gap-1.5 mt-6">
+              <div className="flex gap-1 mt-6">
                 {bullets.map((_, i) => (
                   <button
                     key={i}
                     onClick={() => setActiveIndex(i)}
-                    className={`h-1.5 rounded-full transition-all ${
+                    className={`h-1 rounded-full transition-all ${
                       i === activeIndex 
-                        ? 'bg-primary w-6' 
-                        : 'bg-muted-foreground/20 w-1.5 hover:bg-muted-foreground/40'
+                        ? 'bg-primary w-4' 
+                        : 'bg-muted-foreground/20 w-1 hover:bg-muted-foreground/40'
                     }`}
                   />
                 ))}
