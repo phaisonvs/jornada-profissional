@@ -587,7 +587,7 @@ const Hero = () => {
                       }}
                     >
                       <div
-                        className={`w-full -m-4 p-4 ${index !== 0 ? 'cursor-pointer' : ''}`}
+                        className={`w-full ${index !== 0 ? '-m-4 p-4 cursor-pointer' : ''}`}
                         onMouseDown={index !== 0 ? (e) => handleCardMouseDown(e, index) : undefined}
                         onMouseUp={index !== 0 ? (e) => handleCardMouseUp(e, index) : undefined}
                         onTouchStart={index !== 0 ? (e) => handleCardTouchStart(e, index) : undefined}
@@ -604,8 +604,8 @@ const Hero = () => {
                             boxShadow: isActive
                               ? '0 0 0 1px hsl(var(--primary) / 0.1), 0 8px 32px hsl(0 0% 0% / 0.3)'
                               : 'none',
-                            filter: isActive ? 'none' : 'blur(0.6px)',
-                            WebkitFilter: isActive ? 'none' : 'blur(0.6px)',
+                            filter: isActive ? 'none' : 'blur(0.35px)',
+                            WebkitFilter: isActive ? 'none' : 'blur(0.35px)',
                           }}
                         >
                         {index !== 0 && (

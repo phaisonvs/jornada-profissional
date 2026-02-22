@@ -604,8 +604,8 @@ const Hero = () => {
                             boxShadow: isActive
                               ? '0 0 0 1px hsl(var(--primary) / 0.1), 0 8px 32px hsl(0 0% 0% / 0.3)'
                               : 'none',
-                            filter: isActive ? 'none' : 'blur(0.6px)',
-                            WebkitFilter: isActive ? 'none' : 'blur(0.6px)',
+                            filter: isActive ? 'none' : 'blur(0.9px)',
+                            WebkitFilter: isActive ? 'none' : 'blur(0.9px)',
                           }}
                         >
                         {index !== 0 && (
