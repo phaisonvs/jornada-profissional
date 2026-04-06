@@ -10,10 +10,3 @@ export function toUiKey(value: string) {
     .replace(MULTIPLE_DASHES, '-')
     .replace(/^-+|-+$/g, '');
 }
-
-export function dataUiPath(...parts: Array<string | number | null | undefined>) {
-  return parts
-    .filter((part): part is string | number => part !== null && part !== undefined && part !== '')
-    .map((part) => (typeof part === 'number' ? String(part) : toUiKey(part)))
-    .join('.');
-}

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Check, X, ChevronUp, ChevronDown } from 'lucide-react';
 import { useInView } from '@/hooks/use-in-view';
-import { dataUiPath, toUiKey } from '@/lib/data-ui';
+import { toUiKey } from '@/lib/data-ui';
 
 const iOwn = [
   'Padrão de interface e qualidade do front nas jornadas críticas.',
@@ -35,25 +35,25 @@ const Scope = () => {
   const goDown = () => setCurrentIndex((prev) => (prev + 1) % items.length);
 
   return (
-    <section id="escopo" className="py-16 px-4 md:px-6 bg-secondary/30 scroll-mt-24" data-ui={dataUiPath('scope', 'root')}>
+    <section id="escopo" className="py-16 px-4 md:px-6 bg-secondary/30 scroll-mt-24" data-ui="scope.root">
       <div 
         ref={ref as React.RefObject<HTMLDivElement>}
-        data-ui={dataUiPath('scope', 'content')}
+        data-ui="scope.content"
         className={`container mx-auto max-w-4xl transition-all duration-700 ease-out ${
           isVisible 
             ? 'opacity-100 translate-y-0' 
             : 'opacity-0 translate-y-8'
         }`}
       >
-        <h2 className="text-xl md:text-2xl font-semibold text-foreground mb-8" data-ui={dataUiPath('scope', 'title')}>
+        <h2 className="text-xl md:text-2xl font-semibold text-foreground mb-8" data-ui="scope.title">
           Objetivos que quero alcançar como Tech Lead CRO
         </h2>
 
         {/* Tab switcher */}
-        <div className="flex gap-2 mb-6 p-1 bg-card rounded-xl border border-border w-fit" data-ui={dataUiPath('scope', 'tabs')}>
+        <div className="flex gap-2 mb-6 p-1 bg-card rounded-xl border border-border w-fit" data-ui="scope.tabs">
           <button
             onClick={() => handleTabChange('own')}
-            data-ui={dataUiPath('scope', 'tab', 'own')}
+            data-ui="scope.tab.own"
             className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all group ${
               activeTab === 'own'
                 ? 'bg-primary text-primary-foreground'
@@ -65,7 +65,7 @@ const Scope = () => {
           </button>
           <button
             onClick={() => handleTabChange('delegate')}
-            data-ui={dataUiPath('scope', 'tab', 'delegate')}
+            data-ui="scope.tab.delegate"
             className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all group ${
               activeTab === 'delegate'
                 ? 'bg-muted text-foreground'
@@ -78,14 +78,14 @@ const Scope = () => {
         </div>
 
         {/* Cards with vertical navigation */}
-        <div className="flex gap-4" data-ui={dataUiPath('scope', 'layout')}>
+        <div className="flex gap-4" data-ui="scope.layout">
           {/* Cards list */}
-          <div className="flex-1 space-y-3" data-ui={dataUiPath('scope', 'list')}>
+          <div className="flex-1 space-y-3" data-ui="scope.list">
             {items.map((item, index) => (
               <div 
                 key={`${activeTab}-${index}`}
                 onClick={() => setCurrentIndex(index)}
-                data-ui={dataUiPath('scope', 'item', activeTab, index + 1, toUiKey(item))}
+                data-ui={`scope.item.${activeTab}.${index + 1}.${toUiKey(item)}`}
                 className={`flex gap-4 p-5 rounded-xl border cursor-pointer transition-all duration-700 ease-out ${
                   index === currentIndex
                     ? activeTab === 'own' 
@@ -116,20 +116,20 @@ const Scope = () => {
           </div>
 
           {/* Vertical navigation arrows */}
-          <div className="flex flex-col justify-center gap-2" data-ui={dataUiPath('scope', 'nav')}>
+          <div className="flex flex-col justify-center gap-2" data-ui="scope.nav">
             <button 
               onClick={goUp}
-              data-ui={dataUiPath('scope', 'nav', 'up')}
+              data-ui="scope.nav.up"
               className="p-3 rounded-xl bg-card border border-border hover:border-primary/50 hover:bg-primary/10 transition-all group"
             >
               <ChevronUp className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
             </button>
             <div className="text-center py-2">
-              <span className="text-xs text-muted-foreground" data-ui={dataUiPath('scope', 'counter')}>{currentIndex + 1}/{items.length}</span>
+              <span className="text-xs text-muted-foreground" data-ui="scope.counter">{currentIndex + 1}/{items.length}</span>
             </div>
             <button 
               onClick={goDown}
-              data-ui={dataUiPath('scope', 'nav', 'down')}
+              data-ui="scope.nav.down"
               className="p-3 rounded-xl bg-card border border-border hover:border-primary/50 hover:bg-primary/10 transition-all group"
             >
               <ChevronDown className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />

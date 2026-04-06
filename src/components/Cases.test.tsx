@@ -1,8 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { useEffect, type ReactNode } from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { dataUiPath } from "@/lib/data-ui";
-
 const { fakeCarouselApi } = vi.hoisted(() => {
   const fakeCarouselApi = {
     selectedScrollSnap: vi.fn(() => 0),
@@ -66,15 +64,13 @@ describe("Cases", () => {
     const { container } = render(<Cases />);
 
     expect(
-      container.querySelector(`[data-ui="${dataUiPath("cases", "root")}"]`),
+      container.querySelector('[data-ui="cases.root"]'),
     ).toBeInTheDocument();
     expect(
-      container.querySelector(`[data-ui="${dataUiPath("cases", "carousel")}"]`),
+      container.querySelector('[data-ui="cases.carousel"]'),
     ).toBeInTheDocument();
     expect(
-      container.querySelector(
-        `[data-ui="${dataUiPath("cases", "pagination")}"]`,
-      ),
+      container.querySelector('[data-ui="cases.pagination"]'),
     ).toBeInTheDocument();
   });
 

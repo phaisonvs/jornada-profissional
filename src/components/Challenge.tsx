@@ -2,8 +2,6 @@ import { useState, useEffect } from 'react';
 import { Clock, Star, CheckCircle2, AlertCircle } from 'lucide-react';
 import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '@/components/ui/carousel';
 import { useInView } from '@/hooks/use-in-view';
-import { dataUiPath } from '@/lib/data-ui';
-
 const whyThisShowsLevel = [
   'Conduzi do zero — sem esperar que alguém me passasse o que fazer.',
   'Integrei áreas diferentes (design, dev, dados) sem precisar de intermediário.',
@@ -65,28 +63,28 @@ const Challenge = () => {
   const { ref, isVisible } = useInView();
 
   return (
-    <section id="desafio" className="py-20 px-4 md:px-6 overflow-x-hidden scroll-mt-24" data-ui={dataUiPath('challenge', 'root')}>
+    <section id="desafio" className="py-20 px-4 md:px-6 overflow-x-hidden scroll-mt-24" data-ui="challenge.root">
       <div 
         ref={ref as React.RefObject<HTMLDivElement>}
-        data-ui={dataUiPath('challenge', 'content')}
+        data-ui="challenge.content"
         className={`container mx-auto max-w-5xl min-w-0 transition-all duration-700 ease-out ${
           isVisible 
             ? 'opacity-100 translate-y-0' 
             : 'opacity-0 translate-y-8'
         }`}
       >
-        <div className="mb-12 min-w-0" data-ui={dataUiPath('challenge', 'header')}>
-          <h2 className="text-2xl md:text-3xl font-semibold text-foreground mb-3 break-words" data-ui={dataUiPath('challenge', 'title')}>
+        <div className="mb-12 min-w-0" data-ui="challenge.header">
+          <h2 className="text-2xl md:text-3xl font-semibold text-foreground mb-3 break-words" data-ui="challenge.title">
             O desafio que eu tô fechando agora
           </h2>
-          <p className="text-sm text-muted-foreground max-w-2xl break-words" data-ui={dataUiPath('challenge', 'subtitle')}>
+          <p className="text-sm text-muted-foreground max-w-2xl break-words" data-ui="challenge.subtitle">
             Um projeto crítico que exigiu atuação completa — do design à entrega em produção.
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-[1fr_1.2fr] gap-4 md:gap-6 mb-8 min-w-0" data-ui={dataUiPath('challenge', 'grid')}>
-          <div className="flex flex-col gap-4 md:gap-6 min-w-0" data-ui={dataUiPath('challenge', 'column', 'left')}>
-            <div className="flex-1 p-4 md:p-6 rounded-2xl bg-card border border-border hover:border-primary/20 transition-all flex flex-col min-w-0" data-ui={dataUiPath('challenge', 'card', 'context')}>
+        <div className="grid lg:grid-cols-[1fr_1.2fr] gap-4 md:gap-6 mb-8 min-w-0" data-ui="challenge.grid">
+          <div className="flex flex-col gap-4 md:gap-6 min-w-0" data-ui="challenge.column.left">
+            <div className="flex-1 p-4 md:p-6 rounded-2xl bg-card border border-border hover:border-primary/20 transition-all flex flex-col min-w-0" data-ui="challenge.card.context">
               <div className="flex items-center gap-2 mb-4">
                 <Clock className="w-4 h-4 text-muted-foreground" />
                 <span className="text-sm font-medium text-foreground">Contexto</span>
@@ -96,14 +94,14 @@ const Challenge = () => {
               </p>
             </div>
 
-            <div className="grid grid-cols-2 gap-3 md:gap-4 min-w-0" data-ui={dataUiPath('challenge', 'cards', 'status')}>
+            <div className="grid grid-cols-2 gap-3 md:gap-4 min-w-0" data-ui="challenge.cards.status">
               <div className={`p-4 md:p-5 rounded-xl bg-card border border-border hover:border-primary/20 transition-all duration-700 ease-out group min-w-0 ${
                 isVisible 
                   ? 'opacity-100 translate-y-0' 
                   : 'opacity-0 translate-y-8'
               }`}
               style={{ transitionDelay: isVisible ? '200ms' : '0ms' }}
-              data-ui={dataUiPath('challenge', 'card', 'resolved')}
+              data-ui="challenge.card.resolved"
               >
                 <div className="flex items-center gap-2 mb-3">
                   <CheckCircle2 className="w-4 h-4 text-primary group-hover:scale-110 transition-transform" />
@@ -131,7 +129,7 @@ const Challenge = () => {
                   : 'opacity-0 translate-y-8'
               }`}
               style={{ transitionDelay: isVisible ? '350ms' : '0ms' }}
-              data-ui={dataUiPath('challenge', 'card', 'pending')}
+              data-ui="challenge.card.pending"
               >
                 <div className="flex items-center gap-2 mb-3">
                   <AlertCircle className="w-4 h-4 text-gold group-hover:scale-110 transition-transform" />
@@ -155,8 +153,8 @@ const Challenge = () => {
             </div>
           </div>
 
-          <div className="flex flex-col gap-4 min-w-0" data-ui={dataUiPath('challenge', 'column', 'right')}>
-            <div className="flex-1 p-4 md:p-5 rounded-2xl bg-card border border-border hover:border-primary/20 transition-all min-w-0" data-ui={dataUiPath('challenge', 'card', 'why-it-shows-level')}>
+          <div className="flex flex-col gap-4 min-w-0" data-ui="challenge.column.right">
+            <div className="flex-1 p-4 md:p-5 rounded-2xl bg-card border border-border hover:border-primary/20 transition-all min-w-0" data-ui="challenge.card.why-it-shows-level">
               <div className="flex items-center gap-2 mb-4">
                 <Star className="w-4 h-4 text-primary" />
                 <span className="text-sm font-medium text-foreground">Por que isso mostra meu nível atual</span>
@@ -193,7 +191,7 @@ const Challenge = () => {
               </ul>
             </div>
 
-            <div className="hidden p-3 rounded-xl bg-card border border-border hover:border-primary/20 transition-all min-w-0 overflow-hidden" data-ui={dataUiPath('challenge', 'tools')}>
+            <div className="hidden p-3 rounded-xl bg-card border border-border hover:border-primary/20 transition-all min-w-0 overflow-hidden" data-ui="challenge.tools">
               <div className="flex items-center gap-2 mb-2">
                 <span className="text-xs font-medium text-foreground">Ferramentas que domino</span>
               </div>

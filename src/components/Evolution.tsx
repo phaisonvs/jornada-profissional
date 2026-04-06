@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Code, Database, Eye, TrendingUp, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useInView } from '@/hooks/use-in-view';
-import { dataUiPath, toUiKey } from '@/lib/data-ui';
+import { toUiKey } from '@/lib/data-ui';
 
 const steps = [
   {
@@ -43,33 +43,33 @@ const Evolution = () => {
   }, [activeStep]);
 
   return (
-    <section id="evolucao" className="py-24 px-4 md:px-6 scroll-mt-24" data-ui={dataUiPath('evolution', 'root')}>
+    <section id="evolucao" className="py-24 px-4 md:px-6 scroll-mt-24" data-ui="evolution.root">
       <div 
         ref={ref as React.RefObject<HTMLDivElement>}
-        data-ui={dataUiPath('evolution', 'content')}
+        data-ui="evolution.content"
         className={`container mx-auto max-w-4xl transition-all duration-700 ease-out ${
           isVisible 
             ? 'opacity-100 translate-y-0' 
             : 'opacity-0 translate-y-8'
         }`}
       >
-        <h2 className="text-xl md:text-2xl font-semibold text-foreground mb-4" data-ui={dataUiPath('evolution', 'title')}>
+        <h2 className="text-xl md:text-2xl font-semibold text-foreground mb-4" data-ui="evolution.title">
           Minha evolução natural: começar a pegar mais backend
         </h2>
         
-        <p className="text-sm text-muted-foreground mb-12 max-w-3xl leading-relaxed" data-ui={dataUiPath('evolution', 'subtitle')}>
+        <p className="text-sm text-muted-foreground mb-12 max-w-3xl leading-relaxed" data-ui="evolution.subtitle">
           Hoje eu encosto em API de forma indireta, porque meu foco principal é experiência e front. Mesmo assim, eu tenho interesse real em evoluir tecnicamente e começar a assumir partes de backend aos poucos — com responsabilidade.
         </p>
 
         {/* Timeline navigation */}
-        <div className="relative mb-10" data-ui={dataUiPath('evolution', 'timeline')}>
+        <div className="relative mb-10" data-ui="evolution.timeline">
           <div className="absolute top-5 left-0 right-0 h-px bg-border" />
           <div className="relative flex justify-between">
             {steps.map((step, index) => (
               <button
                 key={index}
                 onClick={() => goToStep(index)}
-                data-ui={dataUiPath('evolution', 'step', toUiKey(step.title))}
+                data-ui={`evolution.step.${toUiKey(step.title)}`}
                 className={`relative z-10 flex flex-col items-center gap-3 transition-all duration-700 ease-out ${
                   index === activeStep ? 'scale-110' : 'opacity-50 hover:opacity-80'
                 } ${
@@ -97,12 +97,12 @@ const Evolution = () => {
         </div>
 
         {/* Active step card with smooth transition */}
-        <div className="relative overflow-hidden min-h-[140px]" data-ui={dataUiPath('evolution', 'panel')}>
+        <div className="relative overflow-hidden min-h-[140px]" data-ui="evolution.panel">
           <div 
             className={`p-8 rounded-2xl bg-card border border-primary/20 transition-all duration-400 ${
               isAnimating ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'
             }`}
-            data-ui={dataUiPath('evolution', 'panel', 'card')}
+            data-ui="evolution.panel.card"
           >
             <div className="flex items-start gap-5">
               <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center flex-shrink-0 animate-float group">
@@ -124,20 +124,20 @@ const Evolution = () => {
         </div>
 
         {/* Navigation arrows */}
-        <div className="flex justify-center gap-4 mt-8" data-ui={dataUiPath('evolution', 'controls')}>
+        <div className="flex justify-center gap-4 mt-8" data-ui="evolution.controls">
           <button 
             onClick={() => goToStep((activeStep - 1 + steps.length) % steps.length)}
-            data-ui={dataUiPath('evolution', 'controls', 'prev')}
+            data-ui="evolution.controls.prev"
             className="p-3 rounded-full bg-card border border-border hover:border-primary/50 hover:bg-primary/5 transition-all group"
           >
             <ChevronLeft className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
           </button>
-          <div className="flex items-center gap-1.5" data-ui={dataUiPath('evolution', 'controls', 'dots')}>
+          <div className="flex items-center gap-1.5" data-ui="evolution.controls.dots">
             {steps.map((_, i) => (
               <button
                 key={i}
                 onClick={() => goToStep(i)}
-                data-ui={dataUiPath('evolution', 'controls', 'dot', i + 1)}
+                data-ui={`evolution.controls.dot.${i + 1}`}
                 className={`h-1.5 rounded-full transition-all duration-300 ${
                   i === activeStep 
                     ? 'bg-primary w-4' 
@@ -148,7 +148,7 @@ const Evolution = () => {
           </div>
           <button 
             onClick={() => goToStep((activeStep + 1) % steps.length)}
-            data-ui={dataUiPath('evolution', 'controls', 'next')}
+            data-ui="evolution.controls.next"
             className="p-3 rounded-full bg-card border border-border hover:border-primary/50 hover:bg-primary/5 transition-all group"
           >
             <ChevronRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />

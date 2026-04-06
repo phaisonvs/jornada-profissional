@@ -1,7 +1,5 @@
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
-import { dataUiPath } from "@/lib/data-ui";
-
 const NotFound = () => {
   const location = useLocation();
 
@@ -10,11 +8,11 @@ const NotFound = () => {
   }, [location.pathname]);
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-muted" data-ui={dataUiPath('page', 'not-found', 'root')}>
-      <div className="text-center" data-ui={dataUiPath('page', 'not-found', 'content')}>
+    <div className="flex min-h-screen items-center justify-center bg-muted" data-ui="page.not-found.root">
+      <div className="text-center" data-ui="page.not-found.content">
         <h1 className="mb-4 text-4xl font-bold">404</h1>
         <p className="mb-4 text-xl text-muted-foreground">Oops! Page not found</p>
-        <a href="/" className="text-primary underline hover:text-primary/90" data-ui={dataUiPath('page', 'not-found', 'home-link')}>
+        <a href="/" className="text-primary underline hover:text-primary/90" data-ui="page.not-found.home-link">
           Return to Home
         </a>
       </div>
