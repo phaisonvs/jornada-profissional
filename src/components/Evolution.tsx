@@ -1,5 +1,17 @@
 import { useState, useEffect } from 'react';
-import { Palette, Monitor, Eye, Code, Users, Target, ChevronLeft, ChevronRight, Zap, Layers, BarChart3, ShieldCheck } from 'lucide-react';
+import {
+  Palette,
+  Megaphone,
+  Layout,
+  Eye,
+  Code,
+  Users,
+  Target,
+  Rocket,
+  ChevronLeft,
+  ChevronRight,
+  Check,
+} from 'lucide-react';
 import { useInView } from '@/hooks/use-in-view';
 import { toUiKey } from '@/lib/data-ui';
 
@@ -7,70 +19,54 @@ const steps = [
   {
     icon: Palette,
     title: 'Design e comunicação',
-    text: 'Base inicial em design gráfico, campanhas e comunicação visual, com foco em clareza, marca e entrega.',
+    text: 'Atuação em design gráfico, comunicação visual, motion e apoio às frentes de marca, campanhas e patrocínios, incluindo ativações ligadas ao futebol.',
   },
   {
-    icon: Monitor,
-    title: 'UX/UI e experiência',
-    text: 'Evolução para interfaces, jornadas, protótipos e decisões de experiência aplicadas aos canais digitais.',
+    icon: Megaphone,
+    title: 'Marketing e Growth',
+    text: 'Entrada em frentes mais próximas de performance, aquisição, campanhas e evolução digital, ampliando a visão sobre canais, funil e impacto no negócio.',
+  },
+  {
+    icon: Layout,
+    title: 'UX/UI',
+    text: 'A oportunidade em UX/UI surgiu como caminho natural para aplicar design com mais profundidade em jornadas, interfaces, usabilidade e experiência digital.',
   },
   {
     icon: Eye,
     title: 'CRO e funil',
-    text: 'Identificação de fricções, hipóteses e oportunidades para melhorar jornada, conversão e performance digital.',
+    text: 'A atuação passou a se conectar diretamente com hipóteses, fricções, conversão, eventos, métricas e evolução dos principais funis digitais.',
   },
   {
     icon: Code,
     title: 'Execução técnica',
-    text: 'Atuação direta em front-end, back-end, APIs, tracking, integrações e sustentação para tirar evoluções do papel.',
+    text: 'Para tirar evoluções do papel, passei a atuar diretamente com front-end, back-end, APIs, tracking, integrações e sustentação técnica.',
   },
   {
     icon: Users,
     title: 'Coordenação de frentes',
-    text: 'Alinhamento entre áreas, parceiros e prioridades para destravar entregas e acelerar evolução dos produtos MYSA.',
+    text: 'Hoje conduzo prioridades entre negócio, produto, tecnologia, operação, agências e parceiros para destravar entregas e acelerar evolução dos produtos MYSA.',
   },
   {
     icon: Target,
     title: 'Objetivo atual',
-    text: 'Formalizar a atuação como Coordenador de CRO & UX, conectando escopo, responsabilidade e próximos passos.',
+    text: 'Formalizar minha atuação como Coordenador de CRO & UX, com escopo claro, senioridade alinhada e responsabilidade compatível com o papel já exercido.',
+  },
+  {
+    icon: Rocket,
+    title: 'Ciclo 2027 — Tech Lead',
+    text: 'Evoluir para uma atuação como Tech Lead, ampliando meu escopo técnico para além do e-commerce e aplicando linguagens e competências que já venho desenvolvendo.',
   },
 ];
 
-const objectives = [
-  {
-    icon: ShieldCheck,
-    title: 'Clareza de escopo',
-    text: 'Definir oficialmente o papel que já exerço entre CRO, UX/UI, tecnologia e sustentação.',
-  },
-  {
-    icon: Zap,
-    title: 'Velocidade de entrega',
-    text: 'Reduzir dependências e destravar frentes críticas que impactam os funis digitais.',
-  },
-  {
-    icon: Target,
-    title: 'Prioridade estratégica',
-    text: 'Organizar a régua de CRO com foco em jornada, conversão, operação e receita.',
-  },
-  {
-    icon: Layers,
-    title: 'Qualidade e consistência',
-    text: 'Padronizar decisões de UX/UI, tracking, front-end e sustentação das jornadas.',
-  },
-  {
-    icon: BarChart3,
-    title: 'Dados e evolução contínua',
-    text: 'Usar eventos, KPIs e comportamento para orientar melhorias nos produtos MYSA.',
-  },
-];
+const CURRENT_STEP = 6;
 
 const Evolution = () => {
-  const [activeStep, setActiveStep] = useState(0);
+  const [activeStep, setActiveStep] = useState(CURRENT_STEP);
   const [isAnimating, setIsAnimating] = useState(false);
   const { ref, isVisible } = useInView();
 
   const goToStep = (index: number) => {
-    if (isAnimating) return;
+    if (isAnimating || index === activeStep) return;
     setIsAnimating(true);
     setActiveStep(index);
   };
@@ -82,141 +78,140 @@ const Evolution = () => {
 
   return (
     <section id="evolucao" className="py-24 px-4 md:px-6 scroll-mt-24" data-ui="evolution.root">
-      <div 
+      <div
         ref={ref as React.RefObject<HTMLDivElement>}
         data-ui="evolution.content"
         className={`container mx-auto max-w-5xl transition-all duration-700 ease-out ${
-          isVisible 
-            ? 'opacity-100 translate-y-0' 
-            : 'opacity-0 translate-y-8'
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`}
       >
-        <h2 className="text-xl md:text-2xl font-semibold text-foreground mb-4" data-ui="evolution.title">
-          Evolução da atuação até CRO &amp; UX
+        <h2 className="text-lg font-semibold text-foreground mb-6" data-ui="evolution.title">
+          Minha evolução dentro da Mysa
         </h2>
-        
+
         <p className="text-sm text-muted-foreground mb-12 max-w-3xl leading-relaxed" data-ui="evolution.subtitle">
-          Minha atuação evoluiu de design e experiência para uma frente mais ampla, conectando CRO, execução técnica, sustentação e objetivos claros para os funis digitais da MYSA.
+          Trilha na MYSA do marketing e growth ao CRO coordenado — com formalização agora e horizonte Tech Lead em 2027.
         </p>
 
         {/* Timeline navigation */}
-        <div className="relative mb-10" data-ui="evolution.timeline">
-          <div className="absolute top-5 left-0 right-0 h-px bg-border" />
-          <div className="relative flex justify-between">
-            {steps.map((step, index) => (
-              <button
-                key={index}
-                onClick={() => goToStep(index)}
-                data-ui={`evolution.step.${toUiKey(step.title)}`}
-                className={`relative z-10 flex flex-col items-center gap-3 transition-all duration-700 ease-out ${
-                  index === activeStep ? 'scale-110' : 'opacity-50 hover:opacity-80'
-                } ${
-                  isVisible 
-                    ? 'opacity-100 translate-y-0' 
-                    : 'opacity-0 translate-y-8'
-                }`}
-                style={{ transitionDelay: isVisible ? `${index * 150}ms` : '0ms' }}
-              >
-                <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 group ${
-                  index === activeStep 
-                    ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/20' 
-                    : 'bg-card border border-border hover:border-primary/50'
-                }`}>
-                  <step.icon className="w-4 h-4 icon-hover-effect" />
-                </div>
-                <span className={`text-xs hidden sm:block transition-all duration-300 max-w-20 text-center ${
-                  index === activeStep ? 'text-primary font-medium' : 'text-muted-foreground'
-                }`}>
-                  {step.title}
-                </span>
-              </button>
-            ))}
+        <div className="mb-6 overflow-x-auto pb-2 -mx-1 px-1 md:overflow-visible md:pb-0 md:mx-0 md:px-0" data-ui="evolution.timeline">
+          <div className="relative min-w-[640px] md:min-w-0">
+            <div className="absolute top-4 md:top-5 left-0 right-0 h-px bg-border" />
+            <div className="relative flex justify-between gap-0.5 md:gap-0">
+              {steps.map((step, index) => {
+                const doneBeforeCurrent = index < CURRENT_STEP;
+                const active = index === activeStep;
+                return (
+                <button
+                  key={index}
+                  onClick={() => goToStep(index)}
+                  data-ui={`evolution.step.${toUiKey(step.title)}`}
+                  className={`relative z-10 flex flex-1 flex-col items-center gap-2 md:gap-3 transition-all duration-700 ease-out min-w-0 ${
+                    active ? 'scale-105 md:scale-110' : 'opacity-50 hover:opacity-80'
+                  } ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+                  style={{ transitionDelay: isVisible ? `${index * 100}ms` : '0ms' }}
+                >
+                  <div
+                    className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition-all duration-300 md:h-10 md:w-10 ${
+                      active
+                        ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/20'
+                        : doneBeforeCurrent
+                        ? 'border border-sky-500/12 bg-sky-500/[0.055] hover:border-sky-400/22'
+                        : 'border border-border bg-card hover:border-primary/50'
+                    }`}
+                  >
+                    <step.icon className="h-3.5 w-3.5 md:h-4 md:w-4 icon-hover-effect" />
+                  </div>
+                  <span className={`hidden max-w-[4.5rem] text-[9px] leading-tight transition-all duration-300 sm:block md:max-w-[5.5rem] sm:text-[10px] md:text-[11px] text-center ${
+                    active ? 'font-medium text-primary' : 'text-muted-foreground'
+                  }`}>
+                    {step.title}
+                  </span>
+                </button>
+                );
+              })}
+            </div>
           </div>
         </div>
 
-        {/* Active step card with smooth transition */}
-        <div className="relative overflow-hidden min-h-[140px]" data-ui="evolution.panel">
-          <div 
-            className={`p-8 rounded-2xl bg-card border border-primary/20 transition-all duration-400 ${
+        {/* Active step card + controls integrados */}
+        <div className="relative overflow-hidden min-h-[180px]" data-ui="evolution.panel">
+          <div
+            className={`rounded-xl bg-card border border-primary/20 transition-all duration-400 ${
               isAnimating ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'
             }`}
             data-ui="evolution.panel.card"
           >
-            <div className="flex items-start gap-5">
-              <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center flex-shrink-0 animate-float group">
+            <div className="flex items-start gap-4 p-5">
+              <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0 animate-float">
                 {(() => {
                   const Icon = steps[activeStep].icon;
-                  return <Icon className="w-6 h-6 text-primary icon-hover-effect" />;
+                  return <Icon className="w-5 h-5 text-primary icon-hover-effect" />;
                 })()}
               </div>
-              <div>
-                <h3 className="text-lg font-medium text-foreground mb-2">
-                  {steps[activeStep].title}
-                </h3>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 flex-wrap mb-2">
+                  <h3 className="text-sm font-medium text-foreground">
+                    {steps[activeStep].title}
+                  </h3>
+                  {activeStep < CURRENT_STEP && (
+                    <span className="inline-flex items-center gap-1 rounded-full border border-primary/20 bg-primary/10 px-2 py-0.5 text-[10px] font-medium leading-none text-primary whitespace-nowrap">
+                      <Check className="h-3 w-3 shrink-0" strokeWidth={2.5} aria-hidden />
+                      Concluído
+                    </span>
+                  )}
+                  {activeStep === CURRENT_STEP && (
+                    <span className="whitespace-nowrap rounded-full border border-sky-500/55 bg-sky-500/25 px-2 py-0.5 text-[10px] font-medium leading-none text-sky-200 shadow-sm shadow-sky-950/40 ring-1 ring-sky-400/25">
+                      Em definição
+                    </span>
+                  )}
+                  {activeStep > CURRENT_STEP && (
+                    <span className="text-[10px] font-medium text-muted-foreground bg-muted border border-border rounded-full px-2 py-0.5 leading-none whitespace-nowrap">
+                      Próxima etapa
+                    </span>
+                  )}
+                </div>
                 <p className="text-sm text-muted-foreground leading-relaxed">
                   {steps[activeStep].text}
                 </p>
               </div>
             </div>
-          </div>
-        </div>
 
-        {/* Navigation arrows */}
-        <div className="flex justify-center gap-4 mt-8 mb-16" data-ui="evolution.controls">
-          <button 
-            onClick={() => goToStep((activeStep - 1 + steps.length) % steps.length)}
-            data-ui="evolution.controls.prev"
-            className="p-3 rounded-full bg-card border border-border hover:border-primary/50 hover:bg-primary/5 transition-all group"
-          >
-            <ChevronLeft className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
-          </button>
-          <div className="flex items-center gap-1.5" data-ui="evolution.controls.dots">
-            {steps.map((_, i) => (
+            {/* Controls dentro do card */}
+            <div className="flex items-center justify-between px-4 pb-3 pt-1 border-t border-border/50" data-ui="evolution.controls">
               <button
-                key={i}
-                onClick={() => goToStep(i)}
-                data-ui={`evolution.controls.dot.${i + 1}`}
-                className={`h-1.5 rounded-full transition-all duration-300 ${
-                  i === activeStep 
-                    ? 'bg-primary w-4' 
-                    : 'bg-muted-foreground/20 w-1.5 hover:bg-muted-foreground/40'
-                }`}
-              />
-            ))}
-          </div>
-          <button 
-            onClick={() => goToStep((activeStep + 1) % steps.length)}
-            data-ui="evolution.controls.next"
-            className="p-3 rounded-full bg-card border border-border hover:border-primary/50 hover:bg-primary/5 transition-all group"
-          >
-            <ChevronRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
-          </button>
-        </div>
-
-        {/* Objetivos práticos da formalização */}
-        <div className="mt-12 pt-12 border-t border-border" data-ui="evolution.objectives">
-          <h3 className="text-base font-medium text-foreground mb-6" data-ui="evolution.objectives.title">
-            Objetivos práticos da formalização
-          </h3>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4" data-ui="evolution.objectives.grid">
-            {objectives.map((obj, index) => (
-              <div
-                key={index}
-                data-ui={`evolution.objective.${toUiKey(obj.title)}`}
-                className={`p-4 rounded-xl bg-card/50 border border-border hover:border-primary/30 transition-all duration-700 ease-out group ${
-                  isVisible
-                    ? 'opacity-100 translate-y-0'
-                    : 'opacity-0 translate-y-8'
-                }`}
-                style={{ transitionDelay: isVisible ? `${(index + 6) * 100}ms` : '0ms' }}
+                onClick={() => goToStep((activeStep - 1 + steps.length) % steps.length)}
+                data-ui="evolution.controls.prev"
+                className="p-2 rounded-lg hover:bg-primary/10 transition-all group"
               >
-                <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center mb-3 group-hover:bg-primary/20 transition-all">
-                  <obj.icon className="w-4 h-4 text-primary icon-hover-effect" />
-                </div>
-                <h4 className="text-xs font-medium text-foreground mb-1.5">{obj.title}</h4>
-                <p className="text-xs text-muted-foreground leading-relaxed">{obj.text}</p>
+                <ChevronLeft className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
+              </button>
+
+              <div className="flex items-center gap-1.5" data-ui="evolution.controls.dots">
+                {steps.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => goToStep(i)}
+                    data-ui={`evolution.controls.dot.${i + 1}`}
+                    className={`h-1.5 rounded-full transition-all duration-300 ${
+                      i === activeStep
+                        ? 'bg-primary w-4'
+                        : i < CURRENT_STEP
+                        ? 'bg-primary/30 w-1.5'
+                        : 'bg-muted-foreground/20 w-1.5 hover:bg-muted-foreground/40'
+                    }`}
+                  />
+                ))}
               </div>
-            ))}
+
+              <button
+                onClick={() => goToStep((activeStep + 1) % steps.length)}
+                data-ui="evolution.controls.next"
+                className="p-2 rounded-lg hover:bg-primary/10 transition-all group"
+              >
+                <ChevronRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
+              </button>
+            </div>
           </div>
         </div>
       </div>
