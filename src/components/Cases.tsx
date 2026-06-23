@@ -21,6 +21,10 @@ import {
 } from "@/components/ui/carousel";
 import { useInView } from "@/hooks/use-in-view";
 import { shuffleArray, uniqueCases } from "@/components/cases-utils";
+
+const caseAsset = (fileName: string) =>
+  `${import.meta.env.BASE_URL}cases/${fileName}`;
+
 interface CaseItem {
   id: number;
   title: string;
@@ -69,7 +73,7 @@ const cases: CaseItem[] = [
     tags: ["UX/UI", "Front-end", "SEO"],
     impact:
       "UI/UX + front: componentes reutilizáveis, layout responsivo e roteamento hierárquico (estado→cidade→loja) para escalar o diretório",
-    src: "/cases/1-localpage.jpg",
+    src: caseAsset("1-localpage.jpg"),
     problem:
       "Escalar SEO local e entrada de novas lojas exigia um diretório padronizado, com estrutura previsível (rotas/URLs) e baixa manutenção para não gerar duplicidades.",
     problemLabel: "Contexto / Dor",
@@ -93,7 +97,7 @@ const cases: CaseItem[] = [
     tags: ["CRO", "Front-end", "Campanha"],
     impact:
       "Landing e fluxo de conversão para campanha Black Friday com foco em clareza e performance.",
-    src: "/cases/2-black-friday-abc.jpg",
+    src: caseAsset("2-black-friday-abc.jpg"),
     problem:
       "A campanha Black Friday exigia uma experiência dedicada, com mensagem clara, CTAs visíveis e integração com estoque/preço para evitar fricção no pico de demanda.",
     problemLabel: "Contexto / Dor",
@@ -113,7 +117,7 @@ const cases: CaseItem[] = [
     tags: ["UX/UI", "Jornada"],
     impact:
       "Jornada de agendamento e experiência de visita à obra com foco em conversão e clareza.",
-    src: "/cases/3-visita-a-obra.jpg",
+    src: caseAsset("3-visita-a-obra.jpg"),
     problem:
       "Era necessário oferecer uma jornada clara de agendamento de visita à obra, reduzindo atrito e aumentando o preenchimento de formulários e conversão.",
     problemLabel: "Contexto / Dor",
@@ -133,7 +137,7 @@ const cases: CaseItem[] = [
     tags: ["UX/UI", "Front-end", "CRO"],
     impact:
       "Página de cupons com destaque de ofertas e CTAs para aumento de uso e conversão.",
-    src: "/cases/4-pagina-de-cupons.jpg",
+    src: caseAsset("4-pagina-de-cupons.jpg"),
     problem:
       "A página de cupons precisava ser mais clara e acionável, com ofertas em destaque e caminho óbvio para uso no checkout.",
     problemLabel: "Contexto / Dor",
@@ -153,7 +157,7 @@ const cases: CaseItem[] = [
     tags: ["UX/UI", "Front-end"],
     impact:
       "Evolução da experiência de cupons com foco em clareza e conversão.",
-    src: "/cases/5-pagina-de-encarte-lead.jpg",
+    src: caseAsset("5-pagina-de-encarte-lead.jpg"),
     problem:
       "Evolução contínua da página de cupons para melhorar descoberta, legibilidade e taxa de aplicação no checkout.",
     problemLabel: "Contexto / Dor",
@@ -173,7 +177,7 @@ const cases: CaseItem[] = [
     tags: ["UX/UI", "Front-end", "Autenticação"],
     impact:
       "Fluxo de login e experiência para usuários Prime com redução de atrito e clareza.",
-    src: "/cases/6-login-users-prime.jpg",
+    src: caseAsset("6-login-users-prime.jpg"),
     problem:
       "O fluxo de login para usuários Prime precisava ser claro, seguro e alinhado ao restante da jornada para evitar abandono em etapa crítica.",
     problemLabel: "Contexto / Dor",
@@ -193,7 +197,7 @@ const cases: CaseItem[] = [
     tags: ["CRO", "Front-end", "Checkout"],
     impact:
       "Checkout ABC com foco em clareza, redução de atrito e conversão na etapa final.",
-    src: "/cases/7-checkout-abc-da-construcao.jpg",
+    src: caseAsset("7-checkout-abc-da-construcao.jpg"),
     problem:
       "O checkout precisava de revisão de UX e consistência técnica para reduzir abandono e falhas na etapa final do funil.",
     problemLabel: "Contexto / Dor",
@@ -217,7 +221,7 @@ const cases: CaseItem[] = [
     tags: ["CRO", "Front-end", "Checkout"],
     impact:
       "Versão do checkout para usuários Prime com benefícios visíveis e fluxo dedicado.",
-    src: "/cases/8-checkout-abcprime.jpg",
+    src: caseAsset("8-checkout-abcprime.jpg"),
     problem:
       "Usuários Prime precisavam de uma experiência de checkout que destacasse benefícios (frete, ofertas) sem quebrar o fluxo padrão.",
     problemLabel: "Contexto / Dor",
@@ -237,7 +241,7 @@ const cases: CaseItem[] = [
     tags: ["UX/UI", "Front-end", "Navegação"],
     impact:
       "Header e menu padronizados para melhor navegação e descoberta no site.",
-    src: "/cases/9-header-menu-abc-da-construcao.jpg",
+    src: caseAsset("9-header-menu-abc-da-construcao.jpg"),
     problem:
       "O header e o menu precisavam ser consistentes, acessíveis e alinhados às jornadas de conversão em todas as páginas.",
     problemLabel: "Contexto / Dor",
@@ -254,7 +258,7 @@ const cases: CaseItem[] = [
   createGenericCase(
     10,
     "Novo Front E-com ABC",
-    "/cases/10-novo-front-e-com-abc.png",
+    caseAsset("10-novo-front-e-com-abc.png"),
     ["Front-end", "UX/UI", "Plataforma"],
   ),
   {
@@ -263,7 +267,7 @@ const cases: CaseItem[] = [
     tags: ["UX/UI", "Front-end", "Back-end", "Autenticação", "APIs"],
     impact:
       "Jornada de autenticação para login dedicado, login no checkout e integrações com provedores externos.",
-    src: "/cases/11-pagina-login-ecom-abc.jpg",
+    src: caseAsset("11-pagina-login-ecom-abc.jpg"),
     problem:
       "A jornada de autenticação do e-commerce precisava ser refatorada, incluindo login dedicado, login no checkout e integrações externas.",
     problemLabel: "Contexto / dor",
@@ -280,15 +284,15 @@ const cases: CaseItem[] = [
   createGenericCase(
     12,
     "LP Amigo Pé Quente",
-    "/cases/12-lp-amigo-pe-quente.jpg",
+    caseAsset("12-lp-amigo-pe-quente.jpg"),
     ["CRO", "Front-end", "LP"],
   ),
-  createGenericCase(13, "LP Liquida ABC", "/cases/12-lpliquidaabc.jpg", [
+  createGenericCase(13, "LP Liquida ABC", caseAsset("12-lpliquidaabc.jpg"), [
     "CRO",
     "Front-end",
     "LP",
   ]),
-  createGenericCase(14, "Migração LPs", "/cases/12-migração-lps.jpg", [
+  createGenericCase(14, "Migração LPs", caseAsset("12-migração-lps.jpg"), [
     "CRO",
     "Front-end",
     "Migração",
@@ -296,7 +300,7 @@ const cases: CaseItem[] = [
   createGenericCase(
     15,
     "PDP Pisos e Revestimentos",
-    "/cases/12-pdp-pisos-e-revestimentos.png",
+    caseAsset("12-pdp-pisos-e-revestimentos.png"),
     ["CRO", "UX/UI", "PDP"],
   ),
   {
@@ -305,7 +309,7 @@ const cases: CaseItem[] = [
     tags: ["CRO", "Pricing", "Front-end", "Wake"],
     impact:
       "Aplicação de preços por região no e-commerce com fluxo integrado entre CEP, tabela de preço e compra.",
-    src: "/cases/13-regionalizacao-de-preços.jpg",
+    src: caseAsset("13-regionalizacao-de-preços.jpg"),
     problem:
       "A ABC precisava aplicar preços por região no e-commerce, conectando CEP, tabela de preço e jornada de compra.",
     problemLabel: "Contexto / dor",
@@ -322,21 +326,21 @@ const cases: CaseItem[] = [
   createGenericCase(
     17,
     "Integração Loja Duratex",
-    "/cases/14-Integracao-loja-duratex.jpg",
+    caseAsset("14-Integracao-loja-duratex.jpg"),
     ["Integração", "Front-end", "Operação"],
   ),
   createGenericCase(
     18,
     "Integração Loja Duratex (Fase 2)",
-    "/cases/15-Integracao-loja-duratex.jpg",
+    caseAsset("15-Integracao-loja-duratex.jpg"),
     ["Integração", "Front-end", "Operação"],
   ),
-  createGenericCase(19, "Casa Dexco", "/cases/16-casa-dexco.jpg", [
+  createGenericCase(19, "Casa Dexco", caseAsset("16-casa-dexco.jpg"), [
     "UX/UI",
     "Front-end",
     "Marca",
   ]),
-  createGenericCase(20, "PDP Loja Duratex", "/cases/18-pdp-loja-duratex.jpg", [
+  createGenericCase(20, "PDP Loja Duratex", caseAsset("18-pdp-loja-duratex.jpg"), [
     "CRO",
     "UX/UI",
     "PDP",
@@ -344,16 +348,16 @@ const cases: CaseItem[] = [
   createGenericCase(
     21,
     "PDP Loja Duratex (Fase 2)",
-    "/cases/19-pdp-loja-duratex.jpg",
+    caseAsset("19-pdp-loja-duratex.jpg"),
     ["CRO", "UX/UI", "PDP"],
   ),
   createGenericCase(
     22,
     "Setup Nova Loja ABC Prime",
-    "/cases/17-setup-nova-loja-abc-prime.jpg",
+    caseAsset("17-setup-nova-loja-abc-prime.jpg"),
     ["UX/UI", "Front-end", "Setup"],
   ),
-  createGenericCase(23, "LP Chance Única", "/cases/20-lp-chance-única.jpg", [
+  createGenericCase(23, "LP Chance Única", caseAsset("20-lp-chance-única.jpg"), [
     "CRO",
     "Front-end",
     "LP",
@@ -364,7 +368,7 @@ const cases: CaseItem[] = [
     tags: ["Analytics", "Tracking", "Looker"],
     impact:
       "Tracking confiável para medir tentativas, sucessos e erros no envio de leads.",
-    src: "/cases/21-tracking-leads-expansao.jpeg",
+    src: caseAsset("21-tracking-leads-expansao.jpeg"),
     problem:
       "A LP de Expansão precisava de rastreamento confiável para medir tentativas, sucessos e erros no envio de leads.",
     problemLabel: "Contexto / dor",
@@ -384,7 +388,7 @@ const cases: CaseItem[] = [
     tags: ["Design System", "UX/UI", "Front-end", "Componentização"],
     impact:
       "Base reutilizável para padronizar interfaces e acelerar novas frentes digitais MYSA.",
-    src: "/cases/22-design-system-abc.jpg",
+    src: caseAsset("22-design-system-abc.jpg"),
     problem:
       "As evoluções digitais estavam sendo criadas do zero, sem uma base componentizada para reduzir retrabalho e padronizar interfaces.",
     problemLabel: "Contexto / DOR",
@@ -404,7 +408,7 @@ const cases: CaseItem[] = [
     tags: ["UX/UI", "Front-end", "Back-end", "Salesforce", "Pipedrive"],
     impact:
       "Página dedicada para apresentar a mecânica de indicação e capturar o lead até o fluxo comercial.",
-    src: "/cases/23-programa-de-indicacao-franqueado.jpg",
+    src: caseAsset("23-programa-de-indicacao-franqueado.jpg"),
     problem:
       "O programa precisava de uma página dedicada para apresentar a mecânica de indicação e garantir a captura do lead até o fluxo comercial.",
     problemLabel: "Contexto / dor",
@@ -424,7 +428,7 @@ const cases: CaseItem[] = [
     tags: ["E-mail", "Transacional", "UX/UI", "Comunicação", "Sustentação"],
     impact:
       "Templates transacionais para pedidos, produtos e assinaturas com comunicação mais clara e consistente.",
-    src: "/cases/24-e-mails-transacionais.jpg",
+    src: caseAsset("24-e-mails-transacionais.jpg"),
     problem:
       "Os e-mails transacionais do ABC Prime precisavam evoluir em layout, clareza de comunicação, usabilidade e correção dos envios da jornada.",
     problemLabel: "Contexto / dor",
@@ -438,7 +442,7 @@ const cases: CaseItem[] = [
     evidence: "[LINK_28]",
     year: 2022,
   },
-  createGenericCase(29, "LP ABC Prime", "/cases/24-lp-abc-primeo.jpg", [
+  createGenericCase(29, "LP ABC Prime", caseAsset("24-lp-abc-primeo.jpg"), [
     "CRO",
     "Front-end",
     "LP",
@@ -446,19 +450,19 @@ const cases: CaseItem[] = [
   createGenericCase(
     30,
     "Página de produto - pisos e revestimentos",
-    "/cases/26-pagina-de-produto-pisos-e-revestimentos.jpg",
+    caseAsset("26-pagina-de-produto-pisos-e-revestimentos.jpg"),
     ["UX/UI", "Front-end", "PDP"],
   ),
   createGenericCase(
     31,
     "Página de produtos - variante metais",
-    "/cases/27-pagina-de-produtos variante metais.jpg",
+    caseAsset("27-pagina-de-produtos variante metais.jpg"),
     ["UX/UI", "Front-end", "PDP"],
   ),
   createGenericCase(
     32,
     "PDP piso e revestimentos - desktop",
-    "/cases/28-pdp-piso- e revestimentosdesk.jpg",
+    caseAsset("28-pdp-piso- e revestimentosdesk.jpg"),
     ["UX/UI", "Front-end", "PDP"],
   ),
   {
@@ -467,7 +471,7 @@ const cases: CaseItem[] = [
     tags: ["CRO", "Lead", "WhatsApp", "UX/UI", "Front-end"],
     impact:
       "Captação de lead para atendimento consultivo via WhatsApp em uma categoria com alta barreira de conversão.",
-    src: "/cases/29-popup-especialista-piso-desk.jpg",
+    src: caseAsset("29-popup-especialista-piso-desk.jpg"),
     problem:
       "A categoria de pisos tinha alta barreira de conversão no e-commerce por custo de frete, exigindo uma estratégia de captura de lead para atendimento consultivo via WhatsApp.",
     problemLabel: "Contexto / dor",
@@ -484,13 +488,13 @@ const cases: CaseItem[] = [
   createGenericCase(
     34,
     "Looker performance - LP expansão",
-    "/cases/30-looker-performance-lp-expansao.jpg",
+    caseAsset("30-looker-performance-lp-expansao.jpg"),
     ["Analytics", "Front-end", "Performance"],
   ),
   createGenericCase(
     35,
     "Primeira compra popup",
-    "/cases/31primeira-compra-opup.jpg",
+    caseAsset("31primeira-compra-opup.jpg"),
     ["CRO", "Front-end", "Popup"],
   ),
   {
@@ -499,7 +503,7 @@ const cases: CaseItem[] = [
     tags: ["UX/UI", "Front-end", "Back-end", "WhatsApp", "Lead"],
     impact:
       "Formulário de entrada para captura de lead e direcionamento ao bot no WhatsApp.",
-    src: "/cases/32-formulario-bot Whatsapp.jpg",
+    src: caseAsset("32-formulario-bot Whatsapp.jpg"),
     imagePosition: "center",
     problem:
       "O formulário era a primeira porta de entrada do usuário como lead, conectando captura de dados, abertura da jornada e direcionamento para o bot no WhatsApp.",
@@ -517,20 +521,20 @@ const cases: CaseItem[] = [
   createGenericCase(
     37,
     "Autocomplete performance de busca",
-    "/cases/33-Auto-complete-perfoamance-busca.jpg",
+    caseAsset("33-Auto-complete-perfoamance-busca.jpg"),
     ["Front-end", "UX/UI", "Busca"],
   ),
   createGenericCase(
     38,
     "Retira na Guide Shop - cotação de frete",
-    "/cases/34-Retira na Guide Shop - cotacao de frete.jpg",
+    caseAsset("34-Retira na Guide Shop - cotacao de frete.jpg"),
     ["CRO", "Front-end", "Frete"],
     "center",
   ),
   createGenericCase(
     39,
     "LP Super Chance Única",
-    "/cases/35-LP-SuperChnce Unica.png",
+    caseAsset("35-LP-SuperChnce Unica.png"),
     ["CRO", "Front-end", "Campanha"],
   ),
   {
@@ -539,7 +543,7 @@ const cases: CaseItem[] = [
     tags: ["CRO", "Front-end", "Campanha", "WhatsApp", "Lead"],
     impact:
       "Landing page de campanha focada em captura de lead e direcionamento para bot no WhatsApp.",
-    src: "/cases/36-LP-Mes do consumidor.png",
+    src: caseAsset("36-LP-Mes do consumidor.png"),
     problem:
       "A campanha do Mês do Consumidor precisava de uma LP com foco em conversão de leads e contato assistido via WhatsApp.",
     problemLabel: "Contexto / dor",
@@ -556,10 +560,10 @@ const cases: CaseItem[] = [
   createGenericCase(
     41,
     "LP Semana do Consumidor",
-    "/cases/25-lp-semana-do-consumidor.jpg",
+    caseAsset("25-lp-semana-do-consumidor.jpg"),
     ["CRO", "Front-end", "Campanha"],
   ),
-  createGenericCase(42, "Ofertas Mensais", "/cases/40-Ofertas-Mensais.png", [
+  createGenericCase(42, "Ofertas Mensais", caseAsset("40-Ofertas-Mensais.png"), [
     "CRO",
     "Front-end",
     "Campanha",
@@ -567,7 +571,7 @@ const cases: CaseItem[] = [
   createGenericCase(
     43,
     "Campanha Viver Ambientes",
-    "/cases/41-Campanha-Viver-ambientes.png",
+    caseAsset("41-Campanha-Viver-ambientes.png"),
     ["CRO", "Front-end", "Campanha"],
   ),
 ];
@@ -1080,3 +1084,4 @@ const Cases = () => {
 };
 
 export default Cases;
+
