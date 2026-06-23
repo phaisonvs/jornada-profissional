@@ -99,16 +99,15 @@ const stats: StatItem[] = [
   {
     icon: Shield,
     title: "02 — Sustentação operacional dos meus clientes",
-    valueTargets: [5],
+    valueTargets: [10],
     valueFormat: (v) => `${Math.round(v[0])}`,
     supportLine:
-      "canais de clientes sendo sustentadas em front-end, back-end, APIs e tracking.",
+      "5 canais de clientes sendo sustentadas com recorrente em front-end, back-end, APIs e tracking.",
     popup: {
       title: "Sustentação operacional",
       summary:
         "Na prática, assumi sustentação técnica de fluxos críticos em produção, conectando front-end, back-end, APIs, tracking e integrações.",
       deliveries: [
-        "Sustentei 5 canais de clientes em produção.",
         "Implementei interfaces, validações, estados de tela e comportamentos responsivos.",
         "Evoluí fluxos de back-end, campos, autenticação, integrações e envio de dados.",
         "Sustentei jornadas de login, checkout, leads, formulários, e-mails e fluxos Prime.",
@@ -134,7 +133,7 @@ const stats: StatItem[] = [
     valueTargets: [4],
     valueFormat: (v) => `+${Math.round(v[0])}`,
     supportLine:
-      " anos evoluindo eventos de funil para melhorar tracking, jornada e mensuração.",
+      "  anos evoluindo eventos de funil revisados para melhorar tracking, jornada e mensuração.",
     popup: {
       title: "Base técnica para CRO",
       summary:

@@ -25,8 +25,6 @@ interface PopupContent {
   title: string;
   summary: string;
   deliveries: string[];
-  extraTopicsLabel?: string;
-  extraTopics?: string[];
 }
 
 interface StatItemIntro {
@@ -92,49 +90,42 @@ const stats: StatItem[] = [
         "Transformei necessidades do negócio em jornadas publicadas: LPs, campanhas, páginas e fluxos de captação.",
         "Implementei frentes que envolveram autenticação, checkout, cupons, navegação, tracking, WhatsApp e leads.",
         "Conectei UX/UI, front-end, back-end e integrações para tirar soluções do papel com mais autonomia.",
-        "Acompanhei desde a definição da solução até o go-live, a validação e os ajustes pós-publicação.",
+        "Acompanhei da definição da solução ao go-live, validação e ajustes pós-publicação.",
       ],
     },
   },
   {
     icon: Shield,
-    title: "02 — Sustentação operacional dos meus clientes",
-    valueTargets: [5],
+    title: "02 — Sustentação operacional",
+    valueTargets: [10],
     valueFormat: (v) => `${Math.round(v[0])}`,
     supportLine:
-      "canais de clientes sendo sustentadas em front-end, back-end, APIs e tracking.",
+      "frentes críticas sustentadas com atuação recorrente em produção.",
     popup: {
       title: "Sustentação operacional",
       summary:
-        "Na prática, assumi sustentação técnica de fluxos críticos em produção, conectando front-end, back-end, APIs, tracking e integrações.",
+        "Pelos cases publicados, atuei na sustentação de pelo menos 10 frentes críticas em produção, indo além de front-end isolado.",
       deliveries: [
-        "Sustentei 5 canais de clientes em produção.",
-        "Implementei interfaces, validações, estados de tela e comportamentos responsivos.",
-        "Evoluí fluxos de back-end, campos, autenticação, integrações e envio de dados.",
-        "Sustentei jornadas de login, checkout, leads, formulários, e-mails e fluxos Prime.",
-        "Validei dataLayer, eventos e comportamento ponta a ponta em produção.",
-      ],
-      extraTopicsLabel: "",
-      extraTopics: [
-        "Integrações",
-        "Navegação",
-        "Fluxo de Leads",
-        "Login",
-        "Checkout",
-        "Tracking",
-        "Campanhas",
-        "Regionalização",
-        "Transacionais",
+        "Login e autenticacao: fluxos de acesso, cadastro, validacoes, login social e jornada Prime.",
+        "Checkout e compra: revisoes de checkout, frete, pagamento, cupons e etapa final de conversao.",
+        "Captacao de leads: formularios, LPs, popups, WhatsApp e encaminhamento para operacao comercial.",
+        "Tracking e analytics: dataLayer, eventos, Looker e leitura ponta a ponta do comportamento em producao.",
+        "Integracoes comerciais: Salesforce, Pipedrive, APIs e envio estruturado de dados entre sistemas.",
+        "Navegacao e descoberta: header, menu, busca, autocomplete e orientacao da jornada no site.",
+        "Campanhas e LPs: pages sazonais e jornadas de campanha com ativacao rapida e sustentacao tecnica.",
+        "PDP e jornada de produto: paginas de produto, variacoes, conteudo e experiencia de conversao.",
+        "Regionalizacao e regras de negocio: preco por regiao, CEP, store e comportamento da jornada.",
+        "Comunicacao transacional: e-mails, mensagens e continuidade da experiencia apos a conversao.",
       ],
     },
   },
   {
     icon: BarChart3,
     title: "03 — Base técnica para CRO",
-    valueTargets: [4],
+    valueTargets: [50],
     valueFormat: (v) => `+${Math.round(v[0])}`,
     supportLine:
-      " anos evoluindo eventos de funil para melhorar tracking, jornada e mensuração.",
+      "eventos de funil revisados para melhorar tracking, jornada e mensuração.",
     popup: {
       title: "Base técnica para CRO",
       summary:
@@ -150,7 +141,7 @@ const stats: StatItem[] = [
   {
     icon: Layout,
     title: "04 — Jornadas e LPs publicadas",
-    valueTargets: [20],
+    valueTargets: [12],
     valueFormat: (v) => `+${Math.round(v[0])}`,
     supportLine:
       "LPs, hotsites e fluxos publicados em diferentes ambientes digitais.",
@@ -175,10 +166,10 @@ const stats: StatItem[] = [
       "melhorias e releases acompanhados com foco em jornada, operação e conversão.",
     popup: {
       title: "Evolução contínua e CRO",
-      summary: "Atuei na evolução contínua dos canais digitais",
+      summary:
+        "Atuei na evolução contínua dos canais digitais, conectando ajustes técnicos, CRO e operação comercial.",
       deliveries: [
         "Acompanhei melhorias em páginas, componentes, fluxos e integrações.",
-        "Evolui interações do cliente diante PDPs e checkout.",
         "Apliquei CRO em frentes de franquia, venda e captação de leads.",
         "Estruturei fluxos com WhatsApp, Salesforce, Pipedrive e tracking.",
         "Sustentei ajustes pós-go-live para manter estabilidade e continuidade da jornada.",
@@ -940,24 +931,6 @@ const Hero = () => {
                           </li>
                         ))}
                       </ul>
-                      {pop.extraTopics?.length ? (
-                        <div data-ui="hero.modal.body.extra-topics">
-                          <p className="text-xs uppercase tracking-wide text-foreground/70 mb-2">
-                            {pop.extraTopicsLabel}
-                          </p>
-                          <div className="flex flex-wrap gap-2">
-                            {pop.extraTopics.map((item, index) => (
-                              <span
-                                key={index}
-                                className="px-2.5 py-1 rounded-full bg-primary/10 text-primary text-xs"
-                                data-ui={`hero.modal.body.extra-topics.item.${index + 1}`}
-                              >
-                                {item}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                      ) : null}
                     </div>
                   </>
                 );

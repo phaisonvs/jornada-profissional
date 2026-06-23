@@ -15,52 +15,44 @@ import { toUiKey } from "@/lib/data-ui";
 
 const steps = [
   {
-    year: "2021",
     icon: Palette,
     title: "Design e comunicação",
     text: "Comecei atuando com design gráfico, motion e apoio às frentes de marca, campanhas e patrocínios, incluindo ativações ligadas ao futebol.",
   },
   {
-    year: "2021",
     icon: Megaphone,
     title: "Marketing e Growth",
     text: "Fiz minha entrada em frentes mais próximas de performance, aquisição, campanhas e evolução digital, ampliando a visão sobre canais, funil e impacto no negócio.",
   },
   {
-    year: "2022",
     icon: Layout,
     title: "UX/UI",
-    text: "A oportunidade em UX/UI se concretizou quando me posicionei buscando ter mais entendimento e visibilidade do meu trabalho, apartir disso, atuei com mais profundidade em jornadas, interfaces, usabilidade e experiência digital voltado para conversão e aumento da receita.",
+    text: "A oportunidade em UX/UI surgiu como caminho natural para aplicar design com mais profundidade em jornadas, interfaces, usabilidade e experiência digital.",
   },
   {
-    year: "2022",
     icon: Eye,
     title: "CRO e funil",
-    text: "Minha atuação passou a se conectar diretamente com hipóteses, fricções, conversão, eventos, métricas e evolução dos principais funis digitais.",
+    text: "A atuação passou a se conectar diretamente com hipóteses, fricções, conversão, eventos, métricas e evolução dos principais funis digitais.",
   },
   {
-    year: "2023",
     icon: Code,
     title: "Execução técnica",
-    text: "Nosso time sempre enfrentou desafios técnicos e funcionais e para tirar evoluções do papel, passei a atuar diretamente com front-end, back-end, APIs, tracking, integrações e sustentação técnica, afinal minhas skills sempre foram mais técnicas.",
+    text: "Para tirar evoluções do papel, passei a atuar diretamente com front-end, back-end, APIs, tracking, integrações e sustentação técnica.",
   },
   {
-    year: "2024",
     icon: Users,
     title: "Coordenação de frentes",
-    text: "Com a saída de gestores, conduzi prioridades entre negócio, produto, tecnologia, operação, agências e parceiros para destravar entregas e acelerar evolução dos produtos MYSA. Foi onde de fato aprendi a atuar como dono de produtos.",
+    text: "Hoje conduzo prioridades entre negócio, produto, tecnologia, operação, agências e parceiros para destravar entregas e acelerar evolução dos produtos MYSA.",
   },
   {
-    year: "2026",
     icon: Target,
     title: "Objetivo atual",
-    text: "Espero por uma formalização de minha atuação como Coordenador de CRO & UX, senioridade e responsabilidade compatível com o papel que já exerço.",
+    text: "Formalizar minha atuação como Coordenador de CRO & UX, senioridade e responsabilidade compatível com o papel que já exerço.",
   },
   {
-    year: "2027",
     icon: Rocket,
     title: "Ciclo 2027 — Tech Lead",
-    text: "Espero evol para uma atuação como Tech Lead, ampliando meu escopo técnico para além do e-commerce e aplicando linguagens e competências que venho conquistado com as formações.",
+    text: "Evoluir para uma atuação como Tech Lead, ampliando meu escopo técnico para além do e-commerce e aplicando linguagens e competências que já venho desenvolvendo.",
   },
 ];
 
@@ -142,15 +134,6 @@ const Evolution = () => {
                       transitionDelay: isVisible ? `${index * 100}ms` : "0ms",
                     }}
                   >
-                    <span
-                      className={`text-[9px] md:text-[10px] leading-none transition-colors duration-300 ${
-                        active
-                          ? "text-foreground/55"
-                          : "text-muted-foreground/55"
-                      }`}
-                    >
-                      {step.year}
-                    </span>
                     <div
                       className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition-all duration-300 md:h-10 md:w-10 ${
                         active

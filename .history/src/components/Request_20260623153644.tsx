@@ -47,7 +47,7 @@ const Request = () => {
               </h2>
             </div>
             <p className="sr-only" data-ui="request.subtitle">
-              Formalizar em até 40 dias o cargo de Coordenador de CRO &amp; UX,
+              Formalizar em até 60 dias o cargo de Coordenador de CRO &amp; UX,
               com escopo, senioridade e remuneração alinhados à atuação já
               exercida.
             </p>
@@ -55,7 +55,7 @@ const Request = () => {
 
           <div className="inline-flex items-center gap-2 self-start rounded-full border border-primary/20 bg-primary/10 px-3 py-2 text-xs font-medium uppercase tracking-[0.14em] text-primary">
             <CheckCircle2 className="h-4 w-4" aria-hidden />
-            40 dias
+            60 dias
           </div>
         </div>
 

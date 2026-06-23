@@ -98,43 +98,43 @@ const stats: StatItem[] = [
   },
   {
     icon: Shield,
-    title: "02 — Sustentação operacional dos meus clientes",
-    valueTargets: [5],
+    title: "02 — Sustentação operacional",
+    valueTargets: [10],
     valueFormat: (v) => `${Math.round(v[0])}`,
     supportLine:
-      "canais de clientes sendo sustentadas em front-end, back-end, APIs e tracking.",
+      "frentes críticas com atuação recorrente em front-end, back-end, APIs e tracking.",
     popup: {
       title: "Sustentação operacional",
       summary:
         "Na prática, assumi sustentação técnica de fluxos críticos em produção, conectando front-end, back-end, APIs, tracking e integrações.",
       deliveries: [
-        "Sustentei 5 canais de clientes em produção.",
         "Implementei interfaces, validações, estados de tela e comportamentos responsivos.",
         "Evoluí fluxos de back-end, campos, autenticação, integrações e envio de dados.",
         "Sustentei jornadas de login, checkout, leads, formulários, e-mails e fluxos Prime.",
         "Validei dataLayer, eventos e comportamento ponta a ponta em produção.",
       ],
-      extraTopicsLabel: "",
+      extraTopicsLabel: "Frentes identificadas nos cases",
       extraTopics: [
-        "Integrações",
-        "Navegação",
-        "Fluxo de Leads",
         "Login",
         "Checkout",
+        "Leads",
         "Tracking",
+        "Integrações",
+        "Navegação",
         "Campanhas",
+        "PDP",
         "Regionalização",
-        "Transacionais",
+        "E-mails",
       ],
     },
   },
   {
     icon: BarChart3,
     title: "03 — Base técnica para CRO",
-    valueTargets: [4],
+    valueTargets: [50],
     valueFormat: (v) => `+${Math.round(v[0])}`,
     supportLine:
-      " anos evoluindo eventos de funil para melhorar tracking, jornada e mensuração.",
+      "eventos de funil revisados para melhorar tracking, jornada e mensuração.",
     popup: {
       title: "Base técnica para CRO",
       summary:
@@ -150,7 +150,7 @@ const stats: StatItem[] = [
   {
     icon: Layout,
     title: "04 — Jornadas e LPs publicadas",
-    valueTargets: [20],
+    valueTargets: [12],
     valueFormat: (v) => `+${Math.round(v[0])}`,
     supportLine:
       "LPs, hotsites e fluxos publicados em diferentes ambientes digitais.",
@@ -175,10 +175,10 @@ const stats: StatItem[] = [
       "melhorias e releases acompanhados com foco em jornada, operação e conversão.",
     popup: {
       title: "Evolução contínua e CRO",
-      summary: "Atuei na evolução contínua dos canais digitais",
+      summary:
+        "Atuei na evolução contínua dos canais digitais, conectando ajustes técnicos, CRO e operação comercial.",
       deliveries: [
         "Acompanhei melhorias em páginas, componentes, fluxos e integrações.",
-        "Evolui interações do cliente diante PDPs e checkout.",
         "Apliquei CRO em frentes de franquia, venda e captação de leads.",
         "Estruturei fluxos com WhatsApp, Salesforce, Pipedrive e tracking.",
         "Sustentei ajustes pós-go-live para manter estabilidade e continuidade da jornada.",

@@ -99,10 +99,10 @@ const stats: StatItem[] = [
   {
     icon: Shield,
     title: "02 — Sustentação operacional dos meus clientes",
-    valueTargets: [5],
+    valueTargets: [10],
     valueFormat: (v) => `${Math.round(v[0])}`,
     supportLine:
-      "canais de clientes sendo sustentadas em front-end, back-end, APIs e tracking.",
+      "5 canais de clientes sendo sustentadas em front-end, back-end, APIs e tracking.",
     popup: {
       title: "Sustentação operacional",
       summary:
@@ -134,7 +134,7 @@ const stats: StatItem[] = [
     valueTargets: [4],
     valueFormat: (v) => `+${Math.round(v[0])}`,
     supportLine:
-      " anos evoluindo eventos de funil para melhorar tracking, jornada e mensuração.",
+      "  anos evoluindo eventos de funil revisados para melhorar tracking, jornada e mensuração.",
     popup: {
       title: "Base técnica para CRO",
       summary:

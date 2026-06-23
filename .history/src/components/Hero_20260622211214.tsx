@@ -134,7 +134,7 @@ const stats: StatItem[] = [
     valueTargets: [4],
     valueFormat: (v) => `+${Math.round(v[0])}`,
     supportLine:
-      " anos evoluindo eventos de funil para melhorar tracking, jornada e mensuração.",
+      "anos evoluindo eventos de funil revisados para melhorar tracking, jornada e mensuração.",
     popup: {
       title: "Base técnica para CRO",
       summary:

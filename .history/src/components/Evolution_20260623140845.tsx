@@ -48,19 +48,19 @@ const steps = [
     year: "2024",
     icon: Users,
     title: "Coordenação de frentes",
-    text: "Com a saída de gestores, conduzi prioridades entre negócio, produto, tecnologia, operação, agências e parceiros para destravar entregas e acelerar evolução dos produtos MYSA. Foi onde de fato aprendi a atuar como dono de produtos.",
+    text: "Hoje conduzo prioridades entre negócio, produto, tecnologia, operação, agências e parceiros para destravar entregas e acelerar evolução dos produtos MYSA.",
   },
   {
     year: "2026",
     icon: Target,
     title: "Objetivo atual",
-    text: "Espero por uma formalização de minha atuação como Coordenador de CRO & UX, senioridade e responsabilidade compatível com o papel que já exerço.",
+    text: "Formalizar minha atuação como Coordenador de CRO & UX, senioridade e responsabilidade compatível com o papel que já exerço.",
   },
   {
     year: "2027",
     icon: Rocket,
     title: "Ciclo 2027 — Tech Lead",
-    text: "Espero evol para uma atuação como Tech Lead, ampliando meu escopo técnico para além do e-commerce e aplicando linguagens e competências que venho conquistado com as formações.",
+    text: "Evoluir para uma atuação como Tech Lead, ampliando meu escopo técnico para além do e-commerce e aplicando linguagens e competências que já venho desenvolvendo.",
   },
 ];
 
