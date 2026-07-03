@@ -620,7 +620,7 @@ const Hero = () => {
             className="text-sm md:text-lg text-muted-foreground max-w-2xl mx-auto leading-snug md:leading-normal break-words"
             data-ui="hero.subtitle"
           >
-            Reconhecimento do escopo atual da minha Coordenação Técnica de CRO: integrações, sustentação técnica, tracking, UX/UI e evolução dos funis digitais.
+            Um reconhecimento ao escopo que já assumo na coordenação técnica de CRO, envolvendo UX/UI, front-end, tracking, integrações e sustentação.
           </p>
         </div>
 
