@@ -25,6 +25,9 @@ import { shuffleArray, uniqueCases } from "@/components/cases-utils";
 const caseAsset = (fileName: string) =>
   `${import.meta.env.BASE_URL}cases/${fileName}`;
 
+const ENABLE_CASES_MODAL = false;
+const ENABLE_CASES_HOVER_ARROW = false;
+
 interface CaseItem {
   id: number;
   title: string;
@@ -732,6 +735,7 @@ const Cases = () => {
     }
 
     dragGestureRef.current = null;
+    if (!ENABLE_CASES_MODAL) return;
     setSelectedCase(caseItem);
   };
 
@@ -857,12 +861,14 @@ const Cases = () => {
                         {caseItem.src}
                       </span>
                     )}
-                    <div
-                      className="absolute bottom-2 right-2 w-7 h-7 rounded-lg bg-background/80 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all group-hover:scale-110"
-                      data-ui={`cases.card.${caseItem.id}.media.badge`}
-                    >
-                      <ArrowUpRight className="w-3.5 h-3.5 text-primary" />
-                    </div>
+                    {ENABLE_CASES_HOVER_ARROW && (
+                      <div
+                        className="absolute bottom-2 right-2 w-7 h-7 rounded-lg bg-background/80 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all group-hover:scale-110"
+                        data-ui={`cases.card.${caseItem.id}.media.badge`}
+                      >
+                        <ArrowUpRight className="w-3.5 h-3.5 text-primary" />
+                      </div>
+                    )}
                   </div>
 
                   {/* Tags */}
@@ -921,7 +927,10 @@ const Cases = () => {
       </div>
 
       {/* Modal */}
-      <Dialog open={!!selectedCase} onOpenChange={() => setSelectedCase(null)}>
+      <Dialog
+        open={ENABLE_CASES_MODAL && !!selectedCase}
+        onOpenChange={() => setSelectedCase(null)}
+      >
         <DialogContent
           className="max-w-2xl w-[calc(100vw-2rem)] sm:w-full max-h-[90vh] flex flex-col p-0 gap-0 bg-card border-border overflow-hidden"
           data-ui="cases.modal"
@@ -1129,4 +1138,3 @@ const Cases = () => {
 };
 
 export default Cases;
-
