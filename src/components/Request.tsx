@@ -4,10 +4,6 @@ import { useInView } from "@/hooks/use-in-view";
 
 const decisionItems = [
   {
-    title: "Validação",
-    description: "Formalização em até 40 dias.",
-  },
-  {
     title: "Escopo",
     description:
       "Validação do papel que já exerço na condução técnica e estratégica das frentes digitais.",
@@ -15,7 +11,7 @@ const decisionItems = [
   {
     title: "Remuneração",
     description:
-      "Adequação de responsabilidade e senioridade com 65% de aumento salarial.",
+      "Adequação de responsabilidade e senioridade com 60% de aumento salarial.",
   },
 ];
 
@@ -47,15 +43,9 @@ const Request = () => {
               </h2>
             </div>
             <p className="sr-only" data-ui="request.subtitle">
-              Formalizar em até 40 dias o cargo de Coordenador de CRO &amp; UX,
-              com escopo, senioridade e remuneração alinhados à atuação já
-              exercida.
+              Formalizar o cargo de Coordenador de CRO &amp; UX, com escopo,
+              senioridade e remuneração alinhados à atuação já exercida.
             </p>
-          </div>
-
-          <div className="inline-flex items-center gap-2 self-start rounded-full border border-primary/20 bg-primary/10 px-3 py-2 text-xs font-medium uppercase tracking-[0.14em] text-primary">
-            <CheckCircle2 className="h-4 w-4" aria-hidden />
-            40 dias
           </div>
         </div>
 
@@ -72,7 +62,7 @@ const Request = () => {
           </p>
         </div>
 
-        <div className="grid gap-4 md:grid-cols-3 mb-8" data-ui="request.items">
+        <div className="grid gap-4 md:grid-cols-2 mb-8" data-ui="request.items">
           {decisionItems.map((item, index) => (
             <div
               key={item.title}

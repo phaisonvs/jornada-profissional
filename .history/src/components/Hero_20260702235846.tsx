@@ -170,7 +170,7 @@ const stats: StatItem[] = [
   {
     icon: TrendingUp,
     title: "05 — Evolução contínua",
-    typingLabel: "CRO Técnico:",
+    typingLabel: "CRO",
     supportLine:
       "melhorias e releases acompanhados com foco em jornada, operação e conversão.",
     popup: {
@@ -823,8 +823,7 @@ const Hero = () => {
                                 >
                                   <span
                                     className={`text-lg md:text-xl font-semibold text-foreground inline-block origin-center ${
-                                      (hasNumericKpi || kpiStat?.typingLabel) &&
-                                      scalePulseIndex === index
+                                      hasNumericKpi && scalePulseIndex === index
                                         ? "animate-value-count-pop"
                                         : ""
                                     }`}

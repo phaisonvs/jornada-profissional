@@ -170,7 +170,7 @@ const stats: StatItem[] = [
   {
     icon: TrendingUp,
     title: "05 — Evolução contínua",
-    typingLabel: "CRO Técnico:",
+    typingLabel: "CRO Técnico e Operacional",
     supportLine:
       "melhorias e releases acompanhados com foco em jornada, operação e conversão.",
     popup: {
